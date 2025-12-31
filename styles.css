@@ -175,7 +175,7 @@ body{
   box-shadow:0 6px 18px rgba(11,75,216,0.12);
 }
 
-.btn-primary::hover{
+.btn-primary:hover{
   background: #1a3aa5;
 }
 .btn-ghost{
