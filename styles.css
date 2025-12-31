@@ -273,7 +273,7 @@ body{
   .features{ grid-template-columns:1fr; }
   .cards{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr; gap:8px; text-align:left; }
-  .homeCaseStudyLink{color: #0000EE; }
+  .homeCaseStudyLink{color: blue; }
 }
 /* ===== BLOG GRID — namespaced, safe ===== */
 
