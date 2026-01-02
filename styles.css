@@ -867,6 +867,8 @@ body{
 
 .approachDetailsTableBodyRowItem {
   padding: 8px;
+  border: solid #0b4bd8;
+
 }
 
 .processOverviewTableIcon {
