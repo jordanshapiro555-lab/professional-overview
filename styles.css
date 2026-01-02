@@ -867,3 +867,9 @@ body{
 .approachDetailsTableBodyRowItem {
   padding: 8px;
 }
+
+.processOverviewTableIcon {
+  height: 24px;
+  width: 24px;
+  border-radius: 4px;
+}
