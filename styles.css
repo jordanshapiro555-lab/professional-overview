@@ -841,8 +841,21 @@ body{
 .processApproachDetails {
   display: flex;
   justify-content: center;
+  background: aliceblue;
+  padding: 16px;
 }
 
 .processOverviewTable {
   width: 75%
+  text-align: center;
+}
+
+.approachDetailsHead {
+  font-size: 24px;
+  background: #0f6cff;
+  color: #fff;
+}
+
+.approachDetailsTableBody {
+  font-weight: 700;
 }
