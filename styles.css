@@ -874,3 +874,9 @@ body{
   width: 24px;
   border-radius: 4px;
 }
+
+.approachDetailsTableBodyList {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
