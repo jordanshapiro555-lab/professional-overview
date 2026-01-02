@@ -859,3 +859,11 @@ body{
 .approachDetailsTableBody {
   font-weight: 700;
 }
+
+.approachDetailsHeaderRowItem {
+  padding: 8px;
+}
+
+.approachDetailsTableBodyRowItem {
+  padding: 8px;
+}
