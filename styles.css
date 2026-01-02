@@ -848,6 +848,7 @@ body{
 .processOverviewTable {
   width: 75%;
   text-align: center;
+  table-layout: fixed;
 }
 
 .approachDetailsHead {
