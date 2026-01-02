@@ -836,3 +836,13 @@ body{
 }
 }
 
+/* ===== Process Page Styles ===== */
+
+.processApproachDetails {
+  display: flex;
+  justify-content: center;
+}
+
+.processOverviewTable {
+  width: 75%
+}
