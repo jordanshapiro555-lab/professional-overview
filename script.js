@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedExperienceDropdownValue = experienceDropdown.value;
 
       if (!selectedExperienceDropdownValue) {
-        button.removeAttribute("href");
+        experienceDropdownButton.removeAttribute("href");
         return;
       }
 
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Update on change
-    experienceDropdown.addEventListener("change", updateHref);
+    experienceDropdown.addEventListener("change", updateExperienceDropdownButtonHref);
 
     // Initialize on load (in case a default is selected)
     updateHref();
