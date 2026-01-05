@@ -89,3 +89,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cards.forEach((card) => observer.observe(card));
 });
+
+// Experience Page Dropdown
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    const experienceDropdown = document.querySelector(".experienceDropdown");
+    const experienceDropdownButton = document.getElementById("experienceDropdownButton");
+
+    function updateExperienceDropdownButtonHref() {
+      const selectedExperienceDropdownValue = experienceDropdown.value;
+
+      if (!selectedExperienceDropdownValue) {
+        button.removeAttribute("href");
+        return;
+      }
+
+      const targetId = `${selectedExperienceDropdownValue}Experience`;
+      experienceDropdownButton.setAttribute("href", `#${targetId}`);
+    }
+
+    // Update on change
+    experienceDropdown.addEventListener("change", updateHref);
+
+    // Initialize on load (in case a default is selected)
+    updateHref();
+  });
+})();
