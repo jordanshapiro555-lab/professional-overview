@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!targetEl) return;
 
-      const yOffset = -60;
+      const yOffset = -70;
       const y =
         targetEl.getBoundingClientRect().top +
         window.pageYOffset +
