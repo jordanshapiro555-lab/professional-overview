@@ -1024,3 +1024,82 @@ body{
     padding: 0;
   }
 }
+
+/* =========================================
+   PROCESS: Mobile dropdown headers match parent bars
+   Paste at END of file to override
+   ========================================= */
+
+/* Make the mobile dropdown itself NOT look like a separate card */
+@media (max-width: 980px){
+  .processDropdown{
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* Hide the parent containers on mobile (force it) */
+  .processGridHeader{
+    display: none !important;
+  }
+
+  /* The summary becomes the "parent container" bar */
+  .processDropdownSummary{
+    background: #0f6cff;
+    color: #fff;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 18px 16px;
+    border-radius: 14px;
+    text-align: center;
+    justify-content: center; /* centers the title */
+    position: relative;      /* enables chevron placement */
+    box-shadow: 0 10px 22px rgba(14,21,47,0.10);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+
+  /* Build gets the darker parent color */
+  .processDropdownSummaryBuild{
+    background: #0b4bd8;
+  }
+
+  /* Remove default marker */
+  .processDropdownSummary::-webkit-details-marker{ display:none; }
+  .processDropdownSummary::marker{ content:""; }
+
+  /* Chevron aligned right, white, subtle */
+  .processDropdownChevron{
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.95);
+    font-size: 16px;
+    transition: transform .18s ease;
+  }
+
+  .processDropdown[open] .processDropdownChevron{
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  /* Dropdown content spacing (so it tucks nicely under the bar) */
+  .processDropdownContent{
+    padding: 12px 0 0;
+    background: transparent;
+  }
+
+  /* Give the cards their own "panel" feel under the bar */
+  .processDropdownContent .processGridCol{
+    padding: 12px;
+    border-radius: 14px;
+    background: #f7fbff;
+    border: 1px solid rgba(11,75,216,0.10);
+  }
+
+  /* Keep cards tight inside the panel */
+  .processDropdownContent .processCard{
+    box-shadow: 0 6px 18px rgba(14,21,47,0.08);
+  }
+}
