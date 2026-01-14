@@ -1014,3 +1014,14 @@ body{
   .processGridBodyDesktop{ display:none; }
   .processGridBodyMobile{ display:grid; gap:14px; }
 }
+
+  /* ===== Process Page Video Styles ===== */
+
+.video-crop {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  justify-content: center;
+  display: flex;
+}
