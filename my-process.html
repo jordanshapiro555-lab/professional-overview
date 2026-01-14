@@ -67,184 +67,208 @@
   <h2 class="caseStudyBodyHeader" id="processOverview">Process Overview</h2>
 
   <div class="processApproachDetails">
-    <section class="processGrid" aria-label="Process Overview Grid">
-      <!-- Desktop header row (hidden on mobile by your process CSS) -->
-      <header class="processGridHeader">
-        <div class="processGridHeaderItem">Plan</div>
-        <div class="processGridHeaderItem processGridHeaderItemBuild">Build</div>
-        <div class="processGridHeaderItem">Run &amp; Analyze</div>
-      </header>
+  <section class="processGrid" aria-label="Process Overview Grid">
 
-      <!-- IMPORTANT: this ID is used by the process accordion JS -->
-      <div class="processGridBody" id="processGridBody">
+    <!-- Desktop header row (hidden on mobile by CSS) -->
+    <header class="processGridHeader">
+      <div class="processGridHeaderItem">Plan</div>
+      <div class="processGridHeaderItem processGridHeaderItemBuild">Build</div>
+      <div class="processGridHeaderItem">Run &amp; Analyze</div>
+    </header>
 
-        <!-- PLAN (dropdown on mobile) -->
-        <details class="processDropdown" open>
-          <summary class="processDropdownSummary">
-            <span class="processDropdownTitle">Plan</span>
-            <span class="processDropdownChevron" aria-hidden="true">▾</span>
-          </summary>
+    <!-- Body -->
+    <div class="processGridBody" id="processGridBody">
 
-          <div class="processDropdownContent">
-            <div class="processGridCol">
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">📋</span>
-                  <h3 class="processCardTitle">Input</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Strategic business priorities</li>
-                  <li>☑️ Analysis (audits, analytics &amp; deep dives)</li>
-                  <li>☑️ CVR not hitting target benchmarks</li>
-                </ul>
-              </article>
+      <!-- ===================== -->
+      <!-- DESKTOP 3-COLUMN LAYOUT -->
+      <!-- ===================== -->
+      <div class="processGridDesktop" aria-hidden="false">
 
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">🧠</span>
-                  <h3 class="processCardTitle">Roadmapping</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Develop a top line testing strategy for the upcoming cycle</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">💡</span>
-                  <h3 class="processCardTitle">Concepting</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Develop detailed visuals and scope for test ideas</li>
-                  <li>☑️ Successive tests and ad-hocs as needed</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">📑</span>
-                  <h3 class="processCardTitle">Prioritization</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Score concepts on ICE methodology</li>
-                  <li>☑️ Sort highest scoring to least</li>
-                  <li>☑️ Adjust for feasability</li>
-                </ul>
-              </article>
+        <!-- PLAN COLUMN -->
+        <div class="processGridCol">
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">📋</span>
+              <h3 class="processCardTitle">Input</h3>
             </div>
-          </div>
-        </details>
+            <ul class="processCardList">
+              <li>☑️ Strategic business priorities</li>
+              <li>☑️ Analysis (audits, analytics &amp; deep dives)</li>
+              <li>☑️ CVR not hitting target benchmarks</li>
+            </ul>
+          </article>
 
-        <!-- BUILD (dropdown on mobile) -->
-        <details class="processDropdown">
-          <summary class="processDropdownSummary processDropdownSummaryBuild">
-            <span class="processDropdownTitle">Build</span>
-            <span class="processDropdownChevron" aria-hidden="true">▾</span>
-          </summary>
-
-          <div class="processDropdownContent">
-            <div class="processGridCol processGridColBuild">
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">🧪</span>
-                  <h3 class="processCardTitle">Creative</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Develop creative brief</li>
-                  <li>☑️ Design test concept</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">⚙️</span>
-                  <h3 class="processCardTitle">Test Configuration</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Submit items in dev queue for build</li>
-                </ul>
-              </article>
-
-              <article class="processCard processCardEmphasis">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">🛠️</span>
-                  <h3 class="processCardTitle">Development</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Build test experiences</li>
-                  <li>☑️ Code review</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">✅</span>
-                  <h3 class="processCardTitle">Tech QA</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Add QA Paramus to test targeting</li>
-                  <li>☑️ Tech QA &amp; stakeholders review</li>
-                </ul>
-              </article>
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">🧠</span>
+              <h3 class="processCardTitle">Roadmapping</h3>
             </div>
-          </div>
-        </details>
+            <ul class="processCardList">
+              <li>☑️ Develop a top line testing strategy for the upcoming cycle</li>
+            </ul>
+          </article>
 
-        <!-- RUN & ANALYZE (dropdown on mobile) -->
-        <details class="processDropdown">
-          <summary class="processDropdownSummary">
-            <span class="processDropdownTitle">Run &amp; Analyze</span>
-            <span class="processDropdownChevron" aria-hidden="true">▾</span>
-          </summary>
-
-          <div class="processDropdownContent">
-            <div class="processGridCol">
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">🚀</span>
-                  <h3 class="processCardTitle">Test Launch</h3>
-                </div>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">🛡️</span>
-                  <h3 class="processCardTitle">Monitor</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Day 1 confirmation of primary metric tracking</li>
-                  <li>☑️ Continued monitoring of guardrails</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">⏸️</span>
-                  <h3 class="processCardTitle">Pause &amp; Analyze</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Check for stat sign at regular intervals</li>
-                  <li>☑️ Test runs until stat sign or 30 days</li>
-                </ul>
-              </article>
-
-              <article class="processCard">
-                <div class="processCardTitleRow">
-                  <span class="processIcon" aria-hidden="true">📝</span>
-                  <h3 class="processCardTitle">Report &amp; Share</h3>
-                </div>
-                <ul class="processCardList">
-                  <li>☑️ Win / loss assessment with deep dives as needed</li>
-                  <li>☑️ Create presentation for results distribution</li>
-                </ul>
-              </article>
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">💡</span>
+              <h3 class="processCardTitle">Concepting</h3>
             </div>
-          </div>
-        </details>
+            <ul class="processCardList">
+              <li>☑️ Develop detailed visuals and scope for test ideas</li>
+              <li>☑️ Successive tests and ad-hocs as needed</li>
+            </ul>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">📑</span>
+              <h3 class="processCardTitle">Prioritization</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Score concepts on ICE methodology</li>
+              <li>☑️ Sort highest scoring to least</li>
+              <li>☑️ Adjust for feasability</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- BUILD COLUMN -->
+        <div class="processGridCol processGridColBuild">
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">🧪</span>
+              <h3 class="processCardTitle">Creative</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Develop creative brief</li>
+              <li>☑️ Design test concept</li>
+            </ul>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">⚙️</span>
+              <h3 class="processCardTitle">Test Configuration</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Submit items in dev queue for build</li>
+            </ul>
+          </article>
+
+          <article class="processCard processCardEmphasis">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">🛠️</span>
+              <h3 class="processCardTitle">Development</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Build test experiences</li>
+              <li>☑️ Code review</li>
+            </ul>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">✅</span>
+              <h3 class="processCardTitle">Tech QA</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Add QA Paramus to test targeting</li>
+              <li>☑️ Tech QA &amp; stakeholders review</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- RUN & ANALYZE COLUMN -->
+        <div class="processGridCol">
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">🚀</span>
+              <h3 class="processCardTitle">Test Launch</h3>
+            </div>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">🛡️</span>
+              <h3 class="processCardTitle">Monitor</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Day 1 confirmation of primary metric tracking</li>
+              <li>☑️ Continued monitoring of guardrails</li>
+            </ul>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">⏸️</span>
+              <h3 class="processCardTitle">Pause &amp; Analyze</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Check for stat sign at regular intervals</li>
+              <li>☑️ Test runs until stat sign or 30 days</li>
+            </ul>
+          </article>
+
+          <article class="processCard">
+            <div class="processCardTitleRow">
+              <span class="processIcon" aria-hidden="true">📝</span>
+              <h3 class="processCardTitle">Report &amp; Share</h3>
+            </div>
+            <ul class="processCardList">
+              <li>☑️ Win / loss assessment with deep dives as needed</li>
+              <li>☑️ Create presentation for results distribution</li>
+            </ul>
+          </article>
+        </div>
 
       </div>
-    </section>
-  </div>
+
+      <!-- ===================== -->
+      <!-- MOBILE DROPDOWNS ONLY -->
+      <!-- ===================== -->
+
+      <details class="processDropdown" open>
+        <summary class="processDropdownSummary">
+          <span class="processDropdownTitle">Plan</span>
+          <span class="processDropdownChevron" aria-hidden="true">▾</span>
+        </summary>
+
+        <div class="processDropdownContent">
+          <div class="processGridCol">
+            <!-- Same Plan cards (copy/paste from desktop Plan col) -->
+          </div>
+        </div>
+      </details>
+
+      <details class="processDropdown">
+        <summary class="processDropdownSummary processDropdownSummaryBuild">
+          <span class="processDropdownTitle">Build</span>
+          <span class="processDropdownChevron" aria-hidden="true">▾</span>
+        </summary>
+
+        <div class="processDropdownContent">
+          <div class="processGridCol processGridColBuild">
+            <!-- Same Build cards (copy/paste from desktop Build col) -->
+          </div>
+        </div>
+      </details>
+
+      <details class="processDropdown">
+        <summary class="processDropdownSummary">
+          <span class="processDropdownTitle">Run &amp; Analyze</span>
+          <span class="processDropdownChevron" aria-hidden="true">▾</span>
+        </summary>
+
+        <div class="processDropdownContent">
+          <div class="processGridCol">
+            <!-- Same Run cards (copy/paste from desktop Run col) -->
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+</div>
 
   <!-- Video -->
   <div class="video-crop">
