@@ -836,54 +836,186 @@ body{
 }
 }
 
-/* ===== Process Page Styles ===== */
+/* =========================
+   PROCESS (CLEAN, RELIABLE)
+   Desktop: .processGridBodyDesktop (3 columns)
+   Mobile:  .processGridBodyMobile (dropdowns)
+   ========================= */
 
-.processApproachDetails {
-  display: flex;
-  justify-content: center;
-  background: aliceblue;
-  padding: 16px;
+.processApproachDetails{
+  display:flex;
+  justify-content:center;
+  background:aliceblue;
+  padding:16px;
 }
 
-.processOverviewTable {
-  width: 90%;
-  text-align: center;
-  table-layout: fixed;
+.processGrid{
+  width:90%;
+  max-width:1200px;
+  display:grid;
+  gap:14px;
 }
 
-.approachDetailsHead {
-  font-size: 24px;
-  background: #0f6cff;
-  color: #fff;
+.processGridHeader{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:#0f6cff;
+  color:#fff;
+  border-radius:12px;
+  overflow:hidden;
 }
 
-.approachDetailsTableBody {
-  font-weight: 700;
+.processGridHeaderItem{
+  padding:14px 10px;
+  text-align:center;
+  font-weight:700;
+  font-size:20px;
+  border-right:1px solid rgba(255,255,255,0.18);
+}
+.processGridHeaderItem:last-child{ border-right:0; }
+.processGridHeaderItemBuild{ background:#0b4bd8; }
+
+/* Desktop grid body */
+.processGridBodyDesktop{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  align-items:start;
 }
 
-.approachDetailsHeaderRowItem {
-  padding: 8px;
+/* Mobile body hidden by default */
+.processGridBodyMobile{ display:none; }
+
+/* Columns/cards */
+.processGridCol{ display:grid; gap:14px; }
+
+.processGridColBuild{
+  border-left:2px dashed rgba(11,75,216,0.35);
+  border-right:2px dashed rgba(11,75,216,0.35);
+  padding:0 14px;
 }
 
-.approachDetailsTableBodyRowItem {
-  padding: 8px;
-  border: solid #0b4bd8;
-
+.processCard{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 14px 12px;
+  box-shadow:0 6px 20px rgba(14,21,47,0.08);
+  border:1px solid rgba(11,75,216,0.10);
 }
 
-.processOverviewTableIcon {
-  height: 24px;
-  width: 24px;
-  border-radius: 4px;
+.processCardEmphasis{ border:2px solid rgba(11,75,216,0.50); }
+
+.processCardTitleRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
 }
 
-.approachDetailsTableBodyList {
-  list-style: none;
-  padding-left: 0;
-  margin-left: 0;
+.processIcon{
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:rgba(15,108,204,0.10);
+  font-size:16px;
 }
 
-/* ===== Process Page Video Styles ===== */
+.processCardTitle{
+  margin:0;
+  font-size:16px;
+  font-weight:800;
+  color:#0f1724;
+}
+
+.processCardList{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:6px;
+}
+
+.processCardList li{
+  font-weight:600;
+  font-size:14px;
+  color:#0f1724;
+}
+
+/* ===== Mobile dropdowns ===== */
+.processDropdown{
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.processDropdownSummary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+
+  background:#0f6cff;
+  color:#fff;
+  font-weight:800;
+  font-size:20px;
+
+  padding:18px 16px;
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+
+  box-shadow:0 10px 22px rgba(14,21,47,0.10);
+  border:1px solid rgba(255,255,255,0.14);
+}
+
+.processDropdownSummaryBuild{ background:#0b4bd8; }
+
+.processDropdownSummary::-webkit-details-marker{ display:none; }
+.processDropdownSummary::marker{ content:""; }
+
+.processDropdownChevron{
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  transition:transform .18s ease;
+}
+
+.processDropdown[open] .processDropdownChevron{
+  transform:translateY(-50%) rotate(180deg);
+}
+
+.processDropdownContent{
+  padding:12px 0 0;
+}
+
+.processDropdownContent > .processGridCol{
+  display:grid;
+  gap:12px;
+  padding:12px;
+  border-radius:14px;
+  background:#f7fbff;
+  border:1px solid rgba(11,75,216,0.10);
+}
+
+/* remove build divider inside dropdown */
+.processDropdownContent .processGridColBuild{
+  border:0;
+  padding:0;
+}
+
+/* ===== Breakpoint switch ===== */
+@media (max-width:980px){
+  .processGridHeader{ display:none; }
+  .processGridBodyDesktop{ display:none; }
+  .processGridBodyMobile{ display:grid; gap:14px; }
+}
+
+  /* ===== Process Page Video Styles ===== */
 
 .video-crop {
   width: 100%;
@@ -892,135 +1024,4 @@ body{
   position: relative;
   justify-content: center;
   display: flex;
-}
-
-/* ===== Process Page Styles (Grid Upgrade) ===== */
-
-.processOverviewTable { display: none; } /* hide old table safely */
-
-.processGrid{
-  width: 90%;
-  max-width: 1200px;
-  display: grid;
-  gap: 14px;
-}
-
-.processGridHeader{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: #0f6cff;
-  color: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.processGridHeaderItem{
-  padding: 14px 10px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  border-right: 1px solid rgba(255,255,255,0.18);
-}
-
-.processGridHeaderItem:last-child{
-  border-right: 0;
-}
-
-/* Optional: visually emphasize Build column header */
-.processGridHeaderItemBuild{
-  background: #0b4bd8;
-}
-
-.processGridBody{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  align-items: start;
-}
-
-/* center column gets a dashed divider feel like the reference */
-.processGridColBuild{
-  border-left: 2px dashed rgba(11,75,216,0.35);
-  border-right: 2px dashed rgba(11,75,216,0.35);
-  padding: 0 14px;
-}
-
-.processGridCol{
-  display: grid;
-  gap: 14px;
-}
-
-.processCard{
-  background: #fff;
-  border-radius: 14px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 6px 20px rgba(14,21,47,0.08);
-  border: 1px solid rgba(11,75,216,0.10);
-}
-
-.processCardEmphasis{
-  border: 2px solid rgba(11,75,216,0.50);
-}
-
-.processCardTitleRow{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.processIcon{
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 8px;
-  background: rgba(15,108,204,0.10);
-  font-size: 16px;
-}
-
-.processCardTitle{
-  margin: 0;
-  font-size: 16px;
-  font-weight: 800;
-  color: #0f1724;
-}
-
-.processCardList{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 6px;
-}
-
-.processCardList li{
-  font-weight: 600;
-  font-size: 14px;
-  color: #0f1724;
-}
-
-/* Responsive: stack columns */
-@media (max-width: 980px){
-  .processGridHeader{
-    grid-template-columns: 1fr;
-  }
-
-  .processGridHeaderItem{
-    border-right: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.18);
-  }
-
-  .processGridHeaderItem:last-child{
-    border-bottom: 0;
-  }
-
-  .processGridBody{
-    grid-template-columns: 1fr;
-  }
-
-  .processGridColBuild{
-    border: 0;
-    padding: 0;
-  }
 }
