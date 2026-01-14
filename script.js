@@ -91,27 +91,38 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Experience Page Dropdown
+// Experience Page Dropdown
 (function () {
   document.addEventListener("DOMContentLoaded", function () {
     const experienceDropdown = document.querySelector(".experienceDropdown");
     const experienceDropdownButton = document.getElementById("experienceDropdownButton");
 
-    function updateExperienceDropdownButtonHref() {
-      const selectedExperienceDropdownValue = experienceDropdown.value;
+    if (!experienceDropdown || !experienceDropdownButton) return;
 
-      if (!selectedExperienceDropdownValue) {
-        experienceDropdownButton.removeAttribute("href");
-        return;
-      }
+    function scrollWithOffset() {
+      const selectedValue = experienceDropdown.value;
+      if (!selectedValue) return;
 
-      const targetId = `${selectedExperienceDropdownValue}Experience`;
-      experienceDropdownButton.setAttribute("href", `#${targetId}`);
+      const targetId = `${selectedValue}Experience`;
+      const targetEl = document.getElementById(targetId);
+
+      if (!targetEl) return;
+
+      const yOffset = -50;
+      const y =
+        targetEl.getBoundingClientRect().top +
+        window.pageYOffset +
+        yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+
+      // Optional: update URL without jumping
+      history.replaceState(null, "", `#${targetId}`);
     }
 
-    // Update on change
-    experienceDropdown.addEventListener("change", updateExperienceDropdownButtonHref);
-
-    // Initialize on load (in case a default is selected)
-    updateHref();
+    experienceDropdownButton.addEventListener("click", scrollWithOffset);
   });
 })();
