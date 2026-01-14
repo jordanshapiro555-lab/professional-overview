@@ -1138,3 +1138,129 @@ body{
     box-shadow: 0 6px 18px rgba(14,21,47,0.08);
   }
 }
+
+/* =========================================
+   PROCESS: Desktop restore + Mobile dropdown isolation
+   Paste at END of file
+   ========================================= */
+
+/* ===== DESKTOP / TABLET (>= 981px): show grid, hide dropdowns ===== */
+@media (min-width: 981px){
+  /* Ensure the header row shows on desktop */
+  .processGridHeader{
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Ensure the body is a 3-col grid */
+  .processGridBody{
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 18px;
+    align-items: start;
+  }
+
+  /* Show the columns normally */
+  .processGridCol{
+    display: grid !important;
+  }
+
+  /* Hide dropdown UI entirely on desktop */
+  .processDropdown{
+    display: none !important;
+  }
+
+  /* Undo any mobile-only dropdown chrome if it ever applies */
+  .processDropdownSummary,
+  .processDropdownContent{
+    all: unset;
+  }
+}
+
+/* ===== MOBILE (<= 980px): dropdowns only, hide desktop grid pieces ===== */
+@media (max-width: 980px){
+  /* Hide desktop header on mobile */
+  .processGridHeader{
+    display: none !important;
+  }
+
+  /* Stack the dropdowns */
+  .processGridBody{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Hide any accidental direct desktop columns in the body */
+  .processGridBody > .processGridCol{
+    display: none !important;
+  }
+
+  /* Show dropdowns on mobile */
+  .processDropdown{
+    display: block !important;
+  }
+
+  /* Dropdown container should not look like a separate card */
+  .processDropdown{
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* Summary styled like the blue parent bars */
+  .processDropdownSummary{
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+    background: #0f6cff;
+    color: #fff;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 18px 16px;
+    border-radius: 14px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 10px 22px rgba(14,21,47,0.10);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .processDropdownSummaryBuild{
+    background: #0b4bd8;
+  }
+
+  .processDropdownSummary::-webkit-details-marker{ display:none; }
+  .processDropdownSummary::marker{ content:""; }
+
+  .processDropdownChevron{
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255,255,255,0.95);
+    font-size: 16px;
+    transition: transform .18s ease;
+  }
+
+  .processDropdown[open] .processDropdownChevron{
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .processDropdownContent{
+    padding: 12px 0 0;
+    background: transparent;
+  }
+
+  .processDropdownContent .processGridCol{
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 14px;
+    background: #f7fbff;
+    border: 1px solid rgba(11,75,216,0.10);
+  }
+}
