@@ -894,3 +894,133 @@ body{
   display: flex;
 }
 
+/* ===== Process Page Styles (Grid Upgrade) ===== */
+
+.processOverviewTable { display: none; } /* hide old table safely */
+
+.processGrid{
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  gap: 14px;
+}
+
+.processGridHeader{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #0f6cff;
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.processGridHeaderItem{
+  padding: 14px 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 20px;
+  border-right: 1px solid rgba(255,255,255,0.18);
+}
+
+.processGridHeaderItem:last-child{
+  border-right: 0;
+}
+
+/* Optional: visually emphasize Build column header */
+.processGridHeaderItemBuild{
+  background: #0b4bd8;
+}
+
+.processGridBody{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+/* center column gets a dashed divider feel like the reference */
+.processGridColBuild{
+  border-left: 2px dashed rgba(11,75,216,0.35);
+  border-right: 2px dashed rgba(11,75,216,0.35);
+  padding: 0 14px;
+}
+
+.processGridCol{
+  display: grid;
+  gap: 14px;
+}
+
+.processCard{
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 6px 20px rgba(14,21,47,0.08);
+  border: 1px solid rgba(11,75,216,0.10);
+}
+
+.processCardEmphasis{
+  border: 2px solid rgba(11,75,216,0.50);
+}
+
+.processCardTitleRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.processIcon{
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(15,108,204,0.10);
+  font-size: 16px;
+}
+
+.processCardTitle{
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f1724;
+}
+
+.processCardList{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.processCardList li{
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f1724;
+}
+
+/* Responsive: stack columns */
+@media (max-width: 980px){
+  .processGridHeader{
+    grid-template-columns: 1fr;
+  }
+
+  .processGridHeaderItem{
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+  }
+
+  .processGridHeaderItem:last-child{
+    border-bottom: 0;
+  }
+
+  .processGridBody{
+    grid-template-columns: 1fr;
+  }
+
+  .processGridColBuild{
+    border: 0;
+    padding: 0;
+  }
+}
