@@ -273,28 +273,30 @@
 
   <!-- Process Accordion JS (one dropdown open at a time) -->
   <script>
-    // ===== Process Mobile Accordion (one dropdown open at a time) =====
-    (function () {
-      document.addEventListener("DOMContentLoaded", function () {
-        const processGridBody = document.getElementById("processGridBody");
-        if (!processGridBody) return;
+  (function () {
+    document.addEventListener("DOMContentLoaded", function () {
+      const processGridBody = document.getElementById("processGridBody");
+      if (!processGridBody) return;
 
-        const processDropdowns = Array.from(
-          processGridBody.querySelectorAll(".processDropdown")
-        );
+      const dropdowns = Array.from(processGridBody.querySelectorAll(".processDropdown"));
 
-        processDropdowns.forEach((dropdown) => {
-          dropdown.addEventListener("toggle", function () {
-            if (!dropdown.open) return;
+      function isMobile() {
+        return window.matchMedia("(max-width: 980px)").matches;
+      }
 
-            processDropdowns.forEach((other) => {
-              if (other !== dropdown) other.removeAttribute("open");
-            });
+      dropdowns.forEach((d) => {
+        d.addEventListener("toggle", function () {
+          if (!isMobile()) return;      // ✅ only enforce on mobile
+          if (!d.open) return;
+
+          dropdowns.forEach((other) => {
+            if (other !== d) other.removeAttribute("open");
           });
         });
       });
-    })();
-  </script>
+    });
+  })();
+</script>
 
 </body>
 </html>
