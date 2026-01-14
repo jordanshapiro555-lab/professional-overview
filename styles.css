@@ -836,7 +836,11 @@ body{
 }
 }
 
-/* ===== Process Page Styles ===== */
+/* =========================
+   PROCESS PAGE (PLANNED BEHAVIOR)
+   Desktop: 3-column grid with header
+   Mobile (<=980px): dropdowns only, one open at a time (JS)
+   ========================= */
 
 .processApproachDetails {
   display: flex;
@@ -845,59 +849,10 @@ body{
   padding: 16px;
 }
 
-.processOverviewTable {
-  width: 90%;
-  text-align: center;
-  table-layout: fixed;
-}
+/* legacy table hidden */
+.processOverviewTable { display: none; }
 
-.approachDetailsHead {
-  font-size: 24px;
-  background: #0f6cff;
-  color: #fff;
-}
-
-.approachDetailsTableBody {
-  font-weight: 700;
-}
-
-.approachDetailsHeaderRowItem {
-  padding: 8px;
-}
-
-.approachDetailsTableBodyRowItem {
-  padding: 8px;
-  border: solid #0b4bd8;
-
-}
-
-.processOverviewTableIcon {
-  height: 24px;
-  width: 24px;
-  border-radius: 4px;
-}
-
-.approachDetailsTableBodyList {
-  list-style: none;
-  padding-left: 0;
-  margin-left: 0;
-}
-
-/* ===== Process Page Video Styles ===== */
-
-.video-crop {
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  position: relative;
-  justify-content: center;
-  display: flex;
-}
-
-/* ===== Process Page Styles (Grid Upgrade) ===== */
-
-.processOverviewTable { display: none; } /* hide old table safely */
-
+/* grid wrapper */
 .processGrid{
   width: 90%;
   max-width: 1200px;
@@ -905,6 +860,7 @@ body{
   gap: 14px;
 }
 
+/* desktop header row */
 .processGridHeader{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -926,11 +882,15 @@ body{
   border-right: 0;
 }
 
-/* Optional: visually emphasize Build column header */
 .processGridHeaderItemBuild{
   background: #0b4bd8;
 }
 
+/*
+  Body holds either:
+  - desktop columns (if you ever render them), or
+  - dropdowns (current planned HTML uses dropdowns always)
+*/
 .processGridBody{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -938,18 +898,20 @@ body{
   align-items: start;
 }
 
-/* center column gets a dashed divider feel like the reference */
+/* column container */
+.processGridCol{
+  display: grid;
+  gap: 14px;
+}
+
+/* desktop build column divider style */
 .processGridColBuild{
   border-left: 2px dashed rgba(11,75,216,0.35);
   border-right: 2px dashed rgba(11,75,216,0.35);
   padding: 0 14px;
 }
 
-.processGridCol{
-  display: grid;
-  gap: 14px;
-}
-
+/* cards */
 .processCard{
   background: #fff;
   border-radius: 14px;
@@ -1000,27 +962,100 @@ body{
   color: #0f1724;
 }
 
-/* Responsive: stack columns */
+/* Mobile dropdown containers (hidden on desktop) */
+.processDropdown{
+  display: none; /* desktop hidden */
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(11,75,216,0.12);
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(14,21,47,0.06);
+}
+
+/* dropdown summary row */
+.processDropdownSummary{
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px;
+  background: #0f6cff;
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+/* ensure marker removal across browsers */
+.processDropdownSummary::-webkit-details-marker{ display: none; }
+.processDropdownSummary::marker{ content: ""; }
+
+.processDropdownSummaryBuild{
+  background: #0b4bd8;
+}
+
+.processDropdownChevron{
+  display: inline-block;
+  transition: transform .18s ease;
+}
+
+.processDropdown[open] .processDropdownChevron{
+  transform: rotate(180deg);
+}
+
+.processDropdownContent{
+  padding: 14px;
+  background: #f7fbff;
+}
+
+/* ✅ MOBILE: dropdown-only UI */
 @media (max-width: 980px){
+  /* hide desktop header, show dropdown headers instead */
   .processGridHeader{
-    grid-template-columns: 1fr;
+    display: none;
   }
 
-  .processGridHeaderItem{
-    border-right: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.18);
+  /* show dropdown parents */
+  .processDropdown{
+    display: block;
   }
 
-  .processGridHeaderItem:last-child{
-    border-bottom: 0;
-  }
-
+  /* stack dropdowns */
   .processGridBody{
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
+  /*
+    Safety: if any direct desktop columns exist as siblings,
+    hide them on mobile to prevent duplicates.
+  */
+  .processGridBody > .processGridCol{
+    display: none;
+  }
+
+  /* neutralize column divider inside dropdown content */
   .processGridColBuild{
     border: 0;
     padding: 0;
   }
+
+  .processGridCol{
+    gap: 12px;
+  }
+}
+
+/* =========================
+   PROCESS VIDEO
+   ========================= */
+
+.video-crop {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  justify-content: center;
+  display: flex;
 }
