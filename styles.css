@@ -837,430 +837,230 @@ body{
 }
 
 /* =========================
-   PROCESS PAGE (PLANNED BEHAVIOR)
-   Desktop: 3-column grid with header
-   Mobile (<=980px): dropdowns only, one open at a time (JS)
+   PROCESS PAGE (CLEAN)
+   Desktop (>=981px): 3-column grid + header (uses .processGridCol)
+   Mobile (<=980px): dropdowns only (uses details.processDropdown)
    ========================= */
 
-.processApproachDetails {
-  display: flex;
-  justify-content: center;
-  background: aliceblue;
-  padding: 16px;
+.processApproachDetails{
+  display:flex;
+  justify-content:center;
+  background:aliceblue;
+  padding:16px;
 }
 
 /* legacy table hidden */
-.processOverviewTable { display: none; }
+.processOverviewTable{ display:none; }
 
-/* grid wrapper */
+/* wrapper */
 .processGrid{
-  width: 90%;
-  max-width: 1200px;
-  display: grid;
-  gap: 14px;
+  width:90%;
+  max-width:1200px;
+  display:grid;
+  gap:14px;
 }
 
-/* desktop header row */
+/* ===== Desktop header row ===== */
 .processGridHeader{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: #0f6cff;
-  color: #fff;
-  border-radius: 12px;
-  overflow: hidden;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:#0f6cff;
+  color:#fff;
+  border-radius:12px;
+  overflow:hidden;
 }
 
 .processGridHeaderItem{
-  padding: 14px 10px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  border-right: 1px solid rgba(255,255,255,0.18);
+  padding:14px 10px;
+  text-align:center;
+  font-weight:700;
+  font-size:20px;
+  border-right:1px solid rgba(255,255,255,0.18);
 }
 
-.processGridHeaderItem:last-child{
-  border-right: 0;
-}
+.processGridHeaderItem:last-child{ border-right:0; }
 
-.processGridHeaderItemBuild{
-  background: #0b4bd8;
-}
+.processGridHeaderItemBuild{ background:#0b4bd8; }
 
-/*
-  Body holds either:
-  - desktop columns (if you ever render them), or
-  - dropdowns (current planned HTML uses dropdowns always)
-*/
+/* ===== Desktop body layout ===== */
 .processGridBody{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  align-items: start;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  align-items:start;
 }
 
-/* column container */
+/* Desktop columns */
 .processGridCol{
-  display: grid;
-  gap: 14px;
+  display:grid;
+  gap:14px;
 }
 
-/* desktop build column divider style */
+/* Build column divider */
 .processGridColBuild{
-  border-left: 2px dashed rgba(11,75,216,0.35);
-  border-right: 2px dashed rgba(11,75,216,0.35);
-  padding: 0 14px;
+  border-left:2px dashed rgba(11,75,216,0.35);
+  border-right:2px dashed rgba(11,75,216,0.35);
+  padding:0 14px;
 }
 
-/* cards */
+/* Cards */
 .processCard{
-  background: #fff;
-  border-radius: 14px;
-  padding: 14px 14px 12px;
-  box-shadow: 0 6px 20px rgba(14,21,47,0.08);
-  border: 1px solid rgba(11,75,216,0.10);
+  background:#fff;
+  border-radius:14px;
+  padding:14px 14px 12px;
+  box-shadow:0 6px 20px rgba(14,21,47,0.08);
+  border:1px solid rgba(11,75,216,0.10);
 }
 
 .processCardEmphasis{
-  border: 2px solid rgba(11,75,216,0.50);
+  border:2px solid rgba(11,75,216,0.50);
 }
 
 .processCardTitleRow{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
 }
 
 .processIcon{
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  border-radius: 8px;
-  background: rgba(15,108,204,0.10);
-  font-size: 16px;
+  width:28px;
+  height:28px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:rgba(15,108,204,0.10);
+  font-size:16px;
 }
 
 .processCardTitle{
-  margin: 0;
-  font-size: 16px;
-  font-weight: 800;
-  color: #0f1724;
+  margin:0;
+  font-size:16px;
+  font-weight:800;
+  color:#0f1724;
 }
 
 .processCardList{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 6px;
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:6px;
 }
 
 .processCardList li{
-  font-weight: 600;
-  font-size: 14px;
-  color: #0f1724;
+  font-weight:600;
+  font-size:14px;
+  color:#0f1724;
 }
 
-/* Mobile dropdown containers (hidden on desktop) */
-.processDropdown{
-  display: none; /* desktop hidden */
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(11,75,216,0.12);
-  background: #fff;
-  box-shadow: 0 6px 20px rgba(14,21,47,0.06);
-}
+/* ===== Dropdowns exist in DOM but are hidden on desktop ===== */
+.processDropdown{ display:none; }
 
-/* dropdown summary row */
-.processDropdownSummary{
-  list-style: none;
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 14px;
-  background: #0f6cff;
-  color: #fff;
-  font-weight: 800;
-  font-size: 18px;
-}
+/* =========================
+   MOBILE (<=980px): DROPDOWNS ONLY
+   ========================= */
+@media (max-width:980px){
 
-/* ensure marker removal across browsers */
-.processDropdownSummary::-webkit-details-marker{ display: none; }
-.processDropdownSummary::marker{ content: ""; }
+  /* Hide the desktop header bar */
+  .processGridHeader{ display:none; }
 
-.processDropdownSummaryBuild{
-  background: #0b4bd8;
-}
-
-.processDropdownChevron{
-  display: inline-block;
-  transition: transform .18s ease;
-}
-
-.processDropdown[open] .processDropdownChevron{
-  transform: rotate(180deg);
-}
-
-.processDropdownContent{
-  padding: 14px;
-  background: #f7fbff;
-}
-
-/* ✅ MOBILE: dropdown-only UI */
-@media (max-width: 980px){
-  /* hide desktop header, show dropdown headers instead */
-  .processGridHeader{
-    display: none;
-  }
-
-  /* show dropdown parents */
-  .processDropdown{
-    display: block;
-  }
-
-  /* stack dropdowns */
+  /* Stack mobile sections */
   .processGridBody{
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns:1fr;
+    gap:14px;
   }
 
-  /*
-    Safety: if any direct desktop columns exist as siblings,
-    hide them on mobile to prevent duplicates.
-  */
+  /* Hide desktop columns if they exist in DOM */
   .processGridBody > .processGridCol{
-    display: none;
+    display:none;
   }
 
-  /* neutralize column divider inside dropdown content */
-  .processGridColBuild{
-    border: 0;
-    padding: 0;
+  /* Show dropdown containers */
+  .processDropdown{
+    display:block;
+    border:0;
+    background:transparent;
+    box-shadow:none;
+    border-radius:0;
+    overflow:visible;
   }
 
-  .processGridCol{
-    gap: 12px;
+  /* Summary styled like blue parent bars */
+  .processDropdownSummary{
+    list-style:none;
+    cursor:pointer;
+    user-select:none;
+
+    background:#0f6cff;
+    color:#fff;
+    font-weight:800;
+    font-size:20px;
+
+    padding:18px 16px;
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    position:relative;
+    box-shadow:0 10px 22px rgba(14,21,47,0.10);
+    border:1px solid rgba(255,255,255,0.14);
+  }
+
+  .processDropdownSummaryBuild{ background:#0b4bd8; }
+
+  /* remove default marker */
+  .processDropdownSummary::-webkit-details-marker{ display:none; }
+  .processDropdownSummary::marker{ content:""; }
+
+  /* Chevron right aligned */
+  .processDropdownChevron{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    color:rgba(255,255,255,0.95);
+    font-size:16px;
+    transition:transform .18s ease;
+  }
+
+  .processDropdown[open] .processDropdownChevron{
+    transform:translateY(-50%) rotate(180deg);
+  }
+
+  /* Dropdown content panel */
+  .processDropdownContent{
+    padding:12px 0 0;
+    background:transparent;
+  }
+
+  .processDropdownContent .processGridCol{
+    display:grid;
+    gap:12px;
+    padding:12px;
+    border-radius:14px;
+    background:#f7fbff;
+    border:1px solid rgba(11,75,216,0.10);
+  }
+
+  /* Remove build divider when inside dropdown */
+  .processDropdownContent .processGridColBuild{
+    border:0;
+    padding:0;
   }
 }
 
 /* =========================
    PROCESS VIDEO
    ========================= */
-
-.video-crop {
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
-  position: relative;
-  justify-content: center;
-  display: flex;
-}
-
-/* =========================================
-   PROCESS: Mobile dropdown headers match parent bars
-   Paste at END of file to override
-   ========================================= */
-
-/* Make the mobile dropdown itself NOT look like a separate card */
-@media (max-width: 980px){
-  .processDropdown{
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: visible;
-  }
-
-  /* Hide the parent containers on mobile (force it) */
-  .processGridHeader{
-    display: none !important;
-  }
-
-  /* The summary becomes the "parent container" bar */
-  .processDropdownSummary{
-    background: #0f6cff;
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px;
-    padding: 18px 16px;
-    border-radius: 14px;
-    text-align: center;
-    justify-content: center; /* centers the title */
-    position: relative;      /* enables chevron placement */
-    box-shadow: 0 10px 22px rgba(14,21,47,0.10);
-    border: 1px solid rgba(255,255,255,0.14);
-  }
-
-  /* Build gets the darker parent color */
-  .processDropdownSummaryBuild{
-    background: #0b4bd8;
-  }
-
-  /* Remove default marker */
-  .processDropdownSummary::-webkit-details-marker{ display:none; }
-  .processDropdownSummary::marker{ content:""; }
-
-  /* Chevron aligned right, white, subtle */
-  .processDropdownChevron{
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.95);
-    font-size: 16px;
-    transition: transform .18s ease;
-  }
-
-  .processDropdown[open] .processDropdownChevron{
-    transform: translateY(-50%) rotate(180deg);
-  }
-
-  /* Dropdown content spacing (so it tucks nicely under the bar) */
-  .processDropdownContent{
-    padding: 12px 0 0;
-    background: transparent;
-  }
-
-  /* Give the cards their own "panel" feel under the bar */
-  .processDropdownContent .processGridCol{
-    padding: 12px;
-    border-radius: 14px;
-    background: #f7fbff;
-    border: 1px solid rgba(11,75,216,0.10);
-  }
-
-  /* Keep cards tight inside the panel */
-  .processDropdownContent .processCard{
-    box-shadow: 0 6px 18px rgba(14,21,47,0.08);
-  }
-}
-
-/* =========================================
-   PROCESS: Desktop restore + Mobile dropdown isolation
-   Paste at END of file
-   ========================================= */
-
-/* ===== DESKTOP / TABLET (>= 981px): show grid, hide dropdowns ===== */
-@media (min-width: 981px){
-  /* Ensure the header row shows on desktop */
-  .processGridHeader{
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Ensure the body is a 3-col grid */
-  .processGridBody{
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 18px;
-    align-items: start;
-  }
-
-  /* Show the columns normally */
-  .processGridCol{
-    display: grid !important;
-  }
-
-  /* Hide dropdown UI entirely on desktop */
-  .processDropdown{
-    display: none !important;
-  }
-
-  /* Undo any mobile-only dropdown chrome if it ever applies */
-  .processDropdownSummary,
-  .processDropdownContent{
-    all: unset;
-  }
-}
-
-/* ===== MOBILE (<= 980px): dropdowns only, hide desktop grid pieces ===== */
-@media (max-width: 980px){
-  /* Hide desktop header on mobile */
-  .processGridHeader{
-    display: none !important;
-  }
-
-  /* Stack the dropdowns */
-  .processGridBody{
-    grid-template-columns: 1fr !important;
-    gap: 14px !important;
-  }
-
-  /* Hide any accidental direct desktop columns in the body */
-  .processGridBody > .processGridCol{
-    display: none !important;
-  }
-
-  /* Show dropdowns on mobile */
-  .processDropdown{
-    display: block !important;
-  }
-
-  /* Dropdown container should not look like a separate card */
-  .processDropdown{
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: visible;
-  }
-
-  /* Summary styled like the blue parent bars */
-  .processDropdownSummary{
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-    background: #0f6cff;
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px;
-    padding: 18px 16px;
-    border-radius: 14px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0 10px 22px rgba(14,21,47,0.10);
-    border: 1px solid rgba(255,255,255,0.14);
-  }
-
-  .processDropdownSummaryBuild{
-    background: #0b4bd8;
-  }
-
-  .processDropdownSummary::-webkit-details-marker{ display:none; }
-  .processDropdownSummary::marker{ content:""; }
-
-  .processDropdownChevron{
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255,255,255,0.95);
-    font-size: 16px;
-    transition: transform .18s ease;
-  }
-
-  .processDropdown[open] .processDropdownChevron{
-    transform: translateY(-50%) rotate(180deg);
-  }
-
-  .processDropdownContent{
-    padding: 12px 0 0;
-    background: transparent;
-  }
-
-  .processDropdownContent .processGridCol{
-    display: grid;
-    gap: 12px;
-    padding: 12px;
-    border-radius: 14px;
-    background: #f7fbff;
-    border: 1px solid rgba(11,75,216,0.10);
-  }
+.video-crop{
+  width:100%;
+  height:400px;
+  overflow:hidden;
+  position:relative;
+  justify-content:center;
+  display:flex;
 }
