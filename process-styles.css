@@ -1,0 +1,176 @@
+/* =========================
+   Strategic Planning Overview (site-native)
+   Namespaced: .spOverview...
+   ========================= */
+
+.spOverview{
+  padding: 28px 0 48px;
+}
+
+.spOverview__container{
+  padding-top: 0;   /* your .container adds padding; keep it clean */
+  padding-bottom: 0;
+}
+
+.spOverview__panel{
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(15,108,204,0.14);
+  background: #fff;
+}
+
+/* Left rail: uses your brand blue language */
+.spOverview__rail{
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  padding: 34px 28px;
+  display: flex;
+  align-items: center;
+}
+
+.spOverview__railTitle{
+  margin: 0;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+}
+
+/* Content */
+.spOverview__content{
+  padding: 30px 30px 28px;
+  background: #fff;
+}
+
+.spOverview__list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.spOverview__item{
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 14px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(15,108,204,0.08);
+  background: #fff;
+  transition: transform .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.spOverview__item:hover{
+  transform: translateY(-1px);
+  background: rgba(15,108,204,0.04);
+  border-color: rgba(15,108,204,0.14);
+}
+
+.spOverview__icon{
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(15,108,204,0.08);
+  color: var(--accent-2);
+}
+
+.spOverview__svg{
+  width: 36px;
+  height: 36px;
+  display: block;
+  fill: currentColor;
+  color: currentColor;
+}
+
+.spOverview__heading{
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.spOverview__desc{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 64ch;
+  font-size: 0.98rem;
+}
+
+/* Accent colors aligned with your palette */
+.spOverview__heading--navy{ color: #0f1724; }
+.spOverview__heading--blue{ color: var(--accent-2); }
+.spOverview__heading--teal{ color: #11a7a1; }
+.spOverview__heading--green{ color: #18a458; }
+
+.spOverview__icon--navy{ color: #0f1724; background: rgba(15,23,36,0.06); }
+.spOverview__icon--blue{ color: var(--accent-2); background: rgba(11,75,216,0.10); }
+.spOverview__icon--teal{ color: #11a7a1; background: rgba(17,167,161,0.10); }
+.spOverview__icon--green{ color: #18a458; background: rgba(24,164,88,0.10); }
+
+/* Tablet */
+@media (max-width: 980px){
+  .spOverview__panel{
+    grid-template-columns: 280px 1fr;
+  }
+  .spOverview__rail{
+    padding: 28px 22px;
+  }
+  .spOverview__content{
+    padding: 24px;
+  }
+}
+
+/* Mobile: stack rail above content */
+@media (max-width: 700px){
+  .spOverview__panel{
+    grid-template-columns: 1fr;
+  }
+
+  .spOverview__rail{
+    padding: 22px 18px;
+  }
+
+  .spOverview__railTitle{
+    font-size: 1.6rem;
+  }
+
+  .spOverview__content{
+    padding: 18px;
+  }
+
+  .spOverview__item{
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    padding: 12px;
+  }
+
+  .spOverview__icon{
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .spOverview__svg{
+    width: 30px;
+    height: 30px;
+  }
+
+  .spOverview__desc{
+    font-size: 0.95rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .spOverview__item{ transition: none; }
+  .spOverview__item:hover{ transform: none; }
+}
