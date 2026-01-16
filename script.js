@@ -127,15 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
-document.addEventListener("DOMContentLoaded", function () {
-  const definingGoalsTrigger = document.querySelector(".spOverview__itemDefiningGoals");
-  const definingGoalsTarget = document.querySelector(".strategicPlanningPlaceholderDefiningGoals");
-
-  if (!definingGoalsTrigger || !definingGoalsTarget) return;
-
-  const definingGoalsContentHTML = `
+document.addEventListener("DOMContentLoaded", () => {
+  const contentHTML = `
     <div class="caseStudyRow1">
-      <img class="strategicPlanningRowContainerImage" src="assets/process-assets/KPIsByFunnelStage.png" style="width:50%; float: left; padding-right: 32px;">
+      <img class="strategicPlanningRowContainerImage"
+           src="assets/process-assets/KPIsByFunnelStage.png"
+           style="width:50%; float:left; padding-right:32px;">
       <div class="rowContentCopy">
         <p>In 2024, site analytics, survey data, industry trends, and competitive auditing produced 4 key strategic pillars for optimizing the UHOne site:</p>
         <ol>
@@ -148,15 +145,21 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
   `;
 
-  let definingGoalsIsOpen = false;
+  // Event delegation: works even if the list is re-rendered later
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest(".spOverview__itemDefiningGoals");
+    if (!trigger) return;
 
-  definingGoalsTrigger.addEventListener("click", function () {
-    if (definingGoalsIsOpen) {
-      definingGoalsTarget.innerHTML = "";
-    } else {
-      definingGoalsTarget.innerHTML = definingGoalsContentHTML;
+    // Expect the placeholder to be the next <li> after the trigger
+    const placeholder = trigger.nextElementSibling;
+    if (!placeholder || !placeholder.classList.contains("strategicPlanningPlaceholderDefiningGoals")) {
+      console.warn("Placeholder not found right after Defining Goals item.");
+      return;
     }
 
-    definingGoalsIsOpen = !definingGoalsIsOpen;
+    const isOpen = placeholder.dataset.open === "true";
+
+    placeholder.innerHTML = isOpen ? "" : contentHTML;
+    placeholder.dataset.open = isOpen ? "false" : "true";
   });
 });
