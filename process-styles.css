@@ -69,6 +69,7 @@
   transform: translateY(-1px);
   background: rgba(15,108,204,0.04);
   border-color: rgba(15,108,204,0.14);
+  cursor: pointer;
 }
 
 .spOverview__icon{
