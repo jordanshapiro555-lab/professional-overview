@@ -126,3 +126,37 @@ document.addEventListener("DOMContentLoaded", () => {
     experienceDropdownButton.addEventListener("click", scrollWithOffset);
   });
 })();
+
+document.addEventListener("DOMContentLoaded", function () {
+  const definingGoalsTrigger = document.querySelector(".spOverview__itemDefiningGoals");
+  const definingGoalsTarget = document.querySelector(".strategicPlanningPlaceholderDefiningGoals");
+
+  if (!definingGoalsTrigger || !definingGoalsTarget) return;
+
+  const definingGoalsContentHTML = `
+    <div class="caseStudyRow1">
+      <img class="strategicPlanningRowContainerImage" src="assets/process-assets/KPIsByFunnelStage.png" style="width:50%; float: left; padding-right: 32px;">
+      <div class="rowContentCopy">
+        <p>In 2024, site analytics, survey data, industry trends, and competitive auditing produced 4 key strategic pillars for optimizing the UHOne site:</p>
+        <ol>
+          <li><strong>TriTerm promotion:</strong> Selling TriTerm, UHOne's highest margin product, prior to its sunset</li>
+          <li><strong>Conecting UHOne:</strong> Ensuring a seamless experience from beginning to end of funnel</li>
+          <li><strong>Design &amp; UX:</strong> General design optimization</li>
+          <li><strong>New vs Return Personalization:</strong> Tailoring content and functionality to user intent and previous interactions</li>
+        </ol>
+      </div>
+    </div>
+  `;
+
+  let definingGoalsIsOpen = false;
+
+  definingGoalsTrigger.addEventListener("click", function () {
+    if (definingGoalsIsOpen) {
+      definingGoalsTarget.innerHTML = "";
+    } else {
+      definingGoalsTarget.innerHTML = definingGoalsContentHTML;
+    }
+
+    definingGoalsIsOpen = !definingGoalsIsOpen;
+  });
+});
