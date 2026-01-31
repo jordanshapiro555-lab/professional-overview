@@ -1,0 +1,114 @@
+<!doctype HTML>
+<html>
+<head>
+  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jordan's Case Studies</title>
+    <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/">Jordan's CRO Studio</a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/experience" class="nav-link">Experience</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies" class="nav-link">Case Studies</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/my-process" class="nav-link">My Process</a></li>
+        </ul>
+        <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </header>
+  
+  <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>Case studies</h1>
+          <p class="lead">I've worked across healthcare, retail, education and more to deliver value in a variety of ways. Explore some big wins and how I've measured them below!</p>
+        </div>
+<img src="assets/img/CaseStudiesHeroImage.png" style="height: 200px;">
+      </div>
+    </section>
+  <!-- Case study cards -->  
+<section class="blog-grid-section">
+  <div class="container">
+    <h2 class="blog-grid-title">Latest Case Studies</h2>
+    <p class="blog-grid-subtitle">Real-world results from recent client projects</p>
+
+    <div class="blog-grid">
+      
+      <article class="blog-grid-card">
+        <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies/UHOne-2024" class="blog-grid-link">
+          <div class="blog-grid-media">
+            <img src="assets/case-studies/UHOne2024/UHOne2024KPIsByQuarter.png" alt="UHOne2024">
+          </div>
+          <div class="blog-grid-body">
+            <h3 class="blog-grid-heading">1061% CRO Program ROI</h3>
+            <p class="blog-grid-excerpt">A deep look into how we UHOne's product discovery and purchase journey and measured success</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="blog-grid-card">
+        <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies/UHOne-Home-Patriotic" class="blog-grid-link">
+          <div class="blog-grid-media">
+            <img src="assets/miniCases/America-Centric-Home-case-study.png" alt="Patriotic Marketing Case Study On UHOne Homepage">
+          </div>
+          <div class="blog-grid-body">
+            <h3 class="blog-grid-heading">Increasing Home CVR By Aligning Content To ICP</h3>
+            <p class="blog-grid-excerpt">How targeted experimentation capitalized on effective persona research</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="blog-grid-card">
+        <a href="post-3.html" class="blog-grid-link">
+          <div class="blog-grid-media">
+            <img src="assets/miniCases/HealthMarketsHomeRedesign.png" alt="Path Choice Case Study On HealthMarkets">
+          </div>
+          <div class="blog-grid-body">
+            <h3 class="blog-grid-heading">Home Optimization Via Conversion Path Choice</h3>
+            <p class="blog-grid-excerpt">Exploring Homepage changes that improved CVR by giving users more control</p>
+          </div>
+        </a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+    <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Jordan's CRO Studio</strong>
+        <p class="muted">Optimisation & experimentation agency</p>
+      </div>
+
+      <div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/experience">Experience</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies">Case studies</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/my-process">My Process</a>
+        </nav>
+      </div>
+
+      <div>
+        <small class="muted">© <span id="year"></span>Jordan's CRO Studio</small>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
