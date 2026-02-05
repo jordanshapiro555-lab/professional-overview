@@ -331,6 +331,8 @@ tr:nth-child(even) {
   .mobileSkillsMobileList {
     padding: 12px 24px;
     background-color: aliceblue;
+    border-radius: 24px;
+    margin: 16px;
   }
 }
 
