@@ -5,19 +5,3 @@
 .blog-grid.is-expanded article {
   display: block;
 }
-
-.seeMoreButton {
-  background-color: blue;
-  color: #fff;
-  margin: 12px;
-  padding: 12px;
-  border-radius: 20px;
-  border: #fff;
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.seeMoreButton::hover {
-  background-color: #fff;
-  color: #blue;
-}
