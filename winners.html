@@ -162,6 +162,8 @@
   </div>
 </section>
 
+ <button class="seeMoreButton" data-target=".blog-grid" type="button">See more</button>
+
     <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
@@ -184,5 +186,14 @@
     </div>
   </footer>
    <script src="script.js"></script>
+ <script>
+document.querySelectorAll(".seeMoreButton").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const target = document.querySelector(btn.dataset.target);
+    const expanded = target.classList.toggle("is-expanded");
+    btn.textContent = expanded ? "See less" : "See more";
+  });
+});
+ </script>
 </body>
 </html>
