@@ -1,0 +1,7 @@
+.blog-grid article:nth-child(n+6) { /* hides items 6+ */
+  display: none !important;
+}
+
+.blog-grid.is-expanded li {
+  display: list-item;
+}
