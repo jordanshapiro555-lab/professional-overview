@@ -5,3 +5,8 @@
 .blog-grid.is-expanded article {
   display: block;
 }
+
+.buttonContainer {
+  display: flex;
+  justify-content: center
+}
