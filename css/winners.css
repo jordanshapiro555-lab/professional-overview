@@ -3,5 +3,5 @@
 }
 
 .blog-grid.is-expanded article {
-  display: list-item;
+  display: block;
 }
