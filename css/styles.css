@@ -455,10 +455,24 @@ body{
 
 @media (max-width: 652px) {
 .caseStudyRowContainerImage1, .caseStudyRowContainerImage2 {
-  width: 100%
-  flex-direction: column;   /* NEW */
-  align-items: flex-start;  /* NEW: copy aligns naturally */
+  width: 100%;
+  display: block;   /* NEW */
+  height: auto;  /* NEW: copy aligns naturally */
 }
+}
+
+@media (max-width: 652px) {
+  .caseStudyRow1,
+  .caseStudyRow2 {
+    flex-direction: column;
+    align-items: flex-start; /* keeps text aligned naturally */
+  }
+}
+
+.caseStudyRowContainerImage1,
+.caseStudyRowContainerImage2 {
+  flex: 0 0 auto;
+  max-width: 100%;
 }
 
 @media (max-width: 967px) {
