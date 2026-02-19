@@ -145,21 +145,5 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  // Event delegation: works even if the list is re-rendered later
-  document.addEventListener("click", (e) => {
-    const trigger = e.target.closest(".spOverview__itemDefiningGoals");
-    if (!trigger) return;
 
-    // Expect the placeholder to be the next <li> after the trigger
-    const placeholder = trigger.nextElementSibling;
-    if (!placeholder || !placeholder.classList.contains("strategicPlanningPlaceholderDefiningGoals")) {
-      console.warn("Placeholder not found right after Defining Goals item.");
-      return;
-    }
-
-    const isOpen = placeholder.dataset.open === "true";
-
-    placeholder.innerHTML = isOpen ? "" : contentHTML;
-    placeholder.dataset.open = isOpen ? "false" : "true";
-  });
 });
