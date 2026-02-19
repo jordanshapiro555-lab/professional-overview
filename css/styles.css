@@ -456,6 +456,8 @@ body{
 @media (max-width: 652px) {
 .caseStudyRowContainerImage1, .caseStudyRowContainerImage2 {
   width: 100%
+  flex-direction: column;   /* NEW */
+  align-items: flex-start;  /* NEW: copy aligns naturally */
 }
 }
 
@@ -487,28 +489,44 @@ body{
 }
 
 @media (min-width: 653px) {
-.caseStudyRowContainerImage1 {
-  float: left;
-  margin-right: 32px;
-  padding-right: 16px;
-}
+  .caseStudyRowContainerImage1 {
+    float: none;          /* NEW */
+    margin-right: 0;      /* NEW */
+    padding-right: 0;     /* NEW */
+    width: 50%;           /* keep your existing intent */
+    display: block;
+  }
 }
 
 @media (min-width: 653px) {
 .caseStudyRowContainerImage2 {
-  float: right;
-  margin-left: 32px;
+    float: none;          /* NEW */
+    margin-left: 0;      /* NEW */
+    padding-left: 0;     /* NEW */
+    width: 50%;           /* keep your existing intent */
+    display: block;
 }
 }
 
 .caseStudyRow1 {
   padding: 32px;
   background-color: aliceblue;
+  display: flex;              /* NEW */
+  align-items: center;        /* NEW: vertical centering */
+  gap: 32px;                  /* NEW: replaces margin-right on image */
 }
 
 .caseStudyRow2 {
   padding: 32px;
   background-color: #fff;
+  display: flex;              /* NEW */
+  align-items: center;        /* NEW: vertical centering */
+  gap: 32px;                  /* NEW: replaces margin-right on image */
+
+}
+
+.rowContentCopy{
+  flex: 1;               /* NEW */
 }
 
 .caseStudyBodyHeader {
