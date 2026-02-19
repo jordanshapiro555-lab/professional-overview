@@ -462,9 +462,15 @@ body{
 }
 
 @media (max-width: 768px) {
-  .caseStudyRow1,
-  .caseStudyRow2 {
+  .caseStudyRow1 {
     flex-direction: column;
+    align-items: flex-start; /* keeps text aligned naturally */
+  }
+}
+
+@media (max-width: 768px) {
+  .caseStudyRow2 {
+    flex-direction: column-reverse;
     align-items: flex-start; /* keeps text aligned naturally */
   }
 }
