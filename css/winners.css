@@ -1,7 +1,12 @@
-.blog-grid article:nth-child(n+6) { /* hides items 6+ */
-  display: none !important;
+.blog-grid article:nth-child(n+7) { /* hides items 7+ */
+  display: none;
 }
 
-.blog-grid.is-expanded li {
-  display: list-item;
+.blog-grid.is-expanded article {
+  display: block;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center
 }
