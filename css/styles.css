@@ -453,7 +453,7 @@ body{
 }
 }
 
-@media (max-width: 652px) {
+@media (max-width: 768px) {
 .caseStudyRowContainerImage1, .caseStudyRowContainerImage2 {
   width: 100%;
   display: block;   /* NEW */
@@ -461,7 +461,7 @@ body{
 }
 }
 
-@media (max-width: 652px) {
+@media (max-width: 768px) {
   .caseStudyRow1,
   .caseStudyRow2 {
     flex-direction: column;
@@ -502,7 +502,7 @@ body{
     flex-wrap: wrap;
 }
 
-@media (min-width: 653px) {
+@media (min-width: 769px) {
   .caseStudyRowContainerImage1 {
     float: none;          /* NEW */
     margin-right: 0;      /* NEW */
@@ -512,7 +512,7 @@ body{
   }
 }
 
-@media (min-width: 653px) {
+@media (min-width: 769px) {
 .caseStudyRowContainerImage2 {
     float: none;          /* NEW */
     margin-left: 0;      /* NEW */
