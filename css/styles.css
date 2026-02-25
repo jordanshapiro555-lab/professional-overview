@@ -453,10 +453,32 @@ body{
 }
 }
 
-@media (max-width: 652px) {
+@media (max-width: 768px) {
 .caseStudyRowContainerImage1, .caseStudyRowContainerImage2 {
-  width: 100%
+  width: 100%;
+  display: block;   /* NEW */
+  height: auto;  /* NEW: copy aligns naturally */
 }
+}
+
+@media (max-width: 768px) {
+  .caseStudyRow1 {
+    flex-direction: column;
+    align-items: flex-start; /* keeps text aligned naturally */
+  }
+}
+
+@media (max-width: 768px) {
+  .caseStudyRow2 {
+    flex-direction: column-reverse;
+    align-items: flex-start; /* keeps text aligned naturally */
+  }
+}
+
+.caseStudyRowContainerImage1,
+.caseStudyRowContainerImage2 {
+  flex: 0 0 auto;
+  max-width: 100%;
 }
 
 @media (max-width: 967px) {
@@ -486,29 +508,45 @@ body{
     flex-wrap: wrap;
 }
 
-@media (min-width: 653px) {
-.caseStudyRowContainerImage1 {
-  float: left;
-  margin-right: 32px;
-  padding-right: 16px;
-}
+@media (min-width: 769px) {
+  .caseStudyRowContainerImage1 {
+    float: none;          /* NEW */
+    margin-right: 0;      /* NEW */
+    padding-right: 0;     /* NEW */
+    width: 50%;           /* keep your existing intent */
+    display: block;
+  }
 }
 
-@media (min-width: 653px) {
+@media (min-width: 769px) {
 .caseStudyRowContainerImage2 {
-  float: right;
-  margin-left: 32px;
+    float: none;          /* NEW */
+    margin-left: 0;      /* NEW */
+    padding-left: 0;     /* NEW */
+    width: 50%;           /* keep your existing intent */
+    display: block;
 }
 }
 
 .caseStudyRow1 {
   padding: 32px;
   background-color: aliceblue;
+  display: flex;              /* NEW */
+  align-items: center;        /* NEW: vertical centering */
+  gap: 32px;                  /* NEW: replaces margin-right on image */
 }
 
 .caseStudyRow2 {
   padding: 32px;
   background-color: #fff;
+  display: flex;              /* NEW */
+  align-items: center;        /* NEW: vertical centering */
+  gap: 32px;                  /* NEW: replaces margin-right on image */
+
+}
+
+.rowContentCopy{
+  flex: 1;               /* NEW */
 }
 
 .caseStudyBodyHeader {
