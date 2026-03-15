@@ -1063,3 +1063,289 @@ body{
   justify-content: center;
   display: flex;
 }
+
+/* ===========================
+   HERO EYEBROW & SUBHEAD
+   =========================== */
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(15,108,255,0.08);
+  border: 1px solid rgba(15,108,255,0.16);
+  border-radius: 100px;
+  padding: 4px 12px;
+  margin: 0 0 14px;
+}
+
+.hero-subhead {
+  font-size: 1.05rem;
+  color: var(--muted);
+  margin: 0 0 20px;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* ===========================
+   STATS STRIP
+   =========================== */
+
+.stats-strip {
+  background: var(--text);
+  color: #fff;
+  padding: 0;
+}
+
+.stats-strip .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.stats-strip-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  padding: 28px 0 !important;
+}
+
+.stats-strip-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 40px;
+  flex: 1 1 160px;
+}
+
+.stats-strip-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.stats-strip-label {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+  margin-top: 5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.stats-strip-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .stats-strip-grid {
+    gap: 20px;
+  }
+  .stats-strip-item {
+    padding: 0 20px;
+    flex: 1 1 120px;
+  }
+  .stats-strip-divider {
+    display: none;
+  }
+  .stats-strip-value {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===========================
+   FEATURE CARDS — icons
+   =========================== */
+
+.feature-icon {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.feature h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.feature p {
+  margin: 0;
+  font-size: 0.93rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ===========================
+   CASE STUDY CARDS — improved
+   =========================== */
+
+.card-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-media img {
+  transform: scale(1.03);
+}
+
+.card {
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(12,18,31,0.1);
+}
+
+.card-body h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+/* ===========================
+   PROCESS STAT — third stat
+   =========================== */
+
+.process-visual {
+  display: grid;
+  gap: 14px;
+}
+
+/* ===========================
+   FAQ SECTION
+   =========================== */
+
+.faq-section {
+  background: #f8faff;
+  border-top: 1px solid #eef2fb;
+  border-bottom: 1px solid #eef2fb;
+}
+
+.faq-list {
+  display: grid;
+  gap: 12px;
+  max-width: 860px;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid rgba(15,108,204,0.12);
+  box-shadow: 0 2px 8px rgba(14,21,47,0.04);
+  overflow: hidden;
+  transition: box-shadow .18s ease;
+}
+
+.faq-item[open] {
+  box-shadow: 0 4px 20px rgba(14,21,47,0.08);
+  border-color: rgba(15,108,204,0.24);
+}
+
+.faq-question {
+  list-style: none;
+  cursor: pointer;
+  padding: 18px 56px 18px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  position: relative;
+  user-select: none;
+  transition: background .15s ease;
+}
+
+.faq-question:hover {
+  background: rgba(15,108,204,0.03);
+}
+
+.faq-question::-webkit-details-marker { display: none; }
+.faq-question::marker { content: ""; }
+
+/* Chevron indicator */
+.faq-question::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--accent);
+  transition: transform .2s ease;
+}
+
+.faq-item[open] > .faq-question::after {
+  content: "−";
+}
+
+.faq-answer {
+  padding: 0 20px 18px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.faq-answer p {
+  margin: 0;
+}
+
+/* ===========================
+   FOOTER NAV improvements
+   =========================== */
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color .15s;
+}
+
+.footer-nav a:hover {
+  color: var(--text);
+}
+
+/* ===========================
+   CARD-MEDIA height fix
+   =========================== */
+
+.card-media {
+  height: 180px;
+}
+
+/* ===========================
+   ABOUT section spacing
+   =========================== */
+
+.about p + p {
+  margin-top: 10px;
+}
+
