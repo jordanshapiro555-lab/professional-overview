@@ -1349,3 +1349,470 @@ body{
   margin-top: 10px;
 }
 
+/* =====================================================
+   CRO & DESIGN BEST PRACTICES — COMPREHENSIVE OVERHAUL
+   ===================================================== */
+
+/* ── Design token updates ── */
+:root {
+  --section-pad: 72px;
+  --section-pad-mobile: 48px;
+  --transition: .18s ease;
+}
+
+/* ── Better section padding consistency ── */
+.section {
+  padding: var(--section-pad) 0;
+}
+
+/* ── Section eyebrow labels ── */
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 10px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.section-eyebrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* ── Section heading scale ── */
+.section h2,
+.intro h2,
+.two-col h2,
+.why-section h2,
+.about-section h2,
+.case-studies-section h2,
+.faq-section h2 {
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 12px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* ── Hero H1 — bolder, larger ── */
+.hero-copy h1 {
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+
+/* ── Hero trust micro-copy ── */
+.hero-trust-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 16px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.hero-trust-text span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Better button sizing (44px min touch target) ── */
+.btn {
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+.btn-primary:hover {
+  background: #0c3eb5;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(11,75,216,0.22);
+}
+
+.btn-ghost:hover {
+  background: rgba(11,75,216,0.05);
+  transform: translateY(-1px);
+}
+
+/* ── Focus states — accessibility ── */
+.btn:focus-visible,
+.nav-link:focus-visible,
+.brand:focus-visible,
+.card-link:focus-visible,
+.homeCaseStudyLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Feature cards — improved ── */
+.feature {
+  background: #fff;
+  padding: 22px 20px;
+  border-radius: 14px;
+  border: 1px solid #eef2fb;
+  box-shadow: 0 2px 12px rgba(12,18,31,0.04);
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.feature:hover {
+  box-shadow: 0 8px 28px rgba(12,18,31,0.09);
+  transform: translateY(-3px);
+  border-color: rgba(15,108,204,0.2);
+}
+
+/* ── Process step cards ── */
+.process-steps {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 22px;
+}
+
+.process-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 18px 16px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #eef2fb;
+  box-shadow: 0 2px 10px rgba(12,18,31,0.04);
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.process-step:hover {
+  border-color: rgba(15,108,204,0.22);
+  box-shadow: 0 6px 20px rgba(12,18,31,0.07);
+}
+
+.step-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  min-width: 36px;
+  padding-top: 2px;
+  opacity: 0.85;
+}
+
+.process-step h4 {
+  margin: 0 0 5px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.process-step p {
+  margin: 0;
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* ── Case studies section — alternating background ── */
+.case-studies-section {
+  background: #f6f9ff;
+  border-top: 1px solid #edf0f8;
+  border-bottom: 1px solid #edf0f8;
+  padding: var(--section-pad) 0;
+}
+
+.case-studies-section .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* ── Why Jordan section ── */
+.why-section {
+  background: #fff;
+  padding: var(--section-pad) 0;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.why-card {
+  padding: 22px 20px;
+  background: #f8faff;
+  border-radius: 14px;
+  border: 1px solid rgba(15,108,204,0.1);
+  border-left: 3px solid var(--accent);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.why-card:hover {
+  box-shadow: 0 6px 20px rgba(12,18,31,0.07);
+  transform: translateY(-2px);
+}
+
+.why-icon {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.why-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.why-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── About section — two-column card layout ── */
+.about-section {
+  background: #fff;
+  padding: var(--section-pad) 0;
+}
+
+.about-section .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 48px;
+  align-items: start;
+}
+
+.about-copy p {
+  line-height: 1.7;
+  margin: 0;
+}
+
+.about-certs {
+  display: grid;
+  gap: 12px;
+}
+
+.cert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #f8faff;
+  border-radius: 12px;
+  border: 1px solid rgba(15,108,204,0.1);
+  transition: box-shadow var(--transition);
+}
+
+.cert-card:hover {
+  box-shadow: 0 4px 16px rgba(12,18,31,0.07);
+}
+
+.cert-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.cert-card strong {
+  display: block;
+  font-size: 0.88rem;
+  margin-bottom: 2px;
+}
+
+.cert-card p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .about-certs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .about-certs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Risk reversal text near CTA ── */
+.risk-reversal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.risk-reversal span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Sticky floating CTA ── */
+.sticky-cta {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.sticky-cta.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.sticky-cta-btn {
+  border-radius: 100px;
+  padding: 13px 22px;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 28px rgba(11,75,216,0.3);
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .sticky-cta {
+    bottom: 16px;
+    right: 16px;
+  }
+  .sticky-cta-btn {
+    padding: 11px 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ── Hero headshot — card frame treatment ── */
+.hero-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headshot {
+  height: 380px;
+  width: 380px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 16px 48px rgba(11,75,216,0.15), 0 4px 16px rgba(12,18,31,0.1);
+  border: 4px solid rgba(15,108,204,0.12);
+}
+
+@media (max-width: 980px) {
+  .headshot {
+    display: none;
+  }
+}
+
+/* ── homeCaseStudyLink — cleaner style ── */
+.homeCaseStudyLink {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.homeCaseStudyLink:hover {
+  color: var(--accent);
+}
+
+/* ── Stat boxes — improved ── */
+.stat {
+  background: linear-gradient(135deg, #f0f6ff, #fff);
+  border: 1px solid rgba(15,108,204,0.12);
+}
+
+/* ── Footer — improved typography ── */
+.site-footer {
+  background: #f9fafc;
+}
+
+.site-footer .container {
+  padding-top: 36px;
+  padding-bottom: 36px;
+}
+
+/* ── Responsive section padding ── */
+@media (max-width: 700px) {
+  :root {
+    --section-pad: var(--section-pad-mobile);
+  }
+  .section {
+    padding: 48px 0;
+  }
+  .hero-trust-text {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .risk-reversal {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .why-section,
+  .about-section,
+  .case-studies-section {
+    padding: 48px 0;
+  }
+}
+
+/* ── Card link — consistent styling ── */
+.card-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.card-link:hover {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+
+/* ── Scroll behavior ── */
+html {
+  scroll-behavior: smooth;
+}
+
+
