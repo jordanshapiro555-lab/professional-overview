@@ -202,8 +202,8 @@ body{
 }
 .mock-toolbar{height:18px; background:rgba(0,0,0,0.06); border-radius:6px; margin-bottom:12px;}
 .mock-content{display:grid; gap:10px}
-.card{height:84px; background:white; border-radius:10px; box-shadow:0 6px 18px rgba(11,75,216,0.06)}
-.card.short{height:56px}
+.mock-content .card{height:84px; background:white; border-radius:10px; box-shadow:0 6px 18px rgba(11,75,216,0.06)}
+.mock-content .card.short{height:56px}
 
 /* sections */
 .section{ padding:48px 0; }
