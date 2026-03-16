@@ -227,7 +227,7 @@ body{
 /* cards */
 .cards{ grid-template-columns:repeat(3,1fr); margin-top:18px; }
 .card{ display:flex; flex-direction:column; overflow:hidden; border-radius:12px; background:#fff; }
-.card-media{ height:120px; background:linear-gradient(90deg,#e9f3ff,#fefefe); }
+.card-media{ height:200px; background:#f4f6fb; overflow:hidden; }
 .card-body{ padding:16px; }
 .card-link{ text-decoration:none; color:var(--accent-2); font-weight:600; }
 
@@ -1204,8 +1204,7 @@ body{
   object-fit: contain;
   object-position: center top;
   display: block;
-  padding: 12px;
-  background: #f8f9fc;
+  padding: 10px;
   transition: transform 0.3s ease;
 }
 
@@ -1336,13 +1335,7 @@ body{
   color: var(--text);
 }
 
-/* ===========================
-   CARD-MEDIA height fix
-   =========================== */
-
-.card-media {
-  height: 180px;
-}
+/* card-media height consolidated in base .card-media rule above */
 
 /* ===========================
    ABOUT section spacing
@@ -1600,7 +1593,7 @@ body{
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
-  padding: calc(var(--section-pad) + 16px) 0 calc(var(--section-pad) + 24px);
+  padding: 96px 0;
 }
 
 .about-section .container {
@@ -1622,8 +1615,8 @@ body{
 
 .about-certs {
   display: grid;
-  gap: 12px;
-  padding-top: 8px;
+  gap: 14px;
+  padding-top: 44px;
 }
 
 .cert-card {
@@ -1680,7 +1673,8 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 14px;
+  margin-top: 16px;
+  margin-bottom: 0;
   font-size: 0.8rem;
   color: var(--muted);
   font-weight: 500;
