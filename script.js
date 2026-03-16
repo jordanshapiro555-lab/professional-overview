@@ -69,6 +69,50 @@ document.addEventListener('DOMContentLoaded', function () {
   // Update footer year
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ── Sticky floating CTA ──
+  const stickyCta = document.getElementById('sticky-cta');
+  const heroSection = document.querySelector('.hero');
+  const footerEl = document.querySelector('.site-footer');
+  if (stickyCta && heroSection) {
+    const checkSticky = () => {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      const footerTop = footerEl ? footerEl.getBoundingClientRect().top : window.innerHeight;
+      if (heroBottom < 0 && footerTop > window.innerHeight * 0.6) {
+        stickyCta.classList.add('visible');
+      } else {
+        stickyCta.classList.remove('visible');
+      }
+    };
+    window.addEventListener('scroll', checkSticky, { passive: true });
+  }
+
+  // ── Count-up animation for stats strip ──
+  const statsStrip = document.querySelector('.stats-strip');
+  if (statsStrip) {
+    let fired = false;
+    const runCounters = () => {
+      statsStrip.querySelectorAll('.count[data-to]').forEach(el => {
+        const target = parseFloat(el.dataset.to);
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        if (isNaN(target)) return;
+        const duration = 1400;
+        let startTime = null;
+        const step = (ts) => {
+          if (!startTime) startTime = ts;
+          const progress = Math.min((ts - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = target * eased;
+          el.textContent = decimals > 0 ? current.toFixed(decimals) : Math.round(current).toString();
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !fired) { fired = true; runCounters(); }
+    }, { threshold: 0.5 }).observe(statsStrip);
+  }
 });
 
 
