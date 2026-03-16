@@ -1201,13 +1201,16 @@ body{
 .card-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center top;
   display: block;
+  padding: 12px;
+  background: #f8f9fc;
   transition: transform 0.3s ease;
 }
 
 .card:hover .card-media img {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .card {
@@ -1597,7 +1600,7 @@ body{
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
-  padding: var(--section-pad) 0;
+  padding: calc(var(--section-pad) + 16px) 0 calc(var(--section-pad) + 24px);
 }
 
 .about-section .container {
@@ -1608,7 +1611,7 @@ body{
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 300px;
-  gap: 48px;
+  gap: 64px;
   align-items: start;
 }
 
@@ -1620,6 +1623,7 @@ body{
 .about-certs {
   display: grid;
   gap: 12px;
+  padding-top: 8px;
 }
 
 .cert-card {
