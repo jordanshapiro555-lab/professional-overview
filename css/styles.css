@@ -1677,6 +1677,7 @@ body{
   font-size: 0.8rem;
   color: var(--muted);
   font-weight: 500;
+  padding-top: 16px;
 }
 
 .risk-reversal span {
