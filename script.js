@@ -66,6 +66,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   sections.forEach(s => observer.observe(s));
 
+  // Make case study cards fully clickable
+  document.querySelectorAll('.cards .card').forEach(function (card) {
+    var link = card.querySelector('.card-link');
+    if (!link) return;
+    card.addEventListener('click', function (e) {
+      if (!e.target.closest('a')) {
+        window.location.href = link.getAttribute('href');
+      }
+    });
+  });
+
   // Update footer year
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
