@@ -580,7 +580,7 @@
         const heroPrimaryCta = getHeroPrimaryCta();
         if (!heroPrimaryCta) return;
 
-        const experiment = client.getExperiment('homepage_cta_test');
+        const experiment = client.getExperiment('prod_-_ncxx_-_test_experiment');
         const ctaText = experiment.get('cta_text', 'Work with me');
 
         heroPrimaryCta.textContent = ctaText;
