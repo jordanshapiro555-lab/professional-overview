@@ -148,7 +148,6 @@ body{
 .hero-grid{
   display:grid;
   grid-template-columns:1fr 420px;
-  gap:32px;
   align-items:center;
 }
 
