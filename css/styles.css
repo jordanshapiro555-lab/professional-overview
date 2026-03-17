@@ -50,14 +50,13 @@ body{
   left: 0;
   right: 0;
   z-index:40;
-  background:#fff;
+  background:#D5FFFF;
   backdrop-filter:saturate(140%) blur(6px);
-  border-bottom:1px solid rgba(15,108,204,0.08);
   transition:box-shadow .2s ease, background .2s ease;
 }
 .site-header.scrolled{
   box-shadow:var(--shadow);
-  background:#fff;
+  background:#D5FFFF;
 }
 
 .nav-row{
@@ -529,7 +528,7 @@ body{
 
 .caseStudyRow1 {
   padding: 32px;
-  background-color: #eef4ff;
+  background-color: aliceblue;
   display: flex;              /* NEW */
   align-items: center;        /* NEW: vertical centering */
   gap: 32px;                  /* NEW: replaces margin-right on image */
@@ -573,7 +572,7 @@ body{
 
 .appendixSubHead {
   font-size: clamp(1.3rem, 2vw, 1.8rem);
-  background-color: #eef4ff;
+  background-color: aliceblue;
 }
 
 /* ========================= */
@@ -660,7 +659,7 @@ body{
 }
 
 .experienceHeroContainer {
-  background-color: #eef4ff;
+  background-color: aliceblue;
   grid-column-gap: 3rem;
   grid-row-gap: 3rem;
   flex-direction: column;
@@ -798,14 +797,14 @@ body{
 .homeHeroBrands {
   display: flex;
   justify-content: space-around;
-  background-color: #eef4ff;
+  background-color: #D5FFFF;
   overflow: hidden;
   width: 100%;
   padding: 24px 0;
 }
 
 .homeHero {
-  background-color: #eef4ff;
+  background-color: aliceblue;
 }
 
 .homeBrandsCarousel {
@@ -882,7 +881,7 @@ body{
 .processApproachDetails{
   display:flex;
   justify-content:center;
-  background:#eef4ff;
+  background:aliceblue;
   padding:16px;
 }
 

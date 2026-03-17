@@ -3,7 +3,7 @@
   SECTION WRAPPER
 **************************************/
 .experienceHero {
-  background: #eef4ff;
+  background: aliceblue;
   padding: 3rem 1.5rem;
   display: flex;
   justify-content: center;
@@ -280,7 +280,7 @@
 }
 
 tr:nth-child(even) {
-  background-color: #eef4ff;
+  background-color: aliceblue;
 }
 
 .skillsTableItem, .skillsTableHeadRow {
@@ -324,7 +324,7 @@ tr:nth-child(even) {
 }
   .mobileSkillsMobileList {
     padding: 12px 20px;
-    background-color: #eef4ff;
+    background-color: aliceblue;
     border-radius: 12px;
     margin: 8px 0;
   }
@@ -355,7 +355,7 @@ tr:nth-child(even) {
 
 .experienceDropdown {
   border-radius: 14px;
-  background: #eef4ff;
+  background: aliceblue;
   border: 1px solid rgba(15,108,204,0.18);
   padding: 8px;
 }
