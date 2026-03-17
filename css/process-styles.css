@@ -175,3 +175,279 @@
   .spOverview__item{ transition: none; }
   .spOverview__item:hover{ transform: none; }
 }
+
+
+/* =========================
+   AI in the Process Section
+   Namespaced: .aiProcess...
+   ========================= */
+
+.aiProcess {
+  padding: 28px 0 56px;
+}
+
+.aiProcess__container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Header block */
+.aiProcess__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.aiProcess__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(135deg, rgba(15,108,255,0.15), rgba(11,75,216,0.12));
+  border: 1px solid rgba(15,108,255,0.30);
+  color: #6ea8ff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+}
+
+.aiProcess__badgeIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.aiProcess__title {
+  margin: 0 0 12px;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #f0f4ff;
+}
+
+.aiProcess__subtitle {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #8da4c8;
+  max-width: 52ch;
+  margin-inline: auto;
+  line-height: 1.55;
+}
+
+/* Dark panel wraps the whole section content */
+.aiProcess__container {
+  background: linear-gradient(160deg, #0c1730 0%, #0f1f3d 60%, #091228 100%);
+  border-radius: 20px;
+  padding: 44px 40px !important;
+  border: 1px solid rgba(15,108,255,0.18);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle decorative glow blobs */
+.aiProcess__container::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(15,108,255,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+.aiProcess__container::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(17,167,161,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Steps list */
+.aiProcess__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 36px;
+  display: grid;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Connector line between steps */
+.aiProcess__steps::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 52px;
+  bottom: 52px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(15,108,255,0.5), rgba(17,167,161,0.3));
+  border-radius: 2px;
+}
+
+.aiProcess__step {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 20px;
+  align-items: start;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(15,108,255,0.14);
+  border-radius: 16px;
+  padding: 22px 22px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.aiProcess__step:hover {
+  transform: translateY(-2px);
+  background: rgba(15,108,255,0.07);
+  border-color: rgba(15,108,255,0.28);
+  cursor: default;
+}
+
+.aiProcess__stepNumber {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: rgba(15,108,255,0.35);
+  line-height: 1;
+  padding-top: 4px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.aiProcess__stepBody {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.aiProcess__stepIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(15,108,255,0.14);
+  color: #6ea8ff;
+  flex-shrink: 0;
+}
+
+.aiProcess__svg {
+  width: 32px;
+  height: 32px;
+  display: block;
+  fill: none;
+}
+
+.aiProcess__stepHeading {
+  margin: 0 0 8px;
+  font-size: 1.07rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #e8eeff;
+}
+
+.aiProcess__stepDesc {
+  margin: 0;
+  color: #8da4c8;
+  line-height: 1.55;
+  font-size: 0.97rem;
+  max-width: 64ch;
+}
+
+/* Time-saving callout */
+.aiProcess__timeSaving {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, rgba(15,108,255,0.12), rgba(17,167,161,0.10));
+  border: 1px solid rgba(15,108,255,0.25);
+  border-radius: 14px;
+  padding: 18px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.aiProcess__timeSavingIcon {
+  font-size: 1.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.aiProcess__timeSavingText {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #c5d5f5;
+  line-height: 1.45;
+}
+
+.aiProcess__timeSavingText strong {
+  color: #f0f4ff;
+  font-weight: 800;
+}
+
+/* Tablet */
+@media (max-width: 980px) {
+  .aiProcess__container {
+    padding: 36px 28px !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .aiProcess__container {
+    padding: 28px 18px !important;
+    border-radius: 14px;
+  }
+
+  .aiProcess__steps::before {
+    display: none;
+  }
+
+  .aiProcess__step {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .aiProcess__stepNumber {
+    font-size: 1.4rem;
+    text-align: left;
+  }
+
+  .aiProcess__stepBody {
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+  }
+
+  .aiProcess__stepIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .aiProcess__svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .aiProcess__timeSaving {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .aiProcess__step { transition: none; }
+  .aiProcess__step:hover { transform: none; }
+}
