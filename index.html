@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client+session-replay+web-analytics.min.js?apikey=client-U47LxcXa8GwnMLSA9MPdt0DhT2wwpjCX3dHTCUS20vi"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client.min.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
@@ -563,52 +563,75 @@
     !function(){if(!window.klaviyo){window._klOnsite=window._klOnsite||[];try{window.klaviyo=new Proxy({},{get:function(n,i){return"push"===i?function(){var n;(n=window._klOnsite).push.apply(n,arguments)}:function(){for(var n=arguments.length,o=new Array(n),w=0;w<n;w++)o[w]=arguments[w];var t="function"==typeof o[o.length-1]?o.pop():void 0,e=new Promise((function(n){window._klOnsite.push([i].concat(o,[function(i){t&&t(i),n(i)}]))}));return e}}})}catch(n){window.klaviyo=window.klaviyo||[],window.klaviyo.push=function(){var n;(n=window._klOnsite).push.apply(n,arguments)}}}}();
   </script>
 
-  <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      const client = window.Statsig && window.Statsig.instance ? window.Statsig.instance() : null;
+<script>
+  window.addEventListener('DOMContentLoaded', async function () {
+    function getOrCreateStableID() {
+      const key = 'manual_statsig_stable_id';
+      let stableID = localStorage.getItem(key);
 
-      if (!client) {
-        console.log('Statsig not found');
+      if (!stableID) {
+        if (window.crypto && crypto.randomUUID) {
+          stableID = crypto.randomUUID();
+        } else {
+          stableID = 'stable-' + Math.random().toString(36).slice(2) + Date.now();
+        }
+        localStorage.setItem(key, stableID);
+      }
+
+      return stableID;
+    }
+
+    const stableID = getOrCreateStableID();
+
+    const client = new Statsig.StatsigClient(
+      'client-U47LxcXa8GwnMLSA9MPdt0DhT2wwpjCX3dHTCUS20vi',
+      {
+        customIDs: {
+          stableID: stableID
+        }
+      }
+    );
+
+    await client.initializeAsync();
+
+    console.log('Statsig initialized');
+    console.log('Statsig context:', client.getContext());
+    console.log('StableID in use:', stableID);
+
+    function getHeroPrimaryCta() {
+      return document.querySelector('.hero-ctas .btn-primary');
+    }
+
+    function applyHeroCtaExperiment() {
+      const heroPrimaryCta = getHeroPrimaryCta();
+      if (!heroPrimaryCta) {
+        console.log('Hero CTA not found');
         return;
       }
 
-      function getHeroPrimaryCta() {
-        return document.querySelector('.hero-ctas .btn-primary');
-      }
+      const experiment = client.getExperiment('prod_-_ncxx_-_test_experiment');
+      console.log('Experiment object:', experiment);
 
-      function applyHeroCtaExperiment() {
-        const heroPrimaryCta = getHeroPrimaryCta();
-        if (!heroPrimaryCta) {
-          console.log('Hero CTA not found');
-          return;
-        }
+      const ctaText = experiment.get('cta_text', 'Work with me');
+      console.log('Statsig CTA value:', ctaText);
 
-        const experiment = client.getExperiment('prod_-_ncxx_-_test_experiment');
-        const ctaText = experiment.get('cta_text', 'Work with me');
+      heroPrimaryCta.textContent = ctaText;
+    }
 
-        console.log('Statsig CTA value:', ctaText);
-        heroPrimaryCta.textContent = ctaText;
-      }
+    applyHeroCtaExperiment();
 
-      client.on('values_updated', function () {
-        console.log('Statsig values updated');
-        applyHeroCtaExperiment();
+    document.addEventListener('click', function (event) {
+      const heroPrimaryCta = event.target.closest('.hero-ctas .btn-primary');
+      if (!heroPrimaryCta) return;
+
+      client.logEvent('hero_cta_clicked', null, {
+        location: 'homepage_hero',
+        href: heroPrimaryCta.getAttribute('href') || ''
       });
 
-      applyHeroCtaExperiment();
-
-      document.addEventListener('click', function (event) {
-        const heroPrimaryCta = event.target.closest('.hero-ctas .btn-primary');
-        if (!heroPrimaryCta) return;
-
-        client.logEvent('hero_cta_clicked', null, {
-          location: 'homepage_hero',
-          href: heroPrimaryCta.getAttribute('href') || ''
-        });
-
-        console.log('Logged hero_cta_clicked');
-      });
+      console.log('Logged hero_cta_clicked');
     });
-  </script>
+  });
+</script>
 </body>
 </html>
