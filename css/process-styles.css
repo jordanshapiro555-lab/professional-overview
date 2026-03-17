@@ -175,3 +175,262 @@
   .spOverview__item{ transition: none; }
   .spOverview__item:hover{ transform: none; }
 }
+
+
+/* =========================
+   AI in the Process Section
+   Namespaced: .aiProcess...
+   ========================= */
+
+/* Section band — aliceblue matches processApproachDetails */
+.aiProcess {
+  padding: 28px 0 56px;
+  background: aliceblue;
+}
+
+.aiProcess__container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* White inner panel — same shadow/border as spOverview__panel */
+.aiProcess__panel {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(15,108,204,0.14);
+  box-shadow: var(--shadow);
+  padding: 40px 36px;
+}
+
+/* Header block */
+.aiProcess__header {
+  margin-bottom: 32px;
+}
+
+.aiProcess__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(15,108,255,0.08);
+  border: 1px solid rgba(15,108,255,0.16);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+}
+
+.aiProcess__badgeIcon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.aiProcess__title {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.aiProcess__subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 56ch;
+  line-height: 1.55;
+}
+
+/* Steps list */
+.aiProcess__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: grid;
+  gap: 14px;
+  position: relative;
+}
+
+/* Connector line — same blue as accent at low opacity */
+.aiProcess__steps::before {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 48px;
+  bottom: 48px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), rgba(15,108,255,0.15));
+  border-radius: 2px;
+  opacity: 0.25;
+}
+
+/* Step card — same style as processCard */
+.aiProcess__step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 18px;
+  align-items: start;
+  background: #fff;
+  border: 1px solid rgba(11,75,216,0.10);
+  border-radius: 14px;
+  padding: 18px 18px 16px;
+  box-shadow: 0 6px 20px rgba(14,21,47,0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.aiProcess__step:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(14,21,47,0.11);
+  border-color: rgba(15,108,204,0.22);
+}
+
+/* Number bubble — same blue as processGridHeader */
+.aiProcess__stepNumber {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.aiProcess__stepBody {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Icon — same as processIcon / spOverview__icon */
+.aiProcess__stepIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(15,108,204,0.10);
+  color: var(--accent-2);
+  flex-shrink: 0;
+}
+
+.aiProcess__svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  fill: none;
+}
+
+.aiProcess__stepHeading {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.aiProcess__stepDesc {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  max-width: 64ch;
+}
+
+/* Time-saving callout — same left-accent style as why-card */
+.aiProcess__timeSaving {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f8faff;
+  border: 1px solid rgba(15,108,204,0.10);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.aiProcess__timeSavingIcon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.aiProcess__timeSavingText {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.aiProcess__timeSavingText strong {
+  color: var(--text);
+  font-weight: 800;
+}
+
+/* Tablet */
+@media (max-width: 980px) {
+  .aiProcess__panel {
+    padding: 32px 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .aiProcess__panel {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .aiProcess__steps::before {
+    display: none;
+  }
+
+  .aiProcess__step {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .aiProcess__stepNumber {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  .aiProcess__stepBody {
+    grid-template-columns: 40px 1fr;
+    gap: 12px;
+  }
+
+  .aiProcess__stepIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .aiProcess__svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .aiProcess__timeSaving {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .aiProcess__step { transition: none; }
+  .aiProcess__step:hover { transform: none; }
+}
