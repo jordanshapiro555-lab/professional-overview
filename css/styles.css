@@ -50,13 +50,14 @@ body{
   left: 0;
   right: 0;
   z-index:40;
-  background:#D5FFFF;
+  background:#fff;
   backdrop-filter:saturate(140%) blur(6px);
+  border-bottom:1px solid rgba(15,108,204,0.08);
   transition:box-shadow .2s ease, background .2s ease;
 }
 .site-header.scrolled{
   box-shadow:var(--shadow);
-  background:#D5FFFF;
+  background:#fff;
 }
 
 .nav-row{
@@ -166,7 +167,6 @@ body{
   padding:10px 16px;
   border-radius:10px;
   font-weight:600;
-  border-color: var(--accent);
 }
 .btn-primary{
   background:linear-gradient(180deg,var(--accent),var(--accent-2));
@@ -275,7 +275,7 @@ body{
 }
 
 .homeCaseStudyLink{
-  color: blue; 
+  color: var(--accent-2);
 }
 
 /* ===== BLOG GRID — namespaced, safe ===== */
@@ -529,7 +529,7 @@ body{
 
 .caseStudyRow1 {
   padding: 32px;
-  background-color: aliceblue;
+  background-color: #eef4ff;
   display: flex;              /* NEW */
   align-items: center;        /* NEW: vertical centering */
   gap: 32px;                  /* NEW: replaces margin-right on image */
@@ -550,8 +550,8 @@ body{
 
 .caseStudyBodyHeader {
   color: #fff;
-  background-color: cornflowerblue;
-  font-size: 32px;
+  background-color: var(--accent-2);
+  font-size: clamp(1.4rem, 2vw, 2rem);
   justify-content: center;
   display: grid;
   text-align: center;
@@ -572,8 +572,8 @@ body{
 }
 
 .appendixSubHead {
-  font-size: 30px;
-  background-color: aliceblue;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  background-color: #eef4ff;
 }
 
 /* ========================= */
@@ -660,7 +660,7 @@ body{
 }
 
 .experienceHeroContainer {
-  background-color: aliceblue;
+  background-color: #eef4ff;
   grid-column-gap: 3rem;
   grid-row-gap: 3rem;
   flex-direction: column;
@@ -798,14 +798,14 @@ body{
 .homeHeroBrands {
   display: flex;
   justify-content: space-around;
-  background-color: #D5FFFF;
+  background-color: #eef4ff;
   overflow: hidden;
   width: 100%;
-  Padding: 24px 0;
+  padding: 24px 0;
 }
 
 .homeHero {
-  background-color: aliceblue;
+  background-color: #eef4ff;
 }
 
 .homeBrandsCarousel {
@@ -882,7 +882,7 @@ body{
 .processApproachDetails{
   display:flex;
   justify-content:center;
-  background:aliceblue;
+  background:#eef4ff;
   padding:16px;
 }
 
@@ -1591,7 +1591,7 @@ body{
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
-  padding: 96px 0;
+  padding: var(--section-pad) 0;
 }
 
 .about-section .container {
@@ -1814,4 +1814,7 @@ html {
 
 .hero-ctas {
   display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
