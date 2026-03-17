@@ -179,7 +179,6 @@ body{
 .btn-ghost{
   border:1px solid #0b4bd8;
   color:var(--accent-2);
-  margin-left:8px;
 }
 
 .homeHeroBullet::marker {
@@ -1815,5 +1814,4 @@ html {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
