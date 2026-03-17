@@ -1813,4 +1813,6 @@ html {
   scroll-behavior: smooth;
 }
 
-
+.hero-ctas {
+  display: flex;
+}
