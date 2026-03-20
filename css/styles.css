@@ -166,7 +166,6 @@ body{
   padding:10px 16px;
   border-radius:10px;
   font-weight:600;
-  border-color: var(--accent);
 }
 .btn-primary{
   background:linear-gradient(180deg,var(--accent),var(--accent-2));
@@ -180,7 +179,6 @@ body{
 .btn-ghost{
   border:1px solid #0b4bd8;
   color:var(--accent-2);
-  margin-left:8px;
 }
 
 .homeHeroBullet::marker {
@@ -275,7 +273,7 @@ body{
 }
 
 .homeCaseStudyLink{
-  color: blue; 
+  color: var(--accent-2);
 }
 
 /* ===== BLOG GRID — namespaced, safe ===== */
@@ -551,8 +549,8 @@ body{
 
 .caseStudyBodyHeader {
   color: #fff;
-  background-color: cornflowerblue;
-  font-size: 32px;
+  background-color: var(--accent-2);
+  font-size: clamp(1.4rem, 2vw, 2rem);
   justify-content: center;
   display: grid;
   text-align: center;
@@ -573,7 +571,7 @@ body{
 }
 
 .appendixSubHead {
-  font-size: 30px;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
   background-color: aliceblue;
 }
 
@@ -802,7 +800,7 @@ body{
   background-color: #D5FFFF;
   overflow: hidden;
   width: 100%;
-  Padding: 24px 0;
+  padding: 24px 0;
 }
 
 .homeHero {
@@ -1212,6 +1210,7 @@ body{
 }
 
 .card {
+  cursor: pointer;
   box-shadow: var(--shadow);
   transition: transform .2s ease, box-shadow .2s ease;
 }
@@ -1592,7 +1591,7 @@ body{
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
-  padding: 96px 0;
+  padding: var(--section-pad) 0;
 }
 
 .about-section .container {
@@ -1815,4 +1814,6 @@ html {
 
 .hero-ctas {
   display: flex;
+  align-items: center;
+  gap: 8px;
 }

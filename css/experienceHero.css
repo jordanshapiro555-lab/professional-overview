@@ -3,7 +3,7 @@
   SECTION WRAPPER
 **************************************/
 .experienceHero {
-  background: #eef4ff;
+  background: aliceblue;
   padding: 3rem 1.5rem;
   display: flex;
   justify-content: center;
@@ -29,29 +29,28 @@
 }
 
 .experienceHero_tag {
-  background: #e0eaff;
-  color: #2550d0;
+  background: rgba(15,108,204,0.1);
+  color: var(--accent-2);
   padding: 0.4rem 1rem;
   border-radius: 999px;
   font-size: 14px;
-  font-weight: 500;
-  font-family: Inter, sans-serif;
+  font-weight: 600;
   width: fit-content;
 }
 
 .experienceHero_title {
-  font-size: 52px;
-  line-height: 1.1;
-  font-family: "DM Serif Text", serif;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   margin: 0;
-  color: #0f172a;
+  color: var(--text);
 }
 
 .experienceHero_subtitle {
-  font-size: 18px;
-  line-height: 1.55;
-  color: #475569;
-  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .experienceHero_buttons {
@@ -60,48 +59,44 @@
 }
 
 .experienceHero_btnPrimary {
-  background: #2550d0;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
   color: #fff;
-  padding: 0.9rem 1.6rem;
+  padding: 12px 20px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  font-family: Inter, sans-serif;
-  transition: background 0.25s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(11,75,216,0.12);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .experienceHero_btnSecondary {
   background: #fff;
-  color: #2550d0;
-  border-color: #2550d0;
-  padding: 0.9rem 1.6rem;
+  color: var(--accent-2);
+  border: 1px solid var(--accent-2);
+  padding: 12px 20px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
-  font-family: Inter, sans-serif;
-  transition: background 0.25s ease;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  transition: background var(--transition), transform var(--transition);
 }
 
 .experienceHero_btnPrimary:hover {
-  background: #1a3aa5;
-}
-
-.experienceHero_btnSecondary {
-  border: 2px solid #2550d0;
-  color: #2550d0;
-  padding: 0.9rem 1.6rem;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  text-decoration: none;
-  font-family: Inter, sans-serif;
-  transition: 0.25s ease;
+  background: #0c3eb5;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(11,75,216,0.22);
 }
 
 .experienceHero_btnSecondary:hover {
-  background: #e7efff;
+  background: rgba(11,75,216,0.05);
+  transform: translateY(-1px);
 }
 
 
@@ -285,11 +280,11 @@
 }
 
 tr:nth-child(even) {
-  background-color: #D5FFFF;
+  background-color: aliceblue;
 }
 
 .skillsTableItem, .skillsTableHeadRow {
-  border: 1px solid #000;
+  border: 1px solid rgba(15,108,204,0.18);
 }
 
 .skillsTable {
@@ -309,12 +304,11 @@ tr:nth-child(even) {
   display:none
 }
   .mobileSkillParent {
-    border: solid 1px;
-    border-color: #000;
-    border-radius: 20px;
+    border: 1px solid rgba(15,108,204,0.18);
+    border-radius: 12px;
     padding: 16px;
     cursor: pointer;
-    margin: 16px;
+    margin: 8px 0;
   }
   .mobileSkillParent ::after {
     content: ">";
@@ -329,10 +323,10 @@ tr:nth-child(even) {
   display: none;
 }
   .mobileSkillsMobileList {
-    padding: 12px 24px;
+    padding: 12px 20px;
     background-color: aliceblue;
-    border-radius: 24px;
-    margin: 16px;
+    border-radius: 12px;
+    margin: 8px 0;
   }
 }
 
@@ -343,13 +337,14 @@ tr:nth-child(even) {
 }
 
 #experienceDropdownButton {
-  border: solid 1px blue;
-  padding: 8px;
+  border: 1px solid var(--accent-2);
+  padding: 8px 16px;
   border-radius: 8px;
   color: #fff;
-  font-weight: bold;
-  background: blue;
+  font-weight: 600;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
   text-align: center;
+  cursor: pointer;
 }
 
 .experienceDropdownSection {
@@ -359,9 +354,9 @@ tr:nth-child(even) {
 }
 
 .experienceDropdown {
-  border-radius: 16px;
+  border-radius: 14px;
   background: aliceblue;
-  border: solid 2px;
+  border: 1px solid rgba(15,108,204,0.18);
   padding: 8px;
 }
 
@@ -378,11 +373,10 @@ details.skillsTableMobile > summary.mobileSkillParent{
   justify-content: space-between;
   cursor: pointer;
 
-  /* move your border/padding/radius styles here (NOT on details) */
-  border: 1px solid #000;
-  border-radius: 20px;
+  border: 1px solid rgba(15,108,204,0.18);
+  border-radius: 12px;
   padding: 16px;
-  margin: 16px;
+  margin: 8px 0;
   font-weight: 600;
   color: var(--text);
 }
