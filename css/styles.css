@@ -489,6 +489,7 @@ body{
 .caseStudyHeroContainerCTAs {
   display: flex;
   padding: 16px;
+  gap: 16px;
 }
 
 .caseStudyBodyContainerCTAs {
