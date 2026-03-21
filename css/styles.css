@@ -1817,3 +1817,53 @@ html {
   align-items: center;
   gap: 8px;
 }
+
+/* ── Calendly Scheduling CTA ── */
+.calendly-cta {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  padding: 72px 0;
+  text-align: center;
+}
+
+.calendly-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.calendly-cta h2 {
+  color: #fff;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin: 0;
+  font-weight: 700;
+}
+
+.calendly-cta p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.1rem;
+  margin: 0;
+  max-width: 480px;
+}
+
+.calendly-cta .btn-calendly {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 14px 32px;
+  background: #fff;
+  color: var(--accent);
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.calendly-cta .btn-calendly:hover {
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
