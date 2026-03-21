@@ -85,11 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const stickyCta = document.getElementById('sticky-cta');
   const heroSection = document.querySelector('.hero');
   const footerEl = document.querySelector('.site-footer');
-  if (stickyCta && heroSection) {
+  if (stickyCta) {
     const checkSticky = () => {
-      const heroBottom = heroSection.getBoundingClientRect().bottom;
       const footerTop = footerEl ? footerEl.getBoundingClientRect().top : window.innerHeight;
-      if (heroBottom < 0 && footerTop > window.innerHeight * 0.6) {
+      const nearFooter = footerTop <= window.innerHeight * 0.6;
+      let pastThreshold;
+      if (heroSection) {
+        pastThreshold = heroSection.getBoundingClientRect().bottom < 0;
+      } else {
+        pastThreshold = window.scrollY > 300;
+      }
+      if (pastThreshold && !nearFooter) {
         stickyCta.classList.add('visible');
       } else {
         stickyCta.classList.remove('visible');
