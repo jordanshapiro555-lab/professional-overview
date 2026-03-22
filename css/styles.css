@@ -1352,7 +1352,7 @@ body{
 
 /* ── Design token updates ── */
 :root {
-  --section-pad: 48px;
+  --section-pad: 32px;
   --section-pad-mobile: 32px;
   --transition: .18s ease;
 }
