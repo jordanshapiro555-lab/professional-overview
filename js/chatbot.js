@@ -98,7 +98,7 @@
     const typingEl = showTyping();
 
     try {
-      const res = await fetch('https://cro-consulting.jordanshapiro555-lab.workers.dev/api/chat', {
+      const res = await fetch('https://cro-consulting.jordanshapiro555.workers.dev/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, history })
