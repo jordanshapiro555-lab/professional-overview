@@ -158,7 +158,7 @@
           <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/winners" class="nav-link">Winners</a></li>
           <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/my-process" class="nav-link">My Process</a></li>
         </ul>
-        <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
+        <a class="btn btn-primary" id="home-hero-primary-cta" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
       </nav>
 
       <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
@@ -672,5 +672,16 @@
   </button>
 </div>
 <script src="js/chatbot.js"></script>
+  <script>
+    document.getElementById('home-hero-primary-cta').addEventListener('click', () => {
+  statsig.logEvent(
+    'home_hero_primary_cta_click',          // event name — use snake_case
+    'homepage_hero',      // value — identifies WHERE the click happened
+    {                     // metadata object (optional but recommended)
+      section: 'hero',
+    }
+  );
+});
+  </script>
 </body>
 </html>
