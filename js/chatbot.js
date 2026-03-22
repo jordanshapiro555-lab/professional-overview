@@ -98,7 +98,7 @@
     const typingEl = showTyping();
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch('https://cro-consulting.jordanshapiro555-lab.workers.dev/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, history })
@@ -107,7 +107,7 @@
       const data = await res.json();
       removeTyping(typingEl);
 
-      const reply = data.reply || `Error ${data.status || ''}: ${data.debug || data.error || "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!"}`;
+      const reply = data.reply || "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!";
       appendMessage('bot', reply);
 
       // Update history for context
