@@ -81,6 +81,8 @@ async function handleChat(request, env) {
       return jsonResponse({ error: 'Invalid message' }, 400);
     }
 
+    console.log('API key present:', !!env.ANTHROPIC_API_KEY, 'length:', env.ANTHROPIC_API_KEY?.length ?? 0);
+
     const messages = [
       ...history.slice(-10), // keep last 10 messages for context
       { role: 'user', content: message }
