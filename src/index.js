@@ -104,7 +104,7 @@ async function handleChat(request, env) {
     if (!response.ok) {
       const err = await response.text();
       console.error('Anthropic API error:', err);
-      return jsonResponse({ error: 'Failed to get response' }, 502);
+      return jsonResponse({ error: 'Failed to get response', detail: err, status: response.status }, 502);
     }
 
     const data = await response.json();
