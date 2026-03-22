@@ -688,6 +688,9 @@ body{
 
 .homeContactFormSection{
   padding: 36px 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .homeContactFormCard{
@@ -1349,8 +1352,8 @@ body{
 
 /* ── Design token updates ── */
 :root {
-  --section-pad: 72px;
-  --section-pad-mobile: 48px;
+  --section-pad: 32px;
+  --section-pad-mobile: 32px;
   --transition: .18s ease;
 }
 
