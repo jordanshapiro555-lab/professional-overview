@@ -16,6 +16,9 @@
   <meta property="og:description" content="Ready to improve conversion rates? Contact Jordan Shapiro — CRO consultant with 250+ experiments and 450% average program ROI." />
   <meta property="og:image" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/assets/img/HeadshotWithCallouts.png" />
 
+  <!-- Statsig JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client.min.js"></script>
+
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
@@ -48,9 +51,41 @@
   <main class="section contact-page">
     <div class="container" style="padding: 0 32px;">
       <h1>Contact Me</h1>
-      <p class="muted" style="margin-bottom:24px; max-width:925px;">
+      <p class="muted" style="margin-bottom:16px; max-width:925px;">
         Have a project in mind or want to learn more? Send a message below — I’ll get back to you as soon as I can.
       </p>
+      <!-- Trust signals — shown only in Statsig experiment variant -->
+      <div class="contact-trust-banner" id="contact-trust-signals" style="display:none;" aria-hidden="true">
+        <div class="contact-trust-track" aria-hidden="true">
+          <!-- Original set -->
+          <span class="trust-item"><i class="check">✓</i> Proven Results</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 1,000+% ROI</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 7+ years of experience</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 250+ experiments</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> Full workflow included</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> Guaranteed efficiency</span>
+          <span class="trust-sep">◆</span>
+          <!-- Duplicate for seamless infinite loop -->
+          <span class="trust-item"><i class="check">✓</i> Proven Results</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 1,000+% ROI</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 7+ years of experience</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 250+ experiments</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> Full workflow included</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> Guaranteed efficiency</span>
+          <span class="trust-sep">◆</span>
+        </div>
+        <p class="sr-only">Proven Results · 1,000+% ROI · 7+ years of experience · 250+ experiments · Full workflow included · Guaranteed efficiency</p>
+      </div>
       <div class="klaviyo-form-YyjtDt"></div>
     </div>
   </main>
@@ -128,5 +163,66 @@
   </button>
 </div>
 <script src="js/chatbot.js"></script>
+
+<!-- Statsig — Contact Trust Signals Experiment -->
+<script>
+  window.addEventListener('DOMContentLoaded', async function () {
+    function getOrCreateStableID() {
+      const key = 'manual_statsig_stable_id';
+      let stableID = localStorage.getItem(key);
+      if (!stableID) {
+        stableID = window.crypto && crypto.randomUUID
+          ? crypto.randomUUID()
+          : 'stable-' + Math.random().toString(36).slice(2) + Date.now();
+        localStorage.setItem(key, stableID);
+      }
+      return stableID;
+    }
+
+    const stableID = getOrCreateStableID();
+
+    const client = new Statsig.StatsigClient(
+      'client-U47LxcXa8GwnMLSA9MPdt0DhT2wwpjCX3dHTCUS20vi',
+      { customIDs: { stableID: stableID } }
+    );
+
+    await client.initializeAsync();
+    window.statsigClient = client;
+
+    // ── Apply experiment ──────────────────────────────────────────
+    const experiment = client.getExperiment('contact_trust_signals');
+    const showTrustSignals = experiment.get('show_trust_signals', false);
+
+    if (showTrustSignals) {
+      const el = document.getElementById('contact-trust-signals');
+      if (el) {
+        el.style.display = 'block';
+        el.removeAttribute('aria-hidden');
+      }
+    }
+
+    // ── Log conversion: Calendly CTA click ───────────────────────
+    const calendlyCta = document.querySelector('.btn-calendly');
+    if (calendlyCta) {
+      calendlyCta.addEventListener('click', function () {
+        client.logEvent('contact_calendly_cta_clicked', null, {
+          location: 'contact_page',
+          trust_signals_shown: String(showTrustSignals)
+        });
+      });
+    }
+
+    // ── Log conversion: Klaviyo form submit ───────────────────────
+    // Klaviyo fires a custom event on submit; listen for it
+    window.addEventListener('klaviyoForms', function (e) {
+      if (e.detail && e.detail.type === 'submit') {
+        client.logEvent('contact_form_submitted', null, {
+          location: 'contact_page',
+          trust_signals_shown: String(showTrustSignals)
+        });
+      }
+    });
+  });
+</script>
 </body>
 </html>
