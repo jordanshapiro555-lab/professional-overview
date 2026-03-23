@@ -606,6 +606,7 @@
     );
 
     await client.initializeAsync();
+    window.statsigClient = client;
 
     console.log('Statsig initialized');
     console.log('Statsig context:', client.getContext());
@@ -674,10 +675,10 @@
 <script src="js/chatbot.js"></script>
   <script>
     document.getElementById('home-hero-primary-cta').addEventListener('click', () => {
-  statsig.logEvent(
-    'home_hero_primary_cta_click',          // event name — use snake_case
-    'homepage_hero',      // value — identifies WHERE the click happened
-    {                     // metadata object (optional but recommended)
+  window.statsigClient.logEvent(
+    'home_hero_primary_cta_click',
+    'homepage_hero',
+    {
       section: 'hero',
     }
   );
