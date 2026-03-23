@@ -55,10 +55,24 @@
         Have a project in mind or want to learn more? Send a message below — I’ll get back to you as soon as I can.
       </p>
       <!-- Trust signals — shown only in Statsig experiment variant -->
-      <div class="contact-trust-signals" id="contact-trust-signals" style="display:none;" aria-hidden="true">
-        <span><i class="check">✓</i> Response within 24 hours</span>
-        <span><i class="check">✓</i> No commitment required</span>
-        <span><i class="check">✓</i> Free 30-min strategy call included</span>
+      <div class="contact-trust-banner" id="contact-trust-signals" style="display:none;" aria-hidden="true">
+        <div class="contact-trust-track" aria-hidden="true">
+          <!-- Original set -->
+          <span class="trust-item"><i class="check">✓</i> Proven Results</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 1,000+% ROI</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 7+ years of experience</span>
+          <span class="trust-sep">◆</span>
+          <!-- Duplicate for seamless infinite loop -->
+          <span class="trust-item"><i class="check">✓</i> Proven Results</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 1,000+% ROI</span>
+          <span class="trust-sep">◆</span>
+          <span class="trust-item"><i class="check">✓</i> 7+ years of experience</span>
+          <span class="trust-sep">◆</span>
+        </div>
+        <p class="sr-only">Proven Results · 1,000+% ROI · 7+ years of experience</p>
       </div>
       <div class="klaviyo-form-YyjtDt"></div>
     </div>
@@ -170,7 +184,7 @@
     if (showTrustSignals) {
       const el = document.getElementById('contact-trust-signals');
       if (el) {
-        el.style.display = 'flex';
+        el.style.display = 'block';
         el.removeAttribute('aria-hidden');
       }
     }
