@@ -719,5 +719,76 @@
   </button>
 </div>
 <script src="js/chatbot.js"></script>
+  <script>
+  window.addEventListener('DOMContentLoaded', async function () {
+    function getOrCreateStableID() {
+      const key = 'manual_statsig_stable_id';
+      let stableID = localStorage.getItem(key);
+
+      if (!stableID) {
+        if (window.crypto && crypto.randomUUID) {
+          stableID = crypto.randomUUID();
+        } else {
+          stableID = 'stable-' + Math.random().toString(36).slice(2) + Date.now();
+        }
+        localStorage.setItem(key, stableID);
+      }
+
+      return stableID;
+    }
+
+    const stableID = getOrCreateStableID();
+
+    const client = new Statsig.StatsigClient(
+      'client-U47LxcXa8GwnMLSA9MPdt0DhT2wwpjCX3dHTCUS20vi',
+      {
+        customIDs: {
+          stableID: stableID
+        }
+      }
+    );
+
+    await client.initializeAsync();
+    window.statsigClient = client;
+
+    console.log('Statsig initialized');
+    console.log('Statsig context:', client.getContext());
+    console.log('StableID in use:', stableID);
+
+    function getHeroPrimaryCta() {
+      return document.querySelector('.hero-ctas .btn-primary');
+    }
+
+    function applyHeroCtaExperiment() {
+      const heroPrimaryCta = getHeroPrimaryCta();
+      if (!heroPrimaryCta) {
+        console.log('Hero CTA not found');
+        return;
+      }
+
+      const experiment = client.getExperiment('process_page_manual_experiment_h1');
+      console.log('Experiment object:', experiment);
+
+      const ctaText = experiment.get('H1', 'Work with me');
+      console.log('Statsig CTA value:', ctaText);
+
+      heroPrimaryCta.textContent = ctaText;
+    }
+
+    applyHeroCtaExperiment();
+
+    document.addEventListener('click', function (event) {
+      const heroPrimaryCta = event.target.closest('.hero-ctas .btn-primary');
+      if (!heroPrimaryCta) return;
+
+      client.logEvent('hero_cta_clicked', null, {
+        location: 'process_page_hero',
+        href: heroPrimaryCta.getAttribute('href') || ''
+      });
+
+      console.log('Logged hero_cta_clicked');
+    });
+  });
+</script>
 </body>
 </html>
