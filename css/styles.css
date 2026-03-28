@@ -869,6 +869,23 @@ body{
 }
 }
 
+.caseStudyTallRowContainerImage {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.tallRowContentCopy {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .caseStudyTallRow {
+    align-content: stretch;
+  }
+}
+
 @media (max-width: 450px){
 .personaSummaryImg {
   max-height: 200px !important;
