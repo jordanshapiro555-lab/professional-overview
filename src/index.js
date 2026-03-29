@@ -48,9 +48,35 @@ INDUSTRIES SERVED:
 CONTACT & BOOKING:
 - Email: jordanshapiro555@gmail.com
 - LinkedIn: https://www.linkedin.com/in/jordan-shapiro-797315153/
-- Book a call: Visit the contact page at /contact.html or use the Calendly booking link on the site
+- Book a call: Visit the contact page at /contact or use the Calendly booking link on the site
 
 Always end responses by encouraging the visitor to reach out or book a call with Jordan if it's natural to do so.`;
+
+const REDIRECTS = {
+  '/experience': '/about',
+  '/my-process': '/process',
+  '/winners': '/work/test-winners',
+  '/winners.html': '/work/test-winners',
+  '/case-studies': '/work/case-studies',
+  '/case-studies/UHOne-2024': '/work/case-studies/uhone-2024',
+  '/case-studies/UHOne-Home-Patriotic': '/work/case-studies/uhone-home-patriotic',
+  '/case-studies/devry-search-redirects.html': '/work/case-studies/devry-search-redirects',
+  '/case-studies/devry-search-redirects': '/work/case-studies/devry-search-redirects',
+  '/Winners/UHOne-HP-Groduct-Grid-Redesign-one.html': '/work/test-winners/uhone-hp-product-grid-redesign',
+  '/Winners/NM_UHOne_HP_Social_Proof_Redesign-one.html': '/work/test-winners/uhone-hp-social-proof-redesign',
+  '/Winners/UHOne_Home_Census_New_Tab.html': '/work/test-winners/uhone-home-census-new-tab',
+  '/Winners/Census_Product_Availability_Notification.html': '/work/test-winners/census-product-availability-notification',
+  '/Winners/HealthMarkets-Homepage-Simplified-Hero-CTA.html': '/work/test-winners/healthmarkets-homepage-simplified-hero-cta',
+  '/Winners/NM_UHOne_Global_Pre_Shop_TTM-targeted_TriTerm_Countdown_Banner.html': '/work/test-winners/uhone-global-triterm-countdown-banner',
+  '/Winners/Aero_Prominent_ATC_On_PLP.html': '/work/test-winners/aero-prominent-atc-on-plp',
+  '/Winners/UHOne_Product_Intent_Capture_Via_Sticky_Nav.html': '/work/test-winners/uhone-product-intent-sticky-nav',
+  '/Winners/UHOne_Product_Intent_Capture_Via_Sticky_Nav_Fast-follow_Single_CTA.html': '/work/test-winners/uhone-product-intent-sticky-nav-fast-follow',
+  '/Winners/NM_UHOne_HP_Forbes_Award_Social_Proof.html': '/work/test-winners/uhone-hp-forbes-award-social-proof',
+  '/Winners/NM_HM_Global_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-global-sticky-cta-nav',
+  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-cta-nav',
+  '/Winners/NM_UHOne_HP_American_Idealism_Hero.html': '/work/test-winners/uhone-hp-american-idealism-hero',
+  '/Winners/NM_UHOne_HP_Mobile_Product_Grid_Reintro.html': '/work/test-winners/uhone-hp-mobile-product-grid-reintro',
+};
 
 export default {
   async fetch(request, env) {
@@ -66,6 +92,12 @@ export default {
     // Handle chat API endpoint
     if (url.pathname === '/api/chat' && request.method === 'POST') {
       return handleChat(request, env);
+    }
+
+    // 301 redirects for restructured URLs
+    const redirect = REDIRECTS[url.pathname];
+    if (redirect) {
+      return Response.redirect(new URL(redirect, url.origin).href, 301);
     }
 
     // Serve static assets for everything else
