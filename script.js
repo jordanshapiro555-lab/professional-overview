@@ -13,7 +13,17 @@ document.addEventListener('DOMContentLoaded', function () {
     navToggle.querySelector('.hamburger').classList.toggle('open');
   });
 
-  // Close mobile nav when a link is clicked
+  // Mobile Work dropdown toggle (chevron button)
+  document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const item = btn.closest('.nav-item-dropdown');
+      const expanded = item.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(expanded));
+    });
+  });
+
+  // Close mobile nav when a nav-link is clicked
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
       if (mainNav.classList.contains('open')) {
