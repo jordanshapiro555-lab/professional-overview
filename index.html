@@ -151,12 +151,17 @@
     <div class="container nav-row">
       <a class="brand" href="#">Jordan's CRO Studio</a>
 
-      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+            <nav class="main-nav" id="main-nav" aria-label="Main navigation">
         <ul class="nav-list">
-          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/experience" class="nav-link">Experience</a></li>
-          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies" class="nav-link">Case Studies</a></li>
-          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/winners" class="nav-link">Winners</a></li>
-          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/my-process" class="nav-link">My Process</a></li>
+          <li class="nav-item-dropdown">
+            <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work" class="nav-link">Work</a><button class="nav-dropdown-toggle" aria-expanded="false" aria-label="Expand Work submenu"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <ul class="nav-dropdown">
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/case-studies">Case Studies</a></li>
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners">Test Winners</a></li>
+            </ul>
+          </li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process" class="nav-link">Process</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about" class="nav-link">About</a></li>
         </ul>
         <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
       </nav>
@@ -173,8 +178,8 @@
       <div class="container hero-grid">
         <div class="hero-copy">
           <p class="hero-eyebrow">CRO Consultant &amp; Experimentation Expert</p>
-          <h1>Conversion Rate Optimization That Actually Moves the Needle</h1>
-          <p class="hero-subhead">I turn more visitors into customers through data-driven experimentation.</p>
+          <h1>Your traffic is fine. Your conversion rate is the problem</h1>
+          <p class="hero-subhead">I run data-backed experiments that turn more visitors into customers, averaging 450% program ROI across 250+ tests</p>
           <ul class="homeHeroBulletsList">
             <li class="homeHeroBullet">Combine UX, competitive research & analytics for key problem discovery</li>
             <li class="homeHeroBullet">Maximize impact with varied activity types and precise audience targeting</li>
@@ -239,7 +244,7 @@
         </div>
         <div class="stats-strip-divider" aria-hidden="true"></div>
         <div class="stats-strip-item">
-          <span class="stats-strip-value"><span class="count" data-to="8">8</span>+</span>
+          <span class="stats-strip-value"><span class="count" data-to="8">8</span></span>
           <span class="stats-strip-label">Major Brands Served</span>
         </div>
       </div>
@@ -539,26 +544,25 @@
     </div>
   </section>
 
-  <footer class="site-footer">
+    <footer class="site-footer">
     <div class="container footer-grid">
       <div>
         <strong>Jordan's CRO Studio</strong>
-        <p class="muted">Conversion rate optimization &amp; experimentation</p>
-        <p class="muted" style="font-size:0.85rem; margin-top:4px;"><a href="mailto:jordanshapiro555@gmail.com" style="color:var(--muted);">jordanshapiro555@gmail.com</a></p>
+        <p class="muted">Optimization &amp; experimentation agency</p>
       </div>
-
       <div>
-        <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/experience">Experience</a>
-          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies">Case studies</a>
-          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/winners">Winners</a>
-          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/my-process">My Process</a>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work">Work</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process">Process</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about">About</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog">Blog</a>
           <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Contact</a>
+          <a href="https://www.linkedin.com/in/jordan-shapiro-797315153/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:jordanshapiro555@gmail.com">Email</a>
         </nav>
       </div>
-
       <div>
-        <small class="muted">© <span id="year"></span> Jordan's CRO Studio · All rights reserved</small>
+        <small class="muted">&copy; <span id="year"></span> Jordan's CRO Studio</small>
       </div>
     </div>
   </footer>

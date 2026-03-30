@@ -233,7 +233,7 @@ body{
 
 /* footer */
 .site-footer{ border-top:1px solid #f0f2f6; padding:28px 0; }
-.footer-grid{ display:grid; gap:12px; grid-template-columns:1fr auto 1fr; align-items:center; }
+.footer-grid{ display:grid; gap:18px; grid-template-columns:1fr auto 1fr; align-items:center; }
 
 /* Responsive */
 @media (max-width:980px){
@@ -494,6 +494,7 @@ body{
   display: flex;
   padding: 16px;
   justify-content: center;
+  gap: 16px;
 }
 
 .CaseStudyBodyContainer {
@@ -1337,9 +1338,11 @@ body{
    =========================== */
 
 .footer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, auto);
+  gap: 8px 32px;
+  align-items: start;
 }
 
 .footer-nav a {
@@ -1969,4 +1972,170 @@ html {
   background: rgba(255, 255, 255, 0.92);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Dropdown nav ─────────────────────────────────────────────────────────── */
+.nav-item-dropdown {
+  position: relative;
+}
+
+/* Chevron toggle button — desktop: hidden; mobile: visible */
+.nav-dropdown-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 2px 4px;
+  cursor: pointer;
+  color: var(--text);
+  line-height: 1;
+  vertical-align: middle;
+  transition: transform .18s ease;
+}
+.nav-dropdown-toggle svg {
+  display: block;
+}
+.nav-item-dropdown.is-open .nav-dropdown-toggle {
+  transform: rotate(180deg);
+}
+
+/* Desktop dropdown */
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 160px;
+  background: #fff;
+  border: 1px solid rgba(15, 108, 204, 0.12);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 200;
+}
+
+.nav-dropdown li a {
+  display: block;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-dropdown li a:hover {
+  background: var(--surface);
+  color: var(--accent);
+}
+
+/* Desktop: show on hover / focus */
+@media (min-width: 701px) {
+  .nav-item-dropdown:hover .nav-dropdown,
+  .nav-item-dropdown:focus-within .nav-dropdown {
+    display: block;
+  }
+}
+
+/* Mobile: dropdown hidden by default, shown when .is-open added by JS */
+@media (max-width: 700px) {
+  .nav-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-dropdown {
+    position: static;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid rgba(15, 108, 204, 0.08);
+    background: transparent;
+    padding: 4px 0 4px 16px;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .nav-item-dropdown.is-open .nav-dropdown {
+    display: block;
+  }
+
+  .nav-dropdown li a {
+    padding: 6px 0;
+    font-size: 0.95rem;
+  }
+}
+
+/* ── Hierarchical breadcrumb nav (HubSpot-style) ─────────────────────────── */
+.breadcrumb-nav {
+  padding: 16px 0 0;
+}
+
+.breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 max(16px, calc((100vw - 1200px) / 2 + 16px));
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.breadcrumb-list li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-list li + li::before {
+  content: ">";
+  margin: 0 8px;
+  color: var(--muted, #aaa);
+  font-size: 0.8rem;
+}
+
+.breadcrumb-list a {
+  color: var(--text);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.breadcrumb-list a:hover {
+  color: var(--accent);
+}
+
+.breadcrumb-list [aria-current="page"] {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* ── Work hub 2-column grid ──────────────────────────────────────────────── */
+.work-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.work-hub-card {
+  background: var(--surface, #f8f9fc);
+  padding: 36px 32px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.work-hub-card h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.work-hub-card p {
+  margin-bottom: 24px;
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .work-hub-grid {
+    grid-template-columns: 1fr;
+  }
 }
