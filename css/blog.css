@@ -115,21 +115,6 @@
 
 /* ── Blog Post ──────────────────────────────────────────────────────────── */
 
-.post-hero-wrap {
-  width: 100%;
-  max-height: 420px;
-  overflow: hidden;
-  margin-top: 72px; /* clear fixed header */
-}
-
-.post-hero-img {
-  width: 100%;
-  max-height: 420px;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-}
-
 .post-header {
   max-width: 760px;
   margin: 40px auto 0;
@@ -277,11 +262,6 @@
 
   .blog-hero {
     padding: 60px 0 48px;
-  }
-
-  .post-hero-wrap {
-    max-height: 240px;
-    margin-top: 64px;
   }
 
   .post-body {
