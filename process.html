@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title>CRO Process & Methodology — Jordan Shapiro | Plan, Build, Run & Analyze</title>
+  <meta name="description" content="Jordan Shapiro's CRO methodology: a Plan → Build → Run & Analyze framework covering analytics audits, hypothesis development, A/B test execution, statistical analysis, and iterative reporting." />
+  <link rel="canonical" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/process" />
+  <meta property="og:title" content="CRO Process & Methodology — Jordan Shapiro" />
+  <meta property="og:description" content="A transparent look at the CRO process: discovery, roadmapping, experimentation, analysis, and scaling. Built for measurable, compounding results." />
+  <meta property="og:image" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/assets/img/HeadshotWithCallouts.png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "CRO Process: Plan, Build, Run & Analyze",
+    "description": "Jordan Shapiro's conversion rate optimization framework for driving measurable revenue improvements through data-driven experimentation.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Plan",
+        "text": "Input gathering, roadmapping, experiment concepting, and prioritization based on analytics audits and competitive research."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Build",
+        "text": "Creative concepting, test configuration, development, and technical QA to ensure test integrity."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Run & Analyze",
+        "text": "Test launch, monitoring, statistical analysis, and reporting to extract learnings and feed the next cycle."
+      }
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Jordan Shapiro",
+      "url": "https://jordanshapiro555-lab.github.io/CRO-Consulting/"
+    }
+  }
+  </script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="stylesheet" href="css/process-styles.css">
+</head>
+
+<body>
+  <!-- Header / Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/">Jordan's CRO Studio</a>
+
+            <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li class="nav-item-dropdown">
+            <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work" class="nav-link">Work</a>
+            <ul class="nav-dropdown">
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/case-studies">Case Studies</a></li>
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners">Test Winners</a></li>
+            </ul>
+          </li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process" class="nav-link">Process</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about" class="nav-link">About</a></li>
+        </ul>
+        <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero homeHero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1>How my CRO process works for efficient, high quality testing</h1>
+        <ul class="homeHeroBulletsList">
+          <li class="homeHeroBullet">Quantitative and qualitative research deliver effective strategy</li>
+          <li class="homeHeroBullet">Sequential alignment limits churn</li>
+          <li class="homeHeroBullet">Prioritization maximizes impact</li>
+        </ul>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Contact me</a>
+          <a class="btn btn-ghost" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/case-studies">See case studies</a>
+        </div>
+      </div>
+
+      <div class="hero-media" aria-hidden="true">
+        <img class="headshot" src="assets/process-assets/EfficiencyImage.png" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs" style="padding: 32px;">
+    <a class="cta" href="#processOverview">Process Overview</a>
+    <a class="cta" href="#roadmapping">Roadmapping</a>
+    <a class="cta" href="#concepting">Concepting</a>
+    <a class="cta" href="#ai-process">AI in the Process</a>
+  </div>
+
+  <!-- Process Overview -->
+  <h2 class="caseStudyBodyHeader" id="processOverview">Process Overview</h2>
+
+<div class="processApproachDetails">
+  <section class="processGrid" aria-label="Process Overview">
+
+    <header class="processGridHeader">
+      <div class="processGridHeaderItem">Plan</div>
+      <div class="processGridHeaderItem processGridHeaderItemBuild">Build</div>
+      <div class="processGridHeaderItem">Run &amp; Analyze</div>
+    </header>
+
+    <!-- DESKTOP GRID -->
+    <div class="processGridBody processGridBodyDesktop">
+      <div class="processGridCol">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📋</span><h3 class="processCardTitle">Input</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Strategic business priorities</li>
+            <li>☑️ Analysis (audits, analytics &amp; deep dives)</li>
+            <li>☑️ CVR not hitting target benchmarks</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🧠</span><h3 class="processCardTitle">Roadmapping</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop a top line testing strategy for the upcoming cycle</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">💡</span><h3 class="processCardTitle">Concepting</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop detailed visuals and scope for test ideas</li>
+            <li>☑️ Successive tests and ad-hocs as needed</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📑</span><h3 class="processCardTitle">Prioritization</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Score concepts on ICE methodology</li>
+            <li>☑️ Sort highest scoring to least</li>
+            <li>☑️ Adjust for feasability</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="processGridCol processGridColBuild">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🧪</span><h3 class="processCardTitle">Creative</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop creative brief</li>
+            <li>☑️ Design test concept</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">⚙️</span><h3 class="processCardTitle">Test Configuration</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Submit items in dev queue for build</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🛠️</span><h3 class="processCardTitle">Development</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Build test experiences</li>
+            <li>☑️ Code review</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">✅</span><h3 class="processCardTitle">Tech QA</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Add QA Paramus to test targeting</li>
+            <li>☑️ Tech QA &amp; stakeholders review</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="processGridCol">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🚀</span><h3 class="processCardTitle">Test Launch</h3></div>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🛡️</span><h3 class="processCardTitle">Monitor</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Day 1 confirmation of primary metric tracking</li>
+            <li>☑️ Continued monitoring of guardrails</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">⏸️</span><h3 class="processCardTitle">Pause &amp; Analyze</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Check for stat sign at regular intervals</li>
+            <li>☑️ Test runs until stat sign or 30 days</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📝</span><h3 class="processCardTitle">Report &amp; Share</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Win / loss assessment with deep dives as needed</li>
+            <li>☑️ Create presentation for results distribution</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+<!-- MOBILE DROPDOWNS (duplicated content so mobile shows) -->
+<div class="processGridBody processGridBodyMobile" id="processGridBodyMobile">
+
+  <!-- PLAN -->
+  <details class="processDropdown" open>
+    <summary class="processDropdownSummary">
+      <span class="processDropdownTitle">Plan</span>
+      <span class="processDropdownChevron" aria-hidden="true">▾</span>
+    </summary>
+
+    <div class="processDropdownContent">
+      <div class="processGridCol">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📋</span><h3 class="processCardTitle">Input</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Strategic business priorities</li>
+            <li>☑️ Analysis (audits, analytics &amp; deep dives)</li>
+            <li>☑️ CVR not hitting target benchmarks</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🧠</span><h3 class="processCardTitle">Roadmapping</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop a top line testing strategy for the upcoming cycle</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">💡</span><h3 class="processCardTitle">Concepting</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop detailed visuals and scope for test ideas</li>
+            <li>☑️ Successive tests and ad-hocs as needed</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📑</span><h3 class="processCardTitle">Prioritization</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Score concepts on ICE methodology</li>
+            <li>☑️ Sort highest scoring to least</li>
+            <li>☑️ Adjust for feasability</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </details>
+
+  <!-- BUILD -->
+  <details class="processDropdown">
+    <summary class="processDropdownSummary processDropdownSummaryBuild">
+      <span class="processDropdownTitle">Build</span>
+      <span class="processDropdownChevron" aria-hidden="true">▾</span>
+    </summary>
+
+    <div class="processDropdownContent">
+      <div class="processGridCol processGridColBuild">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🧪</span><h3 class="processCardTitle">Creative</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Develop creative brief</li>
+            <li>☑️ Design test concept</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">⚙️</span><h3 class="processCardTitle">Test Configuration</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Submit items in dev queue for build</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🛠️</span><h3 class="processCardTitle">Development</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Build test experiences</li>
+            <li>☑️ Code review</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">✅</span><h3 class="processCardTitle">Tech QA</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Add QA Paramus to test targeting</li>
+            <li>☑️ Tech QA &amp; stakeholders review</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </details>
+
+  <!-- RUN & ANALYZE -->
+  <details class="processDropdown">
+    <summary class="processDropdownSummary">
+      <span class="processDropdownTitle">Run &amp; Analyze</span>
+      <span class="processDropdownChevron" aria-hidden="true">▾</span>
+    </summary>
+
+    <div class="processDropdownContent">
+      <div class="processGridCol">
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🚀</span><h3 class="processCardTitle">Test Launch</h3></div>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">🛡️</span><h3 class="processCardTitle">Monitor</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Day 1 confirmation of primary metric tracking</li>
+            <li>☑️ Continued monitoring of guardrails</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">⏸️</span><h3 class="processCardTitle">Pause &amp; Analyze</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Check for stat sign at regular intervals</li>
+            <li>☑️ Test runs until stat sign or 30 days</li>
+          </ul>
+        </article>
+
+        <article class="processCard">
+          <div class="processCardTitleRow"><span class="processIcon">📝</span><h3 class="processCardTitle">Report &amp; Share</h3></div>
+          <ul class="processCardList">
+            <li>☑️ Win / loss assessment with deep dives as needed</li>
+            <li>☑️ Create presentation for results distribution</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+
+  </section>
+</div>
+
+<!-- Roadmapping -->
+  <h2 class="caseStudyBodyHeader" id="roadmapping">Roadmapping</h2>
+  <section class="spOverview" aria-labelledby="spOverviewTitle">
+  <div class="container spOverview__container">
+    <div class="spOverview__panel">
+      <!-- Left rail -->
+      <aside class="spOverview__rail">
+        <h2 id="spOverviewTitle" class="spOverview__railTitle">
+          Strategic<br />Planning<br />Overview
+        </h2>
+      </aside>
+
+      <!-- Right content -->
+      <div class="spOverview__content">
+        <ol class="spOverview__list">
+          <li class="spOverview__item spOverview__itemDefiningGoals">
+            <div class="spOverview__icon spOverview__icon--navy" aria-hidden="true">
+              <!-- Target icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <path d="M32 6c14.36 0 26 11.64 26 26S46.36 58 32 58 6 46.36 6 32 17.64 6 32 6Zm0 6C20.95 12 12 20.95 12 32s8.95 20 20 20 20-8.95 20-20S43.05 12 32 12Z" />
+                <path d="M32 18c7.73 0 14 6.27 14 14s-6.27 14-14 14-14-6.27-14-14 6.27-14 14-14Zm0 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z" />
+                <path d="M32 28a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z" />
+                <path d="M46 12l10-2-2 10-4-4-7 7-3-3 7-7-1-1Z" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--navy">Defining Goals</h3>
+              <p class="spOverview__desc">
+                Understanding what success looks like to ensure strategy and initiatives map to business goals.
+              </p>
+            </div>
+          </li>
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--blue" aria-hidden="true">
+              <!-- External trends icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <path d="M32 8c6 0 11 4.5 11 10.5S38 29 32 29 21 24.5 21 18.5 26 8 32 8Z" />
+                <path d="M15 56c0-12 7-20 17-20h0c10 0 17 8 17 20v2H15v-2Z" />
+                <path d="M14 30l-6-6m48 6l6-6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+                <path d="M24 20h5M35 20h5" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--blue">External Trends And Opportunity Audit</h3>
+              <p class="spOverview__desc">
+                Overview of the current market, potential changes, and competitor behavior to stay ahead in the industry.
+              </p>
+            </div>
+          </li>
+
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--teal" aria-hidden="true">
+              <!-- House icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <path d="M8 30 32 10l24 20v24H8V30Z" />
+                <path d="M24 54V38h16v16" fill="none" stroke="currentColor" stroke-width="4" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--teal">Internal Performance And Opportunity Audit</h3>
+              <p class="spOverview__desc">
+                How are current actions supporting goals, and how can we improve those activities or add new ones to enhance performance?
+              </p>
+            </div>
+          </li>
+
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--green" aria-hidden="true">
+              <!-- Map icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <path d="M10 50V16l14-4 16 6 14-4v34l-14 4-16-6-14 4Z" />
+                <path d="M24 12v34M40 18v34" fill="none" stroke="currentColor" stroke-width="4" />
+                <path d="M48 28c0 6-8 14-8 14s-8-8-8-14a8 8 0 0 1 16 0Z" />
+                <circle cx="40" cy="28" r="3" fill="#fff" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--green">Road-mapping</h3>
+              <p class="spOverview__desc">
+                Consolidated roadmap view of proposed deliverables and their dependencies to provide a clear path forward.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+  
+<!-- Concepting -->
+  <h2 class="caseStudyBodyHeader" id="concepting">Concepting</h2>
+  <section class="spOverview" aria-labelledby="spConceptingTitle">
+  <div class="container spOverview__container">
+    <div class="spOverview__panel">
+      <!-- Left rail -->
+      <aside class="spOverview__rail">
+        <h2 id="spConceptingTitle" class="spOverview__railTitle">
+          Test<br />Concepting<br />Overview
+        </h2>
+      </aside>
+
+      <!-- Right content -->
+      <div class="spOverview__content">
+        <ol class="spOverview__list">
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--navy" aria-hidden="true">
+              <!-- Lightbulb / hypothesis icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <path d="M32 8c-10.5 0-18 7.5-18 17 0 6.5 3.5 12 9 15v6h18v-6c5.5-3 9-8.5 9-15 0-9.5-7.5-17-18-17Z" />
+                <path d="M23 50h18M25 56h14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--navy">Hypothesis Development</h3>
+              <p class="spOverview__desc">
+                Formulating clear, research-backed hypotheses that connect identified friction points to measurable outcomes.
+              </p>
+            </div>
+          </li>
+
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--blue" aria-hidden="true">
+              <!-- Wireframe / layout icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <rect x="6" y="10" width="52" height="44" rx="4" fill="none" stroke="currentColor" stroke-width="4" />
+                <path d="M6 22h52" fill="none" stroke="currentColor" stroke-width="4" />
+                <path d="M20 10v44" fill="none" stroke="currentColor" stroke-width="4" />
+                <path d="M28 32h20M28 40h14" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--blue">Wireframing</h3>
+              <p class="spOverview__desc">
+                Creating detailed mockups for each test variant to clearly communicate the proposed experience before build.
+              </p>
+            </div>
+          </li>
+
+          <li class="spOverview__item">
+            <div class="spOverview__icon spOverview__icon--teal" aria-hidden="true">
+              <!-- Scope / list icon -->
+              <svg viewBox="0 0 64 64" class="spOverview__svg" focusable="false">
+                <rect x="10" y="8" width="44" height="48" rx="5" fill="none" stroke="currentColor" stroke-width="4" />
+                <path d="M20 22h24M20 32h24M20 42h16" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="spOverview__text">
+              <h3 class="spOverview__heading spOverview__heading--teal">Scope And Success Metrics</h3>
+              <p class="spOverview__desc">
+                Defining test parameters, audiences, traffic splits and split methodologies, duration estimates, and primary and guardrail metrics for each concept.
+              </p>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- AI in the Process -->
+  <h2 class="caseStudyBodyHeader" id="ai-process">AI in the Process</h2>
+  <section class="aiProcess" aria-labelledby="aiProcessTitle">
+    <div class="container aiProcess__container">
+    <div class="aiProcess__panel">
+
+      <div class="aiProcess__header">
+        <span class="aiProcess__badge">
+          <svg class="aiProcess__badgeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2L2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+          </svg>
+          Powered by AI
+        </span>
+        <h2 id="aiProcessTitle" class="aiProcess__title">How AI accelerates every phase</h2>
+        <p class="aiProcess__subtitle">What used to take weeks can now be done within hours — if not minutes.</p>
+      </div>
+
+      <ol class="aiProcess__steps">
+
+        <li class="aiProcess__step">
+          <div class="aiProcess__stepNumber" aria-hidden="true">01</div>
+          <div class="aiProcess__stepBody">
+            <div class="aiProcess__stepIcon" aria-hidden="true">
+              <!-- Chart/analytics icon -->
+              <svg viewBox="0 0 64 64" class="aiProcess__svg" focusable="false">
+                <path d="M8 56V8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <path d="M8 56h48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                <path d="M18 38l12-14 10 8 16-18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="18" cy="38" r="3" fill="currentColor"/>
+                <circle cx="30" cy="24" r="3" fill="currentColor"/>
+                <circle cx="40" cy="32" r="3" fill="currentColor"/>
+                <circle cx="56" cy="14" r="3" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="aiProcess__stepText">
+              <h3 class="aiProcess__stepHeading">Roadmapping</h3>
+              <p class="aiProcess__stepDesc">AI serves as a thought partner to parse through analytics exports, competitors, and qualitative insights — identifying key points of funnel friction with supporting data points, faster than any manual audit.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="aiProcess__step">
+          <div class="aiProcess__stepNumber" aria-hidden="true">02</div>
+          <div class="aiProcess__stepBody">
+            <div class="aiProcess__stepIcon" aria-hidden="true">
+              <!-- Image / generate icon -->
+              <svg viewBox="0 0 64 64" class="aiProcess__svg" focusable="false">
+                <rect x="6" y="10" width="52" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="4"/>
+                <circle cx="22" cy="26" r="6" fill="none" stroke="currentColor" stroke-width="3"/>
+                <path d="M6 42l14-12 10 10 8-8 18 14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M46 6v8M42 10h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="aiProcess__stepText">
+              <h3 class="aiProcess__stepHeading">From Strategy to High-Fidelity Mocks</h3>
+              <p class="aiProcess__stepDesc">Once strategy is validated, a custom CRO agent creates image generation prompts that feed into a separate image generation agent — delivering high-fidelity mockups from just an idea, ready for stakeholder review.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="aiProcess__step">
+          <div class="aiProcess__stepNumber" aria-hidden="true">03</div>
+          <div class="aiProcess__stepBody">
+            <div class="aiProcess__stepIcon" aria-hidden="true">
+              <!-- Code / experiment icon -->
+              <svg viewBox="0 0 64 64" class="aiProcess__svg" focusable="false">
+                <path d="M22 20l-12 12 12 12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M42 20l12 12-12 12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M36 12L28 52" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="aiProcess__stepText">
+              <h3 class="aiProcess__stepHeading">Mocks to Testable Experiments</h3>
+              <p class="aiProcess__stepDesc">Mocks are fed to a coding AI along with relevant HTML, functionality requirements, and testing platform specs — delivering production-ready, testable experiments without a lengthy development cycle.</p>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+
+      <div class="aiProcess__timeSaving">
+        <span class="aiProcess__timeSavingIcon" aria-hidden="true">⚡</span>
+        <p class="aiProcess__timeSavingText">This all used to take <strong>weeks</strong> — now it's done within <strong>hours, if not minutes.</strong></p>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <div class="video-crop">
+    <video
+      src="assets/video-assets/download.MP4"
+      autoplay
+      muted
+      loop
+      playsinline
+      controls
+      style="width: 80%; height: 100%; object-fit: cover; object-position: center;"
+    ></video>
+  </div>
+
+  <!-- Footer -->
+
+  <!-- Calendly Scheduling CTA -->
+  <section class="calendly-cta">
+    <div class="container calendly-cta-inner">
+      <h2>Ready to grow your conversions?</h2>
+      <p>Book a free 30-minute strategy call — directly on my calendar.</p>
+      <a href="https://calendly.com/jas692" target="_blank" rel="noopener" class="btn-calendly">
+        Schedule a call <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+    <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Jordan's CRO Studio</strong>
+        <p class="muted">Optimization &amp; experimentation agency</p>
+      </div>
+      <div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work">Work</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process">Process</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about">About</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog">Blog</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Contact</a>
+          <a href="https://www.linkedin.com/in/jordan-shapiro-797315153/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:jordanshapiro555@gmail.com">Email</a>
+        </nav>
+      </div>
+      <div>
+        <small class="muted">&copy; <span id="year"></span> Jordan's CRO Studio</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Existing JS -->
+  <script src="script.js"></script>
+
+  <!-- Process Accordion JS (one dropdown open at a time) -->
+<script>
+  (function () {
+    document.addEventListener("DOMContentLoaded", function () {
+      const wrap = document.getElementById("processGridBodyMobile");
+      if (!wrap) return;
+
+      const dropdowns = Array.from(wrap.querySelectorAll(".processDropdown"));
+
+      dropdowns.forEach((d) => {
+        d.addEventListener("toggle", function () {
+          if (!window.matchMedia("(max-width: 980px)").matches) return;
+          if (!d.open) return;
+          dropdowns.forEach((other) => {
+            if (other !== d) other.removeAttribute("open");
+          });
+        });
+      });
+    });
+  })();
+</script>
+
+  <!-- Sticky floating CTA -->
+  <div id="sticky-cta" class="sticky-cta" aria-label="Quick contact">
+    <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact" class="btn btn-primary sticky-cta-btn">
+      Let's talk <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+<!-- AI Chatbot Widget -->
+<div id="chat-widget">
+  <div id="chat-panel" role="dialog" aria-label="Chat with Jordan's AI assistant">
+    <div id="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Jordan's AI Assistant</div>
+        <div class="chat-header-status">Online</div>
+      </div>
+    </div>
+    <div id="chat-messages" aria-live="polite"></div>
+    <div id="chat-suggestions"></div>
+    <div id="chat-input-area">
+      <textarea id="chat-input" placeholder="Ask me about Jordan..." rows="1" aria-label="Type your message"></textarea>
+      <button id="chat-send" aria-label="Send message">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+  <button id="chat-toggle" aria-label="Open chat" aria-expanded="false">
+    <svg class="icon-chat" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <svg class="icon-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+</div>
+<script src="js/chatbot.js"></script>
+  <script>
+  window.addEventListener('DOMContentLoaded', async function () {
+    function getOrCreateStableID() {
+      const key = 'manual_statsig_stable_id';
+      let stableID = localStorage.getItem(key);
+
+      if (!stableID) {
+        if (window.crypto && crypto.randomUUID) {
+          stableID = crypto.randomUUID();
+        } else {
+          stableID = 'stable-' + Math.random().toString(36).slice(2) + Date.now();
+        }
+        localStorage.setItem(key, stableID);
+      }
+
+      return stableID;
+    }
+
+    const stableID = getOrCreateStableID();
+
+    const client = new Statsig.StatsigClient(
+      'client-U47LxcXa8GwnMLSA9MPdt0DhT2wwpjCX3dHTCUS20vi',
+      {
+        customIDs: {
+          stableID: stableID
+        }
+      }
+    );
+
+    await client.initializeAsync();
+    window.statsigClient = client;
+
+    console.log('Statsig initialized');
+    console.log('Statsig context:', client.getContext());
+    console.log('StableID in use:', stableID);
+
+    function getHeroPrimaryCta() {
+      return document.querySelector('.hero-ctas .btn-primary');
+    }
+
+    function applyHeroCtaExperiment() {
+      const heroPrimaryCta = getHeroPrimaryCta();
+      if (!heroPrimaryCta) {
+        console.log('Hero CTA not found');
+        return;
+      }
+
+      const experiment = client.getExperiment('process_page_manual_experiment_h1');
+      console.log('Experiment object:', experiment);
+
+      const ctaText = experiment.get('H1', 'Work with me');
+      console.log('Statsig CTA value:', ctaText);
+
+      heroPrimaryCta.textContent = ctaText;
+    }
+
+    applyHeroCtaExperiment();
+
+    document.addEventListener('click', function (event) {
+      const heroPrimaryCta = event.target.closest('.hero-ctas .btn-primary');
+      if (!heroPrimaryCta) return;
+
+      client.logEvent('hero_cta_clicked', null, {
+        location: 'process_page_hero',
+        href: heroPrimaryCta.getAttribute('href') || ''
+      });
+
+      console.log('Logged hero_cta_clicked');
+    });
+  });
+</script>
+</body>
+</html>
