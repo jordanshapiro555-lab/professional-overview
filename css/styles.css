@@ -494,6 +494,7 @@ body{
   display: flex;
   padding: 16px;
   justify-content: center;
+  gap: 16px;
 }
 
 .CaseStudyBodyContainer {
