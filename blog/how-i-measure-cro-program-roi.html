@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Primary SEO -->
+  <title>How I Measure CRO Program ROI (With Real Numbers) — Jordan Shapiro</title>
+  <meta name="description" content="A step-by-step look at the exact methodology Jordan Shapiro uses to calculate true CRO program ROI — including correlation analysis, linear regression, novelty effect, and a depreciation curve." />
+  <link rel="canonical" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog/how-i-measure-cro-program-roi" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog/how-i-measure-cro-program-roi" />
+  <meta property="og:title" content="How I Measure CRO Program ROI (With Real Numbers)" />
+  <meta property="og:description" content="A step-by-step look at the exact methodology I use to calculate true program ROI — including correlation analysis, linear regression, and a depreciation curve." />
+  <meta property="og:image" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How I Measure CRO Program ROI (With Real Numbers)" />
+  <meta name="twitter:description" content="The exact methodology I use to calculate true CRO program ROI — correlation analysis, linear regression, and a depreciation curve." />
+  <meta name="twitter:image" content="https://jordanshapiro555-lab.github.io/CRO-Consulting/assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/blog.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
+
+  <!-- JSON-LD Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How I Measure CRO Program ROI (With Real Numbers)",
+    "description": "A step-by-step look at the exact methodology Jordan Shapiro uses to calculate true CRO program ROI — including correlation analysis, linear regression, and a depreciation curve.",
+    "datePublished": "2026-03-15",
+    "author": {
+      "@type": "Person",
+      "name": "Jordan Shapiro",
+      "url": "https://jordanshapiro555-lab.github.io/CRO-Consulting/"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Jordan Shapiro"
+    },
+    "image": "https://jordanshapiro555-lab.github.io/CRO-Consulting/assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png",
+    "url": "https://jordanshapiro555-lab.github.io/CRO-Consulting/blog/how-i-measure-cro-program-roi"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-row">
+      <a class="brand" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/">Jordan's CRO Studio</a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li class="nav-item-dropdown">
+            <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work" class="nav-link">Work</a><button class="nav-dropdown-toggle" aria-expanded="false" aria-label="Expand Work submenu"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <ul class="nav-dropdown">
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/case-studies">Case Studies</a></li>
+              <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners">Test Winners</a></li>
+            </ul>
+          </li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process" class="nav-link">Process</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about" class="nav-link">About</a></li>
+          <li><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog" class="nav-link">Blog</a></li>
+        </ul>
+        <a class="btn btn-primary" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Get in touch</a>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+        <span class="hamburger"></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero image -->
+    <div class="post-hero-wrap">
+      <img class="post-hero-img" src="../assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png" alt="UHOne 2024 CRO program revenue summary — demonstrating program ROI measurement" />
+    </div>
+
+    <!-- Post header -->
+    <header class="post-header">
+      <p class="post-eyebrow">Measurement &amp; ROI</p>
+      <h1>How I Measure CRO Program ROI (With Real Numbers)</h1>
+      <div class="post-author">
+        <img class="post-author-img" src="../assets/img/JordanShapiroHeadshot.jpeg" alt="Jordan Shapiro" />
+        <div class="post-author-info">
+          <span class="post-author-name">Jordan Shapiro</span>
+          <span class="post-author-meta">March 15, 2026 &nbsp;·&nbsp; 8 min read</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post body -->
+    <article class="post-body">
+
+      <p>One of the most common questions I get from prospective clients is some version of: <em>"How do you actually prove that CRO is working?"</em> It's a fair question. Most programs report win rate and call it a day. But win rate alone tells you almost nothing about business impact.</p>
+
+      <p>Over time, I've developed a methodology that connects experiment outcomes directly to revenue — accounting for correlation strength, attribution share, novelty effect, and behavioral decay over time. This post walks through the exact process I used to calculate a <strong>1,061% ROI</strong> for UHOne's 2024 optimization program.</p>
+
+      <h2>Why Standard Reporting Falls Short</h2>
+
+      <p>The typical CRO report looks like this: "We ran 30 tests, 12 won, 18 lost or were inconclusive. Here are the winning treatments." That's fine as a test log, but it says nothing about the dollar impact on the business. It doesn't account for:</p>
+
+      <ul>
+        <li>How many sessions were actually affected by your winning experiments</li>
+        <li>How strongly your primary KPI correlates with revenue</li>
+        <li>How much of that correlation is actually caused by the KPI vs. confounding variables</li>
+        <li>The novelty effect — the tendency for users to engage differently with new experiences that fades over time</li>
+      </ul>
+
+      <p>My methodology addresses all four of these. Here's how it works.</p>
+
+      <h2>Step 1: Export All Site Data for the Measurement Year</h2>
+
+      <p>Start by pulling a full export of session-level and transaction-level data for the year you're measuring. You want the entire year — not just the weeks tests were live — because you'll be running correlations that require population-level data to be meaningful.</p>
+
+      <p>At minimum, you need: sessions by page, conversion events (form submits, purchases, quote starts), and revenue (or revenue proxy). If your analytics platform separates test traffic from organic traffic, keep them together for this step — you're looking for population-level relationships.</p>
+
+      <h2>Step 2: Calculate Sessions Impacted by Each Experiment</h2>
+
+      <p>For each statistically significant experiment, calculate the total sessions that were actually influenced by the winning variation:</p>
+
+      <ul>
+        <li><strong>During testing:</strong> sessions exposed to the variation while the test was live</li>
+        <li><strong>Post-test targeting:</strong> sessions on that page or segment after you applied the winner as a permanent change or targeted rule</li>
+      </ul>
+
+      <p>Add these together. This is your "impacted sessions" denominator for each test — the universe of users whose experience was meaningfully changed by your program.</p>
+
+      <h2>Step 3: Run Correlations Between Your Primary KPI and Revenue</h2>
+
+      <p>For each experiment, you had a primary KPI — something like cart addition rate, form start rate, or click-through rate to a key page. Now you need to understand how much that KPI actually moves revenue.</p>
+
+      <p>Pull your annual dataset and run a Pearson correlation between the primary KPI (at the appropriate unit of analysis — visit, session, or user) and revenue. Plot it. You'll often find strong relationships between upstream engagement KPIs and downstream revenue that aren't visible when you look at tests in isolation.</p>
+
+      <figure class="post-figure">
+        <img src="../assets/case-studies/UHOne2024/UHOne2025RevReportingMethodology.png" alt="Scatter plot showing correlation between cart additions per visit and cart LTV revenue per visit — strong positive linear relationship" />
+        <figcaption>Example: Cart Additions per Visit vs. Cart LTV Revenue per Visit — TTM data showing a strong linear relationship (R² = 0.92)</figcaption>
+      </figure>
+
+      <p>The scatter plot above shows one of the correlations from the UHOne program. Each data point is a weekly cohort. The linear relationship is strong — meaning changes in cart addition rate reliably predict changes in revenue at the program level.</p>
+
+      <h2>Step 4: Run a Linear Regression on the KPI and Revenue</h2>
+
+      <p>Correlation tells you whether two variables move together. Regression tells you the magnitude of that relationship — and its explanatory power. For each KPI-revenue pair, run an OLS linear regression and record:</p>
+
+      <ul>
+        <li><strong>The slope (coefficient):</strong> how many dollars of revenue correspond to a one-unit increase in the KPI</li>
+        <li><strong>R²:</strong> the proportion of variance in revenue explained by the KPI</li>
+      </ul>
+
+      <p>The regression equation from the chart above — <em>y = 2265.3x + 2.9916</em> — means that for every 1 percentage point increase in cart additions per visit, you'd expect roughly $22.65 more in cart LTV revenue per visit across the population.</p>
+
+      <h2>Step 5: Multiply Correlation Coefficient × R² to Get Attributable Impact</h2>
+
+      <p>Here's where most methodologies stop — and where mine gets more conservative and defensible. The correlation coefficient tells you how strongly the KPI and revenue move together. But the R² tells you how much of the revenue variance is actually explained by your KPI, as opposed to other factors (seasonality, external campaigns, pricing changes, etc.).</p>
+
+      <p>To isolate the portion of the correlation that's directly attributable to changes in your KPI:</p>
+
+      <div class="callout">
+        <p><strong>Attribution Factor = Correlation Coefficient × R²</strong></p>
+        <p>This gives you a conservative, defensible estimate of how much of the observed revenue movement is caused by changes in your tested KPI.</p>
+      </div>
+
+      <h2>Step 6: Calculate Expected Revenue Change Per Experiment</h2>
+
+      <p>Now you have everything you need for each test:</p>
+
+      <ol>
+        <li>Impacted sessions (from Step 2)</li>
+        <li>The delta in your primary KPI observed during testing (variation vs. control)</li>
+        <li>The regression coefficient (from Step 4)</li>
+        <li>The attribution factor (correlation coefficient × R², from Step 5)</li>
+      </ol>
+
+      <p>Plug them together:</p>
+
+      <div class="callout">
+        <p><strong>Expected Revenue Change = Impacted Sessions × KPI Delta × Regression Coefficient × Attribution Factor</strong></p>
+      </div>
+
+      <p>This gives you the expected revenue impact for each winning experiment, before accounting for behavioral decay.</p>
+
+      <h2>Step 7: Apply the Depreciation Curve</h2>
+
+      <p>One of the most overlooked problems in CRO reporting is the novelty effect. When users first encounter a new design or message, they often engage with it more than they will over the long term — simply because it's new. If you use the KPI delta from a 2-week test window to project full-year revenue, you'll significantly overstate impact.</p>
+
+      <p>To correct for this, I apply a depreciation curve that discounts the expected KPI lift based on how long ago the test ended:</p>
+
+      <figure class="post-figure">
+        <img src="../assets/case-studies/UHOne2024/UHOne2025RevReportingMethodology.png" alt="Depreciation rate table and bar chart — showing 10% depreciation at 0-90 days, rising to 80% at 361+ days post-test" />
+        <figcaption>Depreciation schedule applied to post-test traffic. The longer the time since test end, the greater the assumed behavioral decay from novelty effect.</figcaption>
+      </figure>
+
+      <p>The depreciation schedule I use:</p>
+
+      <ul>
+        <li><strong>Phase 1 (0–90 days post-test):</strong> 10% depreciation</li>
+        <li><strong>Phase 2 (91–180 days):</strong> 30% depreciation</li>
+        <li><strong>Phase 3 (181–270 days):</strong> 40% depreciation</li>
+        <li><strong>Phase 4 (271–360 days):</strong> 60% depreciation</li>
+        <li><strong>Phase 5 (361+ days):</strong> 80% depreciation</li>
+      </ul>
+
+      <p>For each period, the formula becomes:</p>
+
+      <div class="callout">
+        <p><strong>Depreciated Revenue = Expected Revenue Change × (1 − Depreciation Rate)</strong></p>
+        <p>Applied segment by segment as post-test time accrues.</p>
+      </div>
+
+      <p>Summing the depreciated revenue estimates across all time phases and all winning experiments gives you a conservative, well-reasoned estimate of total program revenue impact.</p>
+
+      <h2>What This Looks Like in Practice</h2>
+
+      <p>For UHOne's 2024 program, applying this methodology across all significant experiments produced a total estimated revenue impact of approximately <strong>$650K in incremental revenue</strong> against a program investment of roughly $60K — resulting in a documented <strong>1,061% ROI</strong>.</p>
+
+      <p>That number is defensible because it's built on:</p>
+
+      <ul>
+        <li>Population-level correlation data, not test-window-only estimates</li>
+        <li>Conservative attribution that doesn't claim 100% credit for revenue correlated with a KPI</li>
+        <li>A depreciation curve that accounts for novelty effect decay</li>
+      </ul>
+
+      <p>It's not a perfect model — no attribution model is. But it's far more rigorous than the alternative, and it gives leadership a credible, replicable framework to evaluate program investment year over year.</p>
+
+      <h2>A Note on Tooling</h2>
+
+      <p>I run all of this in spreadsheets — no proprietary software required. The correlation and regression calculations are standard Excel or Google Sheets functions. The depreciation schedule is a lookup table. What makes this methodology valuable isn't the tooling; it's the intellectual framework for thinking about how test outcomes translate to business outcomes over time.</p>
+
+      <p>If you're running a CRO program and not measuring it this way, you're almost certainly either overstating or understating your impact. Neither is good for making the case for continued investment.</p>
+
+    </article>
+
+    <!-- Bottom CTA -->
+    <section class="calendly-cta">
+      <div class="container calendly-cta-inner">
+        <h2>Want results like these for your site?</h2>
+        <p>Schedule a free strategy call and let's talk about your conversion program.</p>
+        <a href="https://calendly.com/jas692" target="_blank" rel="noopener" class="btn-calendly">
+          Schedule a free strategy call <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Jordan's CRO Studio</strong>
+        <p class="muted">Optimization &amp; experimentation agency</p>
+      </div>
+      <div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work">Work</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/process">Process</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/about">About</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog">Blog</a>
+          <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Contact</a>
+          <a href="https://www.linkedin.com/in/jordan-shapiro-797315153/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:jordanshapiro555@gmail.com">Email</a>
+        </nav>
+      </div>
+      <div>
+        <small class="muted">&copy; <span id="year"></span> Jordan's CRO Studio</small>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
