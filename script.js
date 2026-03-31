@@ -140,6 +140,116 @@ document.addEventListener('DOMContentLoaded', function () {
       if (entry.isIntersecting && !fired) { fired = true; runCounters(); }
     }, { threshold: 0.5 }).observe(statsStrip);
   }
+
+  // ── Exit intent fly-in quiz ──
+  const exitQuiz = document.getElementById('exit-intent-quiz');
+  if (exitQuiz) {
+    const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
+    const startBtn = document.getElementById('exit-quiz-start');
+    const flow = document.getElementById('exit-intent-flow');
+    const cta = document.getElementById('exit-intent-step-0');
+    const nextBtn = document.getElementById('exit-quiz-next');
+    const progressFill = document.getElementById('exit-quiz-progress-fill');
+    const progressValue = document.getElementById('exit-quiz-progress-value');
+    const steps = Array.from(exitQuiz.querySelectorAll('.exit-quiz-step'));
+    const q1Tiles = Array.from(exitQuiz.querySelectorAll('[data-step="1"] .exit-quiz-tile'));
+    const goalsWrap = document.getElementById('exit-quiz-goals');
+
+    let hasShownQuiz = false;
+    let currentStep = 1;
+    const answers = { audience: '', goals: [] };
+
+    const stepGoals = {
+      Ecommerce: [
+        'More purchases',
+        'Better landing pages',
+        'More product engagement',
+        'Higher order values'
+      ],
+      'Lead Generation': [
+        'Better landing page conversion rate',
+        'Higher form completion',
+        'Improved lead quality',
+        'More personalization'
+      ]
+    };
+
+    const openQuiz = () => {
+      exitQuiz.classList.add('is-open');
+      exitQuiz.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeQuiz = () => {
+      exitQuiz.classList.remove('is-open');
+      exitQuiz.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    const renderStepGoals = () => {
+      if (!goalsWrap) return;
+      const options = stepGoals[answers.audience] || stepGoals['Lead Generation'];
+      goalsWrap.innerHTML = options
+        .map((item) => `<label><input type="checkbox" value="${item}"> ${item}</label>`)
+        .join('');
+    };
+
+    const showStep = (step) => {
+      currentStep = step;
+      steps.forEach((el) => el.classList.toggle('is-hidden', Number(el.dataset.step) !== step));
+
+      const progress = Math.round(((step - 1) / 5) * 100);
+      progressFill.style.width = `${progress}%`;
+      progressValue.textContent = `${progress}%`;
+
+      if (nextBtn) {
+        nextBtn.textContent = step === 6 ? 'Submit' : 'Next';
+      }
+
+      if (step === 2) {
+        renderStepGoals();
+      }
+    };
+
+    const handleSubmit = () => {
+      const selectedGoals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
+      answers.goals = selectedGoals;
+      closeQuiz();
+    };
+
+    document.addEventListener('mouseout', (e) => {
+      if (hasShownQuiz) return;
+      if (e.clientY <= 0) {
+        hasShownQuiz = true;
+        openQuiz();
+      }
+    });
+
+    startBtn?.addEventListener('click', () => {
+      cta?.classList.add('is-hidden');
+      flow?.classList.remove('is-hidden');
+      showStep(1);
+    });
+
+    q1Tiles.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        q1Tiles.forEach((tile) => tile.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        answers.audience = btn.dataset.value || '';
+      });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      if (currentStep === 1 && !answers.audience) return;
+      if (currentStep < 6) {
+        showStep(currentStep + 1);
+      } else {
+        handleSubmit();
+      }
+    });
+
+    closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));
+  }
 });
 
 
