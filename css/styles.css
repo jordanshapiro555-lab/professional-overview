@@ -1478,6 +1478,10 @@ body{
   align-items: start;
 }
 
+.contact-dual-path > * {
+  min-width: 0;
+}
+
 .contact-card {
   background: #fff;
   border: 1px solid #e6edf8;
@@ -1523,6 +1527,26 @@ body{
   font-size: 0.86rem;
   font-weight: 600;
   line-height: 1.45;
+}
+
+.contact-form-card {
+  overflow: hidden;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt,
+.contact-form-card .klaviyo-form-YyjtDt > * {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt iframe,
+.contact-form-card .klaviyo-form-YyjtDt form,
+.contact-form-card .klaviyo-form-YyjtDt input,
+.contact-form-card .klaviyo-form-YyjtDt select,
+.contact-form-card .klaviyo-form-YyjtDt textarea,
+.contact-form-card .klaviyo-form-YyjtDt button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .contact-expectations {
@@ -1788,6 +1812,12 @@ body{
 
 @media (max-width: 700px) {
   .why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 980px) {
+  .contact-dual-path {
     grid-template-columns: 1fr;
   }
 }
