@@ -222,10 +222,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const EXIT_QUIZ_ANSWERS_KEY = 'exit_quiz_answers_v1';
     const EXIT_QUIZ_LAST_SHOWN_KEY = 'exit_quiz_last_shown_at';
     const EXIT_QUIZ_COOLDOWN_MS = 120000;
-    const SUPABASE_URL = "https://sgrijnhcdpioqzzrdbem.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_U0NePnCyTO4cluVDE-cerg_cucXFoyb";
-    const FUNCTION_NAME = "capture-exit-intent";
-
     const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
     const panelForm = exitQuiz.querySelector('.exit-intent-panel');
     const startBtn = document.getElementById('exit-quiz-start');
@@ -493,12 +489,10 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       try {
-        const resp = await fetch(`${SUPABASE_URL}/functions/v1/${FUNCTION_NAME}`, {
+        const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-            apikey: SUPABASE_ANON_KEY
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
         });
