@@ -2320,15 +2320,17 @@ html {
 }
 
 .exit-intent-quiz.is-open {
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .exit-intent-quiz.is-open .exit-intent-overlay {
   opacity: 1;
+  pointer-events: none;
 }
 
 .exit-intent-quiz.is-open .exit-intent-panel {
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .exit-intent-top-bar {

@@ -219,6 +219,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const exitQuiz = isContactPage ? null : document.getElementById('exit-intent-quiz');
   if (exitQuiz) {
+    const EXIT_QUIZ_ANSWERS_KEY = 'exit_quiz_answers_v1';
+    const EXIT_QUIZ_LAST_SHOWN_KEY = 'exit_quiz_last_shown_at';
+    const EXIT_QUIZ_COOLDOWN_MS = 120000;
     const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
     const startBtn = document.getElementById('exit-quiz-start');
     const flow = document.getElementById('exit-intent-flow');
@@ -234,9 +237,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const successEl = document.getElementById('exit-quiz-success');
     const errorEl = document.getElementById('exit-quiz-error');
 
+    const savedAnswers = (() => {
+      try {
+        return JSON.parse(sessionStorage.getItem(EXIT_QUIZ_ANSWERS_KEY) || '{}');
+      } catch {
+        return {};
+      }
+    })();
+
     let hasShownQuiz = false;
     let currentStep = 1;
-    const answers = { audience: '', goals: [] };
+    const answers = {
+      audience: savedAnswers.audience || '',
+      goals: savedAnswers.goals || [],
+      challenges: savedAnswers.challenges || [],
+      traffic: savedAnswers.traffic || '',
+      funnel: savedAnswers.funnel || '',
+      name: savedAnswers.name || '',
+      email: savedAnswers.email || '',
+      phone: savedAnswers.phone || ''
+    };
 
     const stepGoals = {
       Ecommerce: [
@@ -253,9 +273,25 @@ document.addEventListener('DOMContentLoaded', function () {
       ]
     };
 
+    const persistAnswers = () => {
+      sessionStorage.setItem(EXIT_QUIZ_ANSWERS_KEY, JSON.stringify(answers));
+    };
+
+    const withinCooldown = () => {
+      const lastShown = Number(sessionStorage.getItem(EXIT_QUIZ_LAST_SHOWN_KEY) || '0');
+      return Date.now() - lastShown < EXIT_QUIZ_COOLDOWN_MS;
+    };
+
+    const markShown = () => {
+      sessionStorage.setItem(EXIT_QUIZ_LAST_SHOWN_KEY, String(Date.now()));
+    };
+
     const openQuiz = () => {
+      if (withinCooldown()) return false;
       exitQuiz.classList.add('is-open');
       exitQuiz.setAttribute('aria-hidden', 'false');
+      markShown();
+      return true;
     };
 
     const closeQuiz = () => {
@@ -267,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!goalsWrap) return;
       const options = stepGoals[answers.audience] || stepGoals['Lead Generation'];
       goalsWrap.innerHTML = options
-        .map((item) => `<label><input type="checkbox" value="${item}"> ${item}</label>`)
+        .map((item) => `<label><input type="checkbox" value="${item}" ${answers.goals.includes(item) ? 'checked' : ''}> ${item}</label>`)
         .join('');
     };
 
@@ -287,6 +323,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (step === 2) {
         renderStepGoals();
+      }
+      if (step === 3) {
+        exitQuiz.querySelectorAll('[data-step="3"] input').forEach((el) => {
+          el.checked = answers.challenges.includes(el.value);
+        });
       }
       if (errorEl) {
         errorEl.textContent = '';
@@ -327,8 +368,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('mouseout', (e) => {
       if (hasShownQuiz) return;
       if (e.clientY <= 0) {
-        hasShownQuiz = true;
-        openQuiz();
+        hasShownQuiz = openQuiz();
       }
     });
 
@@ -340,10 +380,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const currentY = window.scrollY;
       const deltaY = currentY - lastY;
       const deltaT = now - lastT;
-      const fastUpward = deltaY < -130 && deltaT < 220 && currentY < 220;
+      const fastUpward = deltaY < -75 && deltaT < 260 && lastY > 280;
       if (fastUpward) {
-        hasShownQuiz = true;
-        openQuiz();
+        hasShownQuiz = openQuiz();
       }
       lastY = currentY;
       lastT = now;
@@ -360,10 +399,30 @@ document.addEventListener('DOMContentLoaded', function () {
         q1Tiles.forEach((tile) => tile.classList.remove('is-selected'));
         btn.classList.add('is-selected');
         answers.audience = btn.dataset.value || '';
+        persistAnswers();
       });
     });
 
     nextBtn?.addEventListener('click', () => {
+      if (currentStep === 2) {
+        answers.goals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
+      }
+      if (currentStep === 3) {
+        answers.challenges = Array.from(exitQuiz.querySelectorAll('[data-step="3"] input:checked')).map((el) => el.value);
+      }
+      if (currentStep === 4) {
+        answers.traffic = document.getElementById('exit-quiz-traffic')?.value.trim() || '';
+      }
+      if (currentStep === 5) {
+        answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
+      }
+      if (currentStep === 6) {
+        answers.name = document.getElementById('exit-quiz-name')?.value.trim() || '';
+        answers.email = document.getElementById('exit-quiz-email')?.value.trim() || '';
+        answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
+      }
+      persistAnswers();
+
       const errorMessage = getValidationError();
       if (errorMessage) {
         if (errorEl) {
@@ -386,8 +445,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     skipFunnelBtn?.addEventListener('click', () => {
-      if (currentStep === 5) showStep(6);
+      if (currentStep === 5) {
+        answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
+        persistAnswers();
+        showStep(6);
+      }
     });
+
+    // hydrate saved values
+    if (answers.audience) {
+      q1Tiles.find((tile) => tile.dataset.value === answers.audience)?.classList.add('is-selected');
+    }
+    const trafficEl = document.getElementById('exit-quiz-traffic');
+    const funnelEl = document.getElementById('exit-quiz-funnel');
+    const nameEl = document.getElementById('exit-quiz-name');
+    const emailEl = document.getElementById('exit-quiz-email');
+    const phoneEl = document.getElementById('exit-quiz-phone');
+    if (trafficEl) trafficEl.value = answers.traffic;
+    if (funnelEl) funnelEl.value = answers.funnel;
+    if (nameEl) nameEl.value = answers.name;
+    if (emailEl) emailEl.value = answers.email;
+    if (phoneEl) phoneEl.value = answers.phone;
 
     closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));
   }
