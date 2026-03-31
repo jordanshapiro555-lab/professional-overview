@@ -55,11 +55,14 @@
 
   <!-- Contact Section -->
   <main class="section contact-page">
-    <div class="container" style="padding: 0 32px;">
-      <h1>Contact Me</h1>
-      <p class="muted" style="margin-bottom:16px; max-width:925px;">
-        Have a project in mind or want to learn more? Send a message below — I’ll get back to you as soon as I can.
-      </p>
+    <div class="container contact-page-shell">
+      <div class="contact-hero">
+        <h1>Let's talk about your conversion rate</h1>
+        <p class="muted contact-hero-subhead">
+          Book a free 30-minute strategy call. I’ll audit one page of your site live and identify 2–3 testable opportunities.
+        </p>
+      </div>
+
       <!-- Trust signals — shown only in Statsig experiment variant -->
       <div class="contact-trust-banner" id="contact-trust-signals" style="display:none;" aria-hidden="true">
         <div class="contact-trust-track" aria-hidden="true">
@@ -92,20 +95,58 @@
         </div>
         <p class="sr-only">Proven Results · 1,000+% ROI · 7+ years of experience · 250+ experiments · Full workflow included · Guaranteed efficiency</p>
       </div>
-      <div class="klaviyo-form-YyjtDt"></div>
+
+      <section class="contact-dual-path" aria-label="Book a call or send a message">
+        <article class="contact-card contact-calendly-card">
+          <h2>Book your strategy call</h2>
+          <p class="muted">Choose a time that works for you. This is the fastest way to get personalized CRO feedback.</p>
+          <a href="https://calendly.com/jas692" target="_blank" rel="noopener" class="btn btn-primary btn-calendly">
+            Open Calendly <span aria-hidden="true">→</span>
+          </a>
+          <div class="calendly-inline-wrap">
+            <iframe
+              src="https://calendly.com/jas692/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+              title="Schedule a strategy call with Jordan Shapiro"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </article>
+
+        <article class="contact-card contact-form-card">
+          <h2>Prefer email?</h2>
+          <p class="muted">Send a quick note and I’ll follow up with next steps.</p>
+          <div class="contact-form-trust" aria-label="Contact form trust signals">
+            ✓ No commitment required · ✓ Typically respond within 24 hours · ✓ All conversations are confidential
+          </div>
+          <div class="klaviyo-form-YyjtDt"></div>
+        </article>
+      </section>
     </div>
   </main>
 
-    <!-- Footer -->
+  <section class="section contact-expectations" aria-label="What to expect on the call">
+    <div class="container contact-expectations-inner">
+      <h2>What to expect on the call</h2>
+      <ul>
+        <li>I’ll review your site and ask about your goals.</li>
+        <li>I’ll identify 2–3 high-impact test ideas on the spot.</li>
+        <li>We’ll discuss whether a CRO engagement makes sense.</li>
+      </ul>
+    </div>
+  </section>
 
-  <!-- Calendly Scheduling CTA -->
-  <section class="calendly-cta">
-    <div class="container calendly-cta-inner">
-      <h2>Ready to grow your conversions?</h2>
-      <p>Book a free 30-minute strategy call — directly on my calendar.</p>
-      <a href="https://calendly.com/jas692" target="_blank" rel="noopener" class="btn-calendly">
-        Schedule a call <span aria-hidden="true">→</span>
-      </a>
+  <section class="stats-strip" aria-label="Conversion optimization results">
+    <div class="container stats-strip-grid stats-strip-grid-contact">
+      <div class="stats-strip-item">
+        <span class="stats-strip-value"><span class="count" data-to="450">450</span>%</span>
+        <span class="stats-strip-label">Avg. Program ROI</span>
+      </div>
+      <div class="stats-strip-divider" aria-hidden="true"></div>
+      <div class="stats-strip-item">
+        <span class="stats-strip-value"><span class="count" data-to="250">250</span>+</span>
+        <span class="stats-strip-label">Experiments Run</span>
+      </div>
     </div>
   </section>
 
