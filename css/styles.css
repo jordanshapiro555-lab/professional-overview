@@ -1,5 +1,6 @@
 html, body {
   overflow-y: visible; /* Required so sticky works */
+  overflow-x: hidden;
 }
 
 body {
@@ -1450,7 +1451,7 @@ body{
 
 /* ── Contact page layout ── */
 .contact-page-shell {
-  padding: 0 32px;
+  padding: 0;
 }
 
 .contact-hero {
@@ -1531,7 +1532,7 @@ body{
 
 .contact-expectations-inner {
   max-width: 1040px;
-  padding: 0 32px;
+  padding: 0;
   margin: 0 auto;
 }
 
@@ -1991,7 +1992,7 @@ body{
   }
   .contact-page-shell,
   .contact-expectations-inner {
-    padding: 0 16px;
+    padding: 0;
   }
   .contact-dual-path {
     grid-template-columns: 1fr;
