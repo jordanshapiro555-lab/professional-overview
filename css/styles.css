@@ -2487,6 +2487,13 @@ html {
   transition: width .24s ease;
 }
 
+.exit-quiz-error {
+  margin: 0 0 10px;
+  color: #c13232;
+  font-size: .92rem;
+  font-weight: 600;
+}
+
 .exit-quiz-nav {
   display: grid;
   grid-template-columns: 110px 1fr;

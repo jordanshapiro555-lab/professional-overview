@@ -142,7 +142,82 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ── Exit intent fly-in quiz ──
-  const exitQuiz = document.getElementById('exit-intent-quiz');
+  const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
+  if (!isContactPage && !document.getElementById('exit-intent-quiz')) {
+    const quizTemplate = `
+      <div id="exit-intent-quiz" class="exit-intent-quiz" role="dialog" aria-modal="true" aria-labelledby="exit-quiz-title" aria-hidden="true">
+        <div class="exit-intent-overlay" data-exit-close></div>
+        <div class="exit-intent-panel">
+          <button class="exit-intent-close" type="button" aria-label="Close popup" data-exit-close>×</button>
+          <div class="exit-intent-cta" id="exit-intent-step-0">
+            <div class="exit-intent-top-bar"></div>
+            <div class="exit-intent-cta-content">
+              <h2 id="exit-quiz-title">Free CRO needs quiz</h2>
+              <p>Find out what you need to improve your site</p>
+              <button class="exit-intent-primary-btn" type="button" id="exit-quiz-start">Take the quiz</button>
+            </div>
+          </div>
+          <div class="exit-intent-quiz-flow is-hidden" id="exit-intent-flow">
+            <div class="exit-quiz-header">Let's Get Started!</div>
+            <div class="exit-quiz-step" data-step="1">
+              <p class="exit-quiz-question">Answer a few questions to help us understand your needs:</p>
+              <div class="exit-quiz-options-grid">
+                <button type="button" class="exit-quiz-tile" data-value="Ecommerce">Ecommerce</button>
+                <button type="button" class="exit-quiz-tile" data-value="Lead Generation">Lead Generation</button>
+              </div>
+            </div>
+            <div class="exit-quiz-step is-hidden" data-step="2">
+              <p class="exit-quiz-question">What are you hoping to get out of a CRO consultant? <strong>(Select all that apply)</strong></p>
+              <div id="exit-quiz-goals" class="exit-quiz-checks"></div>
+            </div>
+            <div class="exit-quiz-step is-hidden" data-step="3">
+              <p class="exit-quiz-question">Where are you struggling today? <strong>(Select all that apply)</strong></p>
+              <div class="exit-quiz-checks">
+                <label><input type="checkbox" value="Strategy"> Strategy</label>
+                <label><input type="checkbox" value="Idea Generation"> Idea Generation</label>
+                <label><input type="checkbox" value="Design"> Design</label>
+                <label><input type="checkbox" value="Development"> Development</label>
+                <label><input type="checkbox" value="Tracking"> Tracking</label>
+                <label><input type="checkbox" value="Analysis"> Analysis</label>
+              </div>
+            </div>
+            <div class="exit-quiz-step is-hidden" data-step="4">
+              <p class="exit-quiz-question">Approximately how much traffic goes to your site weekly?</p>
+              <input type="text" id="exit-quiz-traffic" class="exit-quiz-input" placeholder="100,000 users">
+            </div>
+            <div class="exit-quiz-step is-hidden" data-step="5">
+              <p class="exit-quiz-question">Optional: Describe your funnel below:</p>
+              <textarea id="exit-quiz-funnel" class="exit-quiz-textarea" rows="4" placeholder="Describe your funnel and where you're seeing the biggest drop-off..."></textarea>
+              <button class="exit-quiz-skip" id="exit-quiz-skip-funnel" type="button">Skip this question</button>
+            </div>
+            <div class="exit-quiz-step is-hidden" data-step="6">
+              <p class="exit-quiz-question">Get your free consultation summary:</p>
+              <div class="exit-quiz-form">
+                <input type="text" id="exit-quiz-name" class="exit-quiz-input" placeholder="Your Name" required>
+                <input type="email" id="exit-quiz-email" class="exit-quiz-input" placeholder="Your Email" required>
+                <input type="tel" id="exit-quiz-phone" class="exit-quiz-input" placeholder="Your Phone">
+              </div>
+            </div>
+            <div class="exit-quiz-footer">
+              <p class="exit-quiz-progress-label">Progress: <span id="exit-quiz-progress-value">0%</span></p>
+              <div class="exit-quiz-progress"><div class="exit-quiz-progress-fill" id="exit-quiz-progress-fill"></div></div>
+              <p class="exit-quiz-error is-hidden" id="exit-quiz-error" role="alert"></p>
+              <div class="exit-quiz-nav">
+                <button type="button" id="exit-quiz-back" class="exit-intent-secondary-btn is-hidden">Back</button>
+                <button type="button" id="exit-quiz-next" class="exit-intent-primary-btn">Next</button>
+              </div>
+            </div>
+            <div class="exit-quiz-success is-hidden" id="exit-quiz-success">
+              <h3>Thanks! Your quiz is complete.</h3>
+              <p>Look out for an email from Jordan with your next-step recommendations.</p>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', quizTemplate);
+  }
+
+  const exitQuiz = isContactPage ? null : document.getElementById('exit-intent-quiz');
   if (exitQuiz) {
     const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
     const startBtn = document.getElementById('exit-quiz-start');
@@ -157,6 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const q1Tiles = Array.from(exitQuiz.querySelectorAll('[data-step="1"] .exit-quiz-tile'));
     const goalsWrap = document.getElementById('exit-quiz-goals');
     const successEl = document.getElementById('exit-quiz-success');
+    const errorEl = document.getElementById('exit-quiz-error');
 
     let hasShownQuiz = false;
     let currentStep = 1;
@@ -180,13 +256,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const openQuiz = () => {
       exitQuiz.classList.add('is-open');
       exitQuiz.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
     };
 
     const closeQuiz = () => {
       exitQuiz.classList.remove('is-open');
       exitQuiz.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
     };
 
     const renderStepGoals = () => {
@@ -214,25 +288,29 @@ document.addEventListener('DOMContentLoaded', function () {
       if (step === 2) {
         renderStepGoals();
       }
+      if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.classList.add('is-hidden');
+      }
     };
 
-    const isStepValid = () => {
-      if (currentStep === 1) return Boolean(answers.audience);
-      if (currentStep === 2) return Boolean(goalsWrap.querySelector('input:checked'));
+    const getValidationError = () => {
+      if (currentStep === 1 && !answers.audience) return 'Please select Ecommerce or Lead Generation.';
+      if (currentStep === 2 && !goalsWrap.querySelector('input:checked')) return 'Please choose at least one CRO goal.';
       if (currentStep === 3) {
-        return Boolean(exitQuiz.querySelector('[data-step="3"] input:checked'));
+        if (!exitQuiz.querySelector('[data-step="3"] input:checked')) return 'Please choose at least one current challenge.';
       }
       if (currentStep === 4) {
         const trafficValue = document.getElementById('exit-quiz-traffic')?.value.trim();
-        return Boolean(trafficValue);
+        if (!trafficValue) return 'Please enter your weekly traffic estimate.';
       }
       if (currentStep === 6) {
         const name = document.getElementById('exit-quiz-name')?.value.trim();
         const email = document.getElementById('exit-quiz-email')?.value.trim();
         const phone = document.getElementById('exit-quiz-phone')?.value.trim();
-        return Boolean(name && email && phone);
+        if (!(name && email && phone)) return 'Please enter your name, email, and phone to continue.';
       }
-      return true;
+      return '';
     };
 
     const handleSubmit = () => {
@@ -254,6 +332,23 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
+    let lastY = window.scrollY;
+    let lastT = Date.now();
+    window.addEventListener('scroll', () => {
+      if (hasShownQuiz) return;
+      const now = Date.now();
+      const currentY = window.scrollY;
+      const deltaY = currentY - lastY;
+      const deltaT = now - lastT;
+      const fastUpward = deltaY < -130 && deltaT < 220 && currentY < 220;
+      if (fastUpward) {
+        hasShownQuiz = true;
+        openQuiz();
+      }
+      lastY = currentY;
+      lastT = now;
+    }, { passive: true });
+
     startBtn?.addEventListener('click', () => {
       cta?.classList.add('is-hidden');
       flow?.classList.remove('is-hidden');
@@ -269,7 +364,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     nextBtn?.addEventListener('click', () => {
-      if (!isStepValid()) return;
+      const errorMessage = getValidationError();
+      if (errorMessage) {
+        if (errorEl) {
+          errorEl.textContent = errorMessage;
+          errorEl.classList.remove('is-hidden');
+        }
+        return;
+      }
       if (currentStep < 6) {
         showStep(currentStep + 1);
       } else {
