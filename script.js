@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const EXIT_QUIZ_LAST_SHOWN_KEY = 'exit_quiz_last_shown_at';
     const EXIT_QUIZ_COOLDOWN_MS = 120000;
     const SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co";
-    const SUPABASE_ANON_KEY = "YOUR_PUBLISHABLE_OR_ANON_KEY";
+    const SUPABASE_ANON_KEY = "sb_publishable_U0NePnCyTO4cluVDE-cerg_cucXFoyb";
     const FUNCTION_NAME = "capture-exit-intent";
 
     const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
