@@ -1,5 +1,6 @@
 html, body {
   overflow-y: visible; /* Required so sticky works */
+  overflow-x: hidden;
 }
 
 body {
@@ -1448,6 +1449,130 @@ body{
   gap: 4px;
 }
 
+/* ── Contact page layout ── */
+.contact-page-shell {
+  padding: 0;
+}
+
+.contact-hero {
+  margin-bottom: 18px;
+}
+
+.contact-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 3.3vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.contact-hero-subhead {
+  margin: 0;
+  max-width: 880px;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+}
+
+.contact-dual-path {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+.contact-dual-path > * {
+  min-width: 0;
+}
+
+.contact-card {
+  background: #fff;
+  border: 1px solid #e6edf8;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(11, 22, 40, 0.06);
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-card h2 {
+  margin: 0 0 8px;
+}
+
+.contact-card .muted {
+  margin-top: 0;
+}
+
+.contact-calendly-card .btn-calendly {
+  margin: 6px 0 14px;
+}
+
+.calendly-inline-wrap {
+  border: 1px solid #e8eef8;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.calendly-inline-wrap iframe {
+  width: 100%;
+  min-height: 660px;
+  border: 0;
+}
+
+.contact-form-trust {
+  margin: 4px 0 14px;
+  padding: 11px 12px;
+  background: #f0f8ff;
+  border: 1px solid #d8e9ff;
+  border-radius: 10px;
+  color: #0b2f67;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.contact-form-card {
+  overflow: hidden;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt,
+.contact-form-card .klaviyo-form-YyjtDt > * {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt iframe,
+.contact-form-card .klaviyo-form-YyjtDt form,
+.contact-form-card .klaviyo-form-YyjtDt input,
+.contact-form-card .klaviyo-form-YyjtDt select,
+.contact-form-card .klaviyo-form-YyjtDt textarea,
+.contact-form-card .klaviyo-form-YyjtDt button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.contact-expectations {
+  padding-top: 8px;
+  text-align: center;
+}
+
+.contact-expectations-inner {
+  max-width: 1040px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.contact-expectations ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  line-height: 1.6;
+  display: inline-block;
+  text-align: left;
+  max-width: 760px;
+}
+
+.stats-strip-grid-contact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* ── Contact page trust signals — rotating banner ── */
 .contact-trust-banner {
   overflow: hidden;
@@ -1691,6 +1816,12 @@ body{
   }
 }
 
+@media (max-width: 980px) {
+  .contact-dual-path {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
@@ -1888,6 +2019,23 @@ body{
   }
   .contact-trust-banner {
     max-width: 100vw;
+  }
+  .contact-page-shell,
+  .contact-expectations-inner {
+    padding: 0;
+  }
+  .contact-dual-path {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .contact-card {
+    padding: 16px;
+  }
+  .calendly-inline-wrap iframe {
+    min-height: 540px;
+  }
+  .stats-strip-grid-contact {
+    grid-template-columns: 1fr;
   }
   .risk-reversal {
     flex-direction: column;
