@@ -149,11 +149,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const flow = document.getElementById('exit-intent-flow');
     const cta = document.getElementById('exit-intent-step-0');
     const nextBtn = document.getElementById('exit-quiz-next');
+    const backBtn = document.getElementById('exit-quiz-back');
+    const skipFunnelBtn = document.getElementById('exit-quiz-skip-funnel');
     const progressFill = document.getElementById('exit-quiz-progress-fill');
     const progressValue = document.getElementById('exit-quiz-progress-value');
     const steps = Array.from(exitQuiz.querySelectorAll('.exit-quiz-step'));
     const q1Tiles = Array.from(exitQuiz.querySelectorAll('[data-step="1"] .exit-quiz-tile'));
     const goalsWrap = document.getElementById('exit-quiz-goals');
+    const successEl = document.getElementById('exit-quiz-success');
 
     let hasShownQuiz = false;
     let currentStep = 1;
@@ -197,10 +200,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const showStep = (step) => {
       currentStep = step;
       steps.forEach((el) => el.classList.toggle('is-hidden', Number(el.dataset.step) !== step));
+      successEl?.classList.add('is-hidden');
 
       const progress = Math.round(((step - 1) / 5) * 100);
       progressFill.style.width = `${progress}%`;
       progressValue.textContent = `${progress}%`;
+      backBtn?.classList.toggle('is-hidden', step <= 1);
 
       if (nextBtn) {
         nextBtn.textContent = step === 6 ? 'Submit' : 'Next';
@@ -211,10 +216,34 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
 
+    const isStepValid = () => {
+      if (currentStep === 1) return Boolean(answers.audience);
+      if (currentStep === 2) return Boolean(goalsWrap.querySelector('input:checked'));
+      if (currentStep === 3) {
+        return Boolean(exitQuiz.querySelector('[data-step="3"] input:checked'));
+      }
+      if (currentStep === 4) {
+        const trafficValue = document.getElementById('exit-quiz-traffic')?.value.trim();
+        return Boolean(trafficValue);
+      }
+      if (currentStep === 6) {
+        const name = document.getElementById('exit-quiz-name')?.value.trim();
+        const email = document.getElementById('exit-quiz-email')?.value.trim();
+        const phone = document.getElementById('exit-quiz-phone')?.value.trim();
+        return Boolean(name && email && phone);
+      }
+      return true;
+    };
+
     const handleSubmit = () => {
       const selectedGoals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
       answers.goals = selectedGoals;
-      closeQuiz();
+      steps.forEach((el) => el.classList.add('is-hidden'));
+      backBtn?.classList.add('is-hidden');
+      nextBtn?.classList.add('is-hidden');
+      progressFill.style.width = '100%';
+      progressValue.textContent = '100%';
+      successEl?.classList.remove('is-hidden');
     };
 
     document.addEventListener('mouseout', (e) => {
@@ -240,12 +269,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     nextBtn?.addEventListener('click', () => {
-      if (currentStep === 1 && !answers.audience) return;
+      if (!isStepValid()) return;
       if (currentStep < 6) {
         showStep(currentStep + 1);
       } else {
         handleSubmit();
       }
+    });
+
+    backBtn?.addEventListener('click', () => {
+      if (currentStep > 1) {
+        showStep(currentStep - 1);
+      }
+    });
+
+    skipFunnelBtn?.addEventListener('click', () => {
+      if (currentStep === 5) showStep(6);
     });
 
     closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));

@@ -625,6 +625,7 @@
         <div class="exit-quiz-step is-hidden" data-step="5">
           <p class="exit-quiz-question">Optional: Describe your funnel below:</p>
           <textarea id="exit-quiz-funnel" class="exit-quiz-textarea" rows="4" placeholder="Describe your funnel and where you're seeing the biggest drop-off..."></textarea>
+          <button class="exit-quiz-skip" id="exit-quiz-skip-funnel" type="button">Skip this question</button>
         </div>
 
         <div class="exit-quiz-step is-hidden" data-step="6">
@@ -641,7 +642,15 @@
           <div class="exit-quiz-progress">
             <div class="exit-quiz-progress-fill" id="exit-quiz-progress-fill"></div>
           </div>
-          <button type="button" id="exit-quiz-next" class="exit-intent-primary-btn">Next</button>
+          <div class="exit-quiz-nav">
+            <button type="button" id="exit-quiz-back" class="exit-intent-secondary-btn is-hidden">Back</button>
+            <button type="button" id="exit-quiz-next" class="exit-intent-primary-btn">Next</button>
+          </div>
+        </div>
+
+        <div class="exit-quiz-success is-hidden" id="exit-quiz-success">
+          <h3>Thanks! Your quiz is complete.</h3>
+          <p>Look out for an email from Jordan with your next-step recommendations.</p>
         </div>
       </div>
     </div>
