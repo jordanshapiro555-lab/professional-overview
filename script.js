@@ -627,7 +627,8 @@ document.addEventListener('DOMContentLoaded', function () {
         first_name: firstName || null,
         last_name: rest.join(' ') || null,
         consent_email: true,
-        module_fields: finalPayload
+        module_fields: { ...finalPayload },
+        meta: { ...finalPayload }
       };
 
       try {
@@ -641,6 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         console.log('[exit-quiz] Final Supabase payload', finalPayload);
+        console.log('[exit-quiz] Request payload', requestPayload);
 
         const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
           method: 'POST',
