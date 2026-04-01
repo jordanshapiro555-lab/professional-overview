@@ -64,29 +64,85 @@ Deno.serve(async (req) => {
   );
 
   try {
+    // Normalize incoming payload.record data into reusable profile/event properties.
+    const normalizedFullName = typeof record.full_name === "string"
+      ? record.full_name.trim()
+      : "";
+    const nameParts = normalizedFullName ? normalizedFullName.split(/\s+/) : [];
+    const normalizedFirstName = record.first_name ?? nameParts[0] ?? null;
+    const normalizedLastName = record.last_name ?? (nameParts.length > 1
+      ? nameParts.slice(1).join(" ")
+      : null);
+    const normalizedPhone = typeof record.phone === "string"
+      ? record.phone.trim() || null
+      : record.phone ?? null;
+
+    const profilePropertyExclusions = new Set([
+      "id",
+      "attempt_count",
+      "forward_status",
+      "sent_at",
+      "last_attempt_at",
+      "last_error",
+      "created_at",
+      "updated_at",
+      "klaviyo_profile_id",
+      "klaviyo_subscription_job_id",
+      "klaviyo_event_id",
+    ]);
+
+    const profileProperties = Object.fromEntries(
+      Object.entries(record).filter(([key, value]) => (
+        !profilePropertyExclusions.has(key) && value !== undefined
+      ))
+    );
+
+    const eventProperties = Object.fromEntries(
+      Object.entries({
+        ...profileProperties,
+        submission_id: record.id,
+        source: record.source ?? "exit_intent_panel",
+      }).filter(([, value]) => value !== undefined)
+    );
+
+    // Import/update Klaviyo profile with latest submission fields.
     const profileResp = await klaviyoPost("/api/profile-import/", {
       data: {
         type: "profile",
         attributes: {
           email: record.email,
-          first_name: record.first_name ?? undefined,
-          last_name: record.last_name ?? undefined,
+          first_name: normalizedFirstName,
+          last_name: normalizedLastName,
+          phone_number: normalizedPhone ?? undefined,
         },
-        properties: {
-          source: "exit_intent_panel",
-          page_url: record.page_url ?? undefined,
-          utm: record.utm ?? undefined,
-        },
+        properties: profileProperties,
       },
     });
 
+    // Create opt-in job when consent is present; include SMS subscription when phone exists.
     let subscribeResp = null;
     if (record.consent_email) {
+      const subscriptionChannels: Record<string, unknown> = {
+        email: {
+          marketing: {
+            consent: "SUBSCRIBED",
+          },
+        },
+      };
+
+      if (normalizedPhone) {
+        subscriptionChannels.sms = {
+          marketing: {
+            consent: "SUBSCRIBED",
+          },
+        };
+      }
+
       subscribeResp = await klaviyoPost("/api/profile-subscription-bulk-create-jobs", {
         data: {
           type: "profile-subscription-bulk-create-job",
           attributes: {
-            custom_source: "Exit Intent Form",
+            custom_source: "CRO Quiz Form",
             historical_import: false,
             profiles: {
               data: [
@@ -94,13 +150,8 @@ Deno.serve(async (req) => {
                   type: "profile",
                   attributes: {
                     email: record.email,
-                    subscriptions: {
-                      email: {
-                        marketing: {
-                          consent: "SUBSCRIBED",
-                        },
-                      },
-                    },
+                    phone_number: normalizedPhone ?? undefined,
+                    subscriptions: subscriptionChannels,
                   },
                 },
               ],
@@ -118,21 +169,17 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Create CRO quiz submission event tied to the email profile.
     const eventResp = await klaviyoPost("/api/events", {
       data: {
         type: "event",
         attributes: {
-          properties: {
-            source: "exit_intent_panel",
-            page_url: record.page_url ?? null,
-            referrer: record.referrer ?? null,
-            utm: record.utm ?? null,
-          },
+          properties: eventProperties,
           metric: {
             data: {
               type: "metric",
               attributes: {
-                name: "Exit Intent Submitted",
+                name: "CRO Quiz Submission",
               },
             },
           },
