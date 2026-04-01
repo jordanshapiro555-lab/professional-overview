@@ -1,0 +1,186 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+function json(status: number, body: unknown) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+async function klaviyoPost(path: string, body: unknown) {
+  const resp = await fetch(`https://a.klaviyo.com${path}`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Klaviyo-API-Key ${Deno.env.get("KLAVIYO_PRIVATE_KEY")!}`,
+      "accept": "application/vnd.api+json",
+      "content-type": "application/vnd.api+json",
+      "revision": Deno.env.get("KLAVIYO_REVISION")!,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const text = await resp.text();
+  const data = text ? JSON.parse(text) : {};
+  if (!resp.ok) throw new Error(text);
+  return data;
+}
+
+Deno.serve(async (req) => {
+  if (req.method !== "POST") {
+    return json(405, { error: "Method not allowed" });
+  }
+
+  const secret = req.headers.get("x-webhook-secret");
+  const expectedSecret = Deno.env.get("EXIT_INTENT_WEBHOOK_SECRET");
+
+  if (!expectedSecret) {
+    return json(500, { error: "Missing EXIT_INTENT_WEBHOOK_SECRET env var" });
+  }
+
+  if (secret !== expectedSecret) {
+    return json(401, { error: "Unauthorized" });
+  }
+
+  let payload: any;
+  try {
+    payload = await req.json();
+  } catch {
+    return json(400, { error: "Invalid JSON body" });
+  }
+
+  const record = payload?.record;
+
+  if (!record?.id) {
+    return json(400, { error: "Missing record.id" });
+  }
+
+  if (!record?.email) {
+    return json(400, { error: "Missing email" });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+
+  try {
+    const profileResp = await klaviyoPost("/api/profile-import/", {
+      data: {
+        type: "profile",
+        attributes: {
+          email: record.email,
+          first_name: record.first_name ?? undefined,
+          last_name: record.last_name ?? undefined,
+        },
+        properties: {
+          source: "exit_intent_panel",
+          page_url: record.page_url ?? undefined,
+          utm: record.utm ?? undefined,
+        },
+      },
+    });
+
+    let subscribeResp = null;
+    if (record.consent_email) {
+      subscribeResp = await klaviyoPost("/api/profile-subscription-bulk-create-jobs", {
+        data: {
+          type: "profile-subscription-bulk-create-job",
+          attributes: {
+            custom_source: "Exit Intent Form",
+            historical_import: false,
+            profiles: {
+              data: [
+                {
+                  type: "profile",
+                  attributes: {
+                    email: record.email,
+                    subscriptions: {
+                      email: {
+                        marketing: {
+                          consent: "SUBSCRIBED",
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          },
+          relationships: {
+            list: {
+              data: {
+                type: "list",
+                id: Deno.env.get("KLAVIYO_LIST_ID")!,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    const eventResp = await klaviyoPost("/api/events", {
+      data: {
+        type: "event",
+        attributes: {
+          properties: {
+            source: "exit_intent_panel",
+            page_url: record.page_url ?? null,
+            referrer: record.referrer ?? null,
+            utm: record.utm ?? null,
+          },
+          metric: {
+            data: {
+              type: "metric",
+              attributes: {
+                name: "Exit Intent Submitted",
+              },
+            },
+          },
+          profile: {
+            data: {
+              type: "profile",
+              attributes: {
+                email: record.email,
+              },
+            },
+          },
+          unique_id: record.id,
+        },
+      },
+    });
+
+    const { error: updateError } = await supabase
+      .from("exit_intent_submissions")
+      .update({
+        forward_status: "sent",
+        sent_at: new Date().toISOString(),
+        klaviyo_profile_id: profileResp?.data?.id ?? null,
+        klaviyo_subscription_job_id: subscribeResp?.data?.id ?? null,
+        klaviyo_event_id: eventResp?.data?.id ?? null,
+        last_error: null,
+      })
+      .eq("id", record.id);
+
+    if (updateError) {
+      return json(500, {
+        error: `Klaviyo succeeded, but Supabase update failed: ${updateError.message}`,
+      });
+    }
+
+    return json(200, { ok: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+
+    await supabase
+      .from("exit_intent_submissions")
+      .update({
+        forward_status: "failed",
+        attempt_count: (record.attempt_count || 0) + 1,
+        last_attempt_at: new Date().toISOString(),
+        last_error: message,
+      })
+      .eq("id", record.id);
+
+    return json(500, { error: message });
+  }
+});
