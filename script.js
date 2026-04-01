@@ -712,14 +712,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!targetEl) return;
 
-      const yOffset = -70;
-      const y =
-        targetEl.getBoundingClientRect().top +
-        window.pageYOffset +
-        yOffset;
-
-      window.scrollTo({
-        top: y,
+      targetEl.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      window.scrollBy({
+        top: -72,
         behavior: "smooth",
       });
 
