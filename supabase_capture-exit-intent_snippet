@@ -1,5 +1,10 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { corsHeaders } from "jsr:@supabase/supabase-js/cors";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+};
 
 function json(status: number, body: unknown) {
   return new Response(JSON.stringify(body), {
@@ -15,6 +20,25 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
+function toTextArray(value: unknown): string[] | null {
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => (v == null ? "" : String(v).trim()))
+      .filter(Boolean);
+  }
+  return null;
+}
+
+function toNullableInt(value: unknown): number | null {
+  if (value == null || value === "") return null;
+  const n =
+    typeof value === "number"
+      ? value
+      : Number(String(value).replace(/,/g, "").trim());
+  if (!Number.isFinite(n)) return null;
+  return Math.max(0, Math.round(n));
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -24,7 +48,7 @@ Deno.serve(async (req) => {
     return json(405, { error: "Method not allowed" });
   }
 
-  let body;
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
@@ -32,6 +56,7 @@ Deno.serve(async (req) => {
   }
 
   const {
+    // existing/legacy fields
     email,
     first_name = null,
     last_name = null,
@@ -41,9 +66,24 @@ Deno.serve(async (req) => {
     referrer = null,
     utm = null,
     meta = null,
+
+    // intake fields (top-level)
+    audience = null,
+    goals = null,
+    challenges = null,
+    full_name = null,
+    funnel_description = null,
+    phone = null,
+    weekly_traffic_display = null,
+    weekly_traffic_unit = null,
+    weekly_traffic_value = null,
+
+    // compatibility wrapper from client
+    module_fields = null,
   } = body;
 
-  if (!email || !isValidEmail(email)) {
+  const emailStr = typeof email === "string" ? email.trim() : "";
+  if (!emailStr || !isValidEmail(emailStr)) {
     return json(400, { error: "Invalid email" });
   }
 
@@ -51,30 +91,91 @@ Deno.serve(async (req) => {
     return json(400, { error: "Consent required" });
   }
 
+  const mf =
+    module_fields && typeof module_fields === "object"
+      ? (module_fields as Record<string, unknown>)
+      : {};
+
+  // Resolve each intake field from top-level first, then module_fields fallback
+  const resolvedAudience =
+    (typeof audience === "string" ? audience : null) ??
+    (typeof mf.audience === "string" ? mf.audience : null);
+
+  const resolvedGoals = toTextArray(goals) ?? toTextArray(mf.goals);
+  const resolvedChallenges =
+    toTextArray(challenges) ?? toTextArray(mf.challenges);
+
+  const resolvedFullName =
+    (typeof full_name === "string" ? full_name : null) ??
+    (typeof mf.full_name === "string" ? mf.full_name : null);
+
+  const resolvedFunnelDescription =
+    (typeof funnel_description === "string" ? funnel_description : null) ??
+    (typeof mf.funnel_description === "string" ? mf.funnel_description : null);
+
+  const resolvedPhone =
+    (typeof phone === "string" ? phone : null) ??
+    (typeof mf.phone === "string" ? mf.phone : null);
+
+  const resolvedTrafficDisplay =
+    (typeof weekly_traffic_display === "string" ? weekly_traffic_display : null) ??
+    (typeof mf.weekly_traffic_display === "string" ? mf.weekly_traffic_display : null);
+
+  const resolvedTrafficUnit =
+    (typeof weekly_traffic_unit === "string" ? weekly_traffic_unit : null) ??
+    (typeof mf.weekly_traffic_unit === "string" ? mf.weekly_traffic_unit : null);
+
+  const resolvedTrafficValue =
+    toNullableInt(weekly_traffic_value) ?? toNullableInt(mf.weekly_traffic_value);
+
+  const resolvedPageUrl =
+    (typeof page_url === "string" ? page_url : null) ??
+    (typeof mf.page_url === "string" ? mf.page_url : null);
+
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
 
-  const { error } = await supabase
+  const row = {
+    // existing columns
+    email: emailStr,
+    first_name: typeof first_name === "string" ? first_name : null,
+    last_name: typeof last_name === "string" ? last_name : null,
+    consent_email: Boolean(consent_email),
+    consented_at: typeof consented_at === "string" ? consented_at : null,
+    page_url: resolvedPageUrl,
+    referrer: typeof referrer === "string" ? referrer : null,
+    utm: utm ?? null,
+    meta: meta ?? null,
+    source: "exit_intent_panel",
+    forward_status: "pending",
+
+    // intake schema columns
+    audience: resolvedAudience,
+    goals: resolvedGoals,
+    challenges: resolvedChallenges,
+    full_name: resolvedFullName,
+    funnel_description: resolvedFunnelDescription,
+    phone: resolvedPhone,
+    weekly_traffic_display: resolvedTrafficDisplay,
+    weekly_traffic_unit: resolvedTrafficUnit,
+    weekly_traffic_value: resolvedTrafficValue,
+  };
+
+  console.log("[capture-exit-intent] insert row", row);
+
+  const { data, error } = await supabase
     .from("exit_intent_submissions")
-    .insert({
-      email,
-      first_name,
-      last_name,
-      consent_email,
-      consented_at,
-      page_url,
-      referrer,
-      utm,
-      meta,
-      source: "exit_intent_panel",
-      forward_status: "pending",
-    });
+    .insert(row)
+    .select()
+    .single();
 
   if (error) {
+    console.error("[capture-exit-intent] insert error", error);
     return json(500, { error: error.message });
   }
 
-  return json(200, { ok: true });
+  console.log("[capture-exit-intent] insert success", data);
+  return json(200, { ok: true, id: (data as Record<string, unknown>)?.id ?? null });
 });
