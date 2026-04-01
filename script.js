@@ -92,19 +92,73 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Smooth scrolling for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  // Smooth scrolling for same-page hash links
+  const normalizePath = (path) => {
+    if (!path) return '/';
+    let normalized = path.replace(/\/+$|\/$/g, '');
+    if (!normalized) normalized = '/';
+    normalized = normalized.replace(/\.html$/i, '');
+    return normalized || '/';
+  };
+
+  const scrollToHashTarget = (hash, { updateHash = false, smooth = true } = {}) => {
+    if (!hash || hash === '#') {
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+      if (updateHash) history.replaceState(null, '', '#');
+      return true;
+    }
+
+    const targetId = decodeURIComponent(hash.replace(/^#/, ''));
+    const targetEl = document.getElementById(targetId);
+    if (!targetEl) return false;
+
+    // Use scrollIntoView first for reliable anchor targeting, then offset for sticky header.
+    targetEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    window.scrollBy({ top: -72, behavior: smooth ? 'smooth' : 'auto' });
+
+    if (updateHash) history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
+    return true;
+  };
+
+  document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (href.length > 1) {
-        e.preventDefault();
-        const el = document.querySelector(href);
-        if (el) {
-          const y = el.getBoundingClientRect().top + window.pageYOffset - 72;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
+      const rawHref = this.getAttribute('href');
+      if (!rawHref) return;
+
+      let url;
+      try {
+        url = new URL(rawHref, window.location.href);
+      } catch {
+        return;
       }
+
+      const isSamePage =
+        url.origin === window.location.origin &&
+        normalizePath(url.pathname) === normalizePath(window.location.pathname);
+
+      if (!isSamePage) return;
+
+      e.preventDefault();
+      scrollToHashTarget(url.hash || '#', { updateHash: true });
     });
+  });
+
+  if (window.location.hash) {
+    [0, 120, 360].forEach((delay) => {
+      setTimeout(() => {
+        scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
+      }, delay);
+    });
+  }
+
+  window.addEventListener('load', () => {
+    if (window.location.hash) {
+      scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
+    }
+  });
+
+  window.addEventListener('hashchange', () => {
+    scrollToHashTarget(window.location.hash, { updateHash: false, smooth: true });
   });
 
   // Highlight active nav link using IntersectionObserver
@@ -658,14 +712,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!targetEl) return;
 
-      const yOffset = -70;
-      const y =
-        targetEl.getBoundingClientRect().top +
-        window.pageYOffset +
-        yOffset;
-
-      window.scrollTo({
-        top: y,
+      targetEl.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      window.scrollBy({
+        top: -72,
         behavior: "smooth",
       });
 
