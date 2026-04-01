@@ -1,14 +1,60 @@
 // script.js — nav toggle, smooth scroll, sticky header, active section highlight
 
 document.addEventListener('DOMContentLoaded', function () {
+  const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
+
+  // Desktop secondary quiz CTA in sticky nav
+  const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
+  const ensureDesktopQuizCta = () => {
+    document.querySelectorAll('.main-nav').forEach((navEl) => {
+      const existingCta = navEl.querySelector('.desktop-quiz-cta');
+      if (!isContactPage && !isMobileViewport()) {
+        if (existingCta) return;
+        const quizCta = document.createElement('a');
+        quizCta.href = '#';
+        quizCta.className = 'btn btn-ghost desktop-quiz-cta';
+        quizCta.setAttribute('data-open-exit-quiz', 'true');
+        quizCta.textContent = 'Take the CRO Quiz';
+        navEl.appendChild(quizCta);
+        return;
+      }
+      if (existingCta) existingCta.remove();
+    });
+  };
+
+  if (!isContactPage) {
+    ensureDesktopQuizCta();
+    window.addEventListener('resize', ensureDesktopQuizCta);
+  }
+
+  // Mobile sticky CTA banner across pages
+  if (!isContactPage && !document.getElementById('mobile-sticky-banner')) {
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="mobile-sticky-banner" id="mobile-sticky-banner" aria-label="Primary actions">
+        <a class="btn btn-primary mobile-sticky-banner__cta" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Work with me</a>
+        <button type="button" class="btn btn-ghost mobile-sticky-banner__cta" data-open-exit-quiz="true">Take the CRO quiz</button>
+      </div>
+    `);
+    document.body.classList.add('has-mobile-sticky-banner');
+  }
+
   // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
+  const mobileStickyBanner = document.getElementById('mobile-sticky-banner');
+
+  const syncMobileBannerWithNav = () => {
+    if (!mobileStickyBanner || !mainNav) return;
+    const navIsOpen = mainNav.classList.contains('open');
+    mobileStickyBanner.classList.toggle('is-hidden', navIsOpen);
+  };
+  syncMobileBannerWithNav();
 
   navToggle.addEventListener('click', function () {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
     mainNav.classList.toggle('open');
+    syncMobileBannerWithNav();
     // animate hamburger
     navToggle.querySelector('.hamburger').classList.toggle('open');
   });
@@ -29,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (mainNav.classList.contains('open')) {
         mainNav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
+        syncMobileBannerWithNav();
       }
     });
   });
@@ -142,7 +189,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ── Exit intent fly-in quiz ──
-  const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
   if (!isContactPage && !document.getElementById('exit-intent-quiz')) {
     const quizTemplate = `
       <div id="exit-intent-quiz" class="exit-intent-quiz" role="dialog" aria-modal="true" aria-labelledby="exit-quiz-title" aria-hidden="true">
@@ -160,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="exit-intent-quiz-flow is-hidden" id="exit-intent-flow">
             <div class="exit-quiz-header">Let's Get Started!</div>
             <div class="exit-quiz-step" data-step="1">
-              <p class="exit-quiz-question">Answer a few questions to help us understand your needs:</p>
+              <p class="exit-quiz-question">What kind of funnel do you have?</p>
               <div class="exit-quiz-options-grid">
                 <button type="button" class="exit-quiz-tile" data-value="Ecommerce">Ecommerce</button>
                 <button type="button" class="exit-quiz-tile" data-value="Lead Generation">Lead Generation</button>
@@ -183,7 +229,13 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
             <div class="exit-quiz-step is-hidden" data-step="4">
               <p class="exit-quiz-question">Approximately how much traffic goes to your site weekly?</p>
-              <input type="text" id="exit-quiz-traffic" class="exit-quiz-input" placeholder="100,000 users">
+              <div class="exit-quiz-traffic-row">
+                <input type="number" id="exit-quiz-traffic" class="exit-quiz-input" placeholder="100000" value="100000" min="0" step="1">
+                <select id="exit-quiz-traffic-type" class="exit-quiz-input exit-quiz-select" aria-label="Traffic unit">
+                  <option value="Users">Users</option>
+                  <option value="Sessions" selected>Sessions</option>
+                </select>
+              </div>
             </div>
             <div class="exit-quiz-step is-hidden" data-step="5">
               <p class="exit-quiz-question">Optional: Describe your funnel below:</p>
@@ -217,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.insertAdjacentHTML('beforeend', quizTemplate);
   }
 
-  const exitQuiz = isContactPage ? null : document.getElementById('exit-intent-quiz');
+  const exitQuiz = document.getElementById('exit-intent-quiz');
   if (exitQuiz) {
     const EXIT_QUIZ_ANSWERS_KEY = 'exit_quiz_answers_v1';
     const EXIT_QUIZ_LAST_SHOWN_KEY = 'exit_quiz_last_shown_at';
@@ -253,6 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
       goals: savedAnswers.goals || [],
       challenges: savedAnswers.challenges || [],
       traffic: savedAnswers.traffic || '',
+      trafficType: savedAnswers.trafficType || 'Sessions',
       funnel: savedAnswers.funnel || '',
       name: savedAnswers.name || '',
       email: savedAnswers.email || '',
@@ -287,8 +340,8 @@ document.addEventListener('DOMContentLoaded', function () {
       sessionStorage.setItem(EXIT_QUIZ_LAST_SHOWN_KEY, String(Date.now()));
     };
 
-    const openQuiz = () => {
-      if (withinCooldown()) return false;
+    const openQuiz = (force = false) => {
+      if (!force && withinCooldown()) return false;
       exitQuiz.classList.add('is-open');
       exitQuiz.setAttribute('aria-hidden', 'false');
       markShown();
@@ -316,7 +369,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const progress = Math.round(((step - 1) / 5) * 100);
       progressFill.style.width = `${progress}%`;
       progressValue.textContent = `${progress}%`;
-      backBtn?.classList.toggle('is-hidden', step <= 1);
+      const showBack = step >= 1;
+      backBtn?.classList.toggle('is-hidden', !showBack);
 
       if (nextBtn) {
         nextBtn.textContent = step === 6 ? 'Submit' : 'Next';
@@ -346,6 +400,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentStep === 4) {
         const trafficValue = document.getElementById('exit-quiz-traffic')?.value.trim();
         if (!trafficValue) return 'Please enter your weekly traffic estimate.';
+        const trafficTypeValue = document.getElementById('exit-quiz-traffic-type')?.value.trim();
+        if (!trafficTypeValue) return 'Please select traffic unit.';
       }
       if (currentStep === 6) {
         const name = document.getElementById('exit-quiz-name')?.value.trim();
@@ -424,6 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       if (currentStep === 4) {
         answers.traffic = document.getElementById('exit-quiz-traffic')?.value.trim() || '';
+        answers.trafficType = document.getElementById('exit-quiz-traffic-type')?.value.trim() || 'Sessions';
       }
       if (currentStep === 5) {
         answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
@@ -483,7 +540,9 @@ document.addEventListener('DOMContentLoaded', function () {
           audience: answers.audience || null,
           goals: answers.goals || [],
           challenges: answers.challenges || [],
-          traffic: answers.traffic || null,
+          traffic: answers.traffic ? `${answers.traffic} ${answers.trafficType || 'Sessions'}` : null,
+          traffic_value: answers.traffic || null,
+          traffic_type: answers.trafficType || null,
           funnel: answers.funnel || null
         }
       };
@@ -513,7 +572,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     backBtn?.addEventListener('click', () => {
-      if (currentStep > 1) {
+      if (currentStep === 1) {
+        flow?.classList.add('is-hidden');
+        cta?.classList.remove('is-hidden');
+        backBtn?.classList.add('is-hidden');
+      } else if (currentStep > 1) {
         showStep(currentStep - 1);
       }
     });
@@ -531,17 +594,30 @@ document.addEventListener('DOMContentLoaded', function () {
       q1Tiles.find((tile) => tile.dataset.value === answers.audience)?.classList.add('is-selected');
     }
     const trafficEl = document.getElementById('exit-quiz-traffic');
+    const trafficTypeEl = document.getElementById('exit-quiz-traffic-type');
     const funnelEl = document.getElementById('exit-quiz-funnel');
     const nameEl = document.getElementById('exit-quiz-name');
     const emailEl = document.getElementById('exit-quiz-email');
     const phoneEl = document.getElementById('exit-quiz-phone');
     if (trafficEl) trafficEl.value = answers.traffic;
+    if (trafficTypeEl) trafficTypeEl.value = answers.trafficType || 'Sessions';
     if (funnelEl) funnelEl.value = answers.funnel;
     if (nameEl) nameEl.value = answers.name;
     if (emailEl) emailEl.value = answers.email;
     if (phoneEl) phoneEl.value = answers.phone;
 
     closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));
+
+    document.querySelectorAll('[data-open-exit-quiz="true"]').forEach((trigger) => {
+      trigger.addEventListener('click', (e) => {
+        if (trigger.tagName === 'A') e.preventDefault();
+        const opened = openQuiz(true);
+        if (!opened) return;
+        cta?.classList.remove('is-hidden');
+        flow?.classList.add('is-hidden');
+        showStep(1);
+      });
+    });
   }
 });
 
