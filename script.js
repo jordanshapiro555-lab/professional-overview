@@ -93,14 +93,35 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Smooth scrolling for same-page hash links
+  const normalizePath = (path) => {
+    if (!path) return '/';
+    let normalized = path.replace(/\/+$|\/$/g, '');
+    if (!normalized) normalized = '/';
+    normalized = normalized.replace(/\.html$/i, '');
+    return normalized || '/';
+  };
+
+  const scrollToHashTarget = (hash, { updateHash = false } = {}) => {
+    if (!hash || hash === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (updateHash) history.replaceState(null, '', '#');
+      return true;
+    }
+
+    const targetId = decodeURIComponent(hash.replace(/^#/, ''));
+    const targetEl = document.getElementById(targetId);
+    if (!targetEl) return false;
+
+    const y = targetEl.getBoundingClientRect().top + window.pageYOffset - 72;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+    if (updateHash) history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
+    return true;
+  };
+
   document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const rawHref = this.getAttribute('href');
-      if (!rawHref || rawHref === '#') {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+      if (!rawHref) return;
 
       let url;
       try {
@@ -111,19 +132,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const isSamePage =
         url.origin === window.location.origin &&
-        url.pathname === window.location.pathname;
+        normalizePath(url.pathname) === normalizePath(window.location.pathname);
 
-      if (!isSamePage || !url.hash) return;
-
-      const targetId = decodeURIComponent(url.hash.slice(1));
-      const targetEl = document.getElementById(targetId);
-      if (!targetEl) return;
+      if (!isSamePage) return;
 
       e.preventDefault();
-      const y = targetEl.getBoundingClientRect().top + window.pageYOffset - 72;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
+      scrollToHashTarget(url.hash || '#', { updateHash: true });
     });
+  });
+
+  if (window.location.hash) {
+    setTimeout(() => {
+      scrollToHashTarget(window.location.hash, { updateHash: false });
+    }, 0);
+  }
+
+  window.addEventListener('hashchange', () => {
+    scrollToHashTarget(window.location.hash, { updateHash: false });
   });
 
   // Highlight active nav link using IntersectionObserver
