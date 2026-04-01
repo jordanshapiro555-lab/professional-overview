@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return normalized || '/';
   };
 
-  const scrollToHashTarget = (hash, { updateHash = false } = {}) => {
+  const scrollToHashTarget = (hash, { updateHash = false, smooth = true } = {}) => {
     if (!hash || hash === '#') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
       if (updateHash) history.replaceState(null, '', '#');
       return true;
     }
@@ -112,8 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const targetEl = document.getElementById(targetId);
     if (!targetEl) return false;
 
-    const y = targetEl.getBoundingClientRect().top + window.pageYOffset - 72;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    // Use scrollIntoView first for reliable anchor targeting, then offset for sticky header.
+    targetEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+    window.scrollBy({ top: -72, behavior: smooth ? 'smooth' : 'auto' });
+
     if (updateHash) history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
     return true;
   };
@@ -142,13 +144,21 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   if (window.location.hash) {
-    setTimeout(() => {
-      scrollToHashTarget(window.location.hash, { updateHash: false });
-    }, 0);
+    [0, 120, 360].forEach((delay) => {
+      setTimeout(() => {
+        scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
+      }, delay);
+    });
   }
 
+  window.addEventListener('load', () => {
+    if (window.location.hash) {
+      scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
+    }
+  });
+
   window.addEventListener('hashchange', () => {
-    scrollToHashTarget(window.location.hash, { updateHash: false });
+    scrollToHashTarget(window.location.hash, { updateHash: false, smooth: true });
   });
 
   // Highlight active nav link using IntersectionObserver
