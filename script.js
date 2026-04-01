@@ -510,7 +510,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const parseTrafficValue = (value) => {
       if (!value) return null;
-      const numericValue = Number(value);
+      const normalizedValue = String(value).replace(/,/g, '').trim();
+      const numericValue = Number(normalizedValue);
       if (!Number.isFinite(numericValue)) return null;
       return Math.max(0, Math.round(numericValue));
     };
@@ -603,60 +604,42 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      const [firstName, ...rest] = answers.name.split(/\s+/).filter(Boolean);
       const trafficValue = parseTrafficValue(answers.traffic);
-      const moduleFields = {
+      const trafficUnit = answers.trafficType || null;
+      const finalPayload = {
         audience: answers.audience || null,
-        goals: answers.goals || [],
-        challenges: answers.challenges || [],
-        weekly_traffic_value: trafficValue,
-        weekly_traffic_unit: answers.trafficType || null,
-        weekly_traffic_display: trafficValue !== null
-          ? `${trafficValue} ${answers.trafficType || 'Sessions'}`
-          : null,
-        full_name: answers.name || null,
+        goals: Array.isArray(answers.goals) ? answers.goals : [],
+        challenges: Array.isArray(answers.challenges) ? answers.challenges : [],
         email: answers.email || null,
-        phone: answers.phone || null
-      };
-      if (answers.funnel) {
-        moduleFields.funnel_description = answers.funnel;
-      }
-
-      const payload = {
-        email: answers.email,
-        first_name: firstName || null,
-        last_name: rest.join(' ') || null,
-        consent_email: true,
-        consented_at: new Date().toISOString(),
-        page_url: window.location.href,
-        referrer: document.referrer || null,
-        utm: parseUTM(),
-        module_fields: moduleFields,
-        meta: {
-          user_agent: navigator.userAgent,
-          language: navigator.language,
-          ...moduleFields
-        }
+        full_name: answers.name || null,
+        funnel_description: answers.funnel || null,
+        phone: answers.phone || null,
+        weekly_traffic_display: answers.traffic
+          ? `${answers.traffic} ${trafficUnit || 'Sessions'}`
+          : null,
+        weekly_traffic_unit: trafficUnit,
+        weekly_traffic_value: trafficValue,
+        page_url: window.location.href
       };
 
       try {
         if (
-          !payload.email ||
-          !payload.first_name ||
-          moduleFields.weekly_traffic_value === null ||
-          !moduleFields.weekly_traffic_unit
+          !finalPayload.email ||
+          !finalPayload.full_name ||
+          finalPayload.weekly_traffic_value === null ||
+          !finalPayload.weekly_traffic_unit
         ) {
           throw new Error('Missing required quiz fields for submission.');
         }
 
-        logDev('[exit-quiz] Supabase payload', payload);
+        console.log('[exit-quiz] Final Supabase payload', finalPayload);
 
         const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(finalPayload)
         });
 
         const responseBodyText = await resp.text();
@@ -668,14 +651,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (!resp.ok) {
-          logDev('[exit-quiz] Supabase error response', {
+          console.error('[exit-quiz] Supabase error result', {
             status: resp.status,
             body: parsedResponse
           });
           throw new Error(typeof parsedResponse === 'string' ? parsedResponse : `Supabase request failed with status ${resp.status}`);
         }
 
-        logDev('[exit-quiz] Supabase success response', {
+        console.log('[exit-quiz] Supabase success result', {
           status: resp.status,
           body: parsedResponse
         });
