@@ -276,14 +276,14 @@ body{
   .cards{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr; gap:8px; text-align:left; }
   .desktop-quiz-cta { display:none; }
-  body { padding-bottom: 84px; }
+  body.has-mobile-sticky-banner { padding-top: 164px; }
 }
 
 .mobile-sticky-banner {
   position: fixed;
   left: 12px;
   right: 12px;
-  bottom: 12px;
+  top: 74px;
   z-index: 55;
   display: none;
   gap: 8px;

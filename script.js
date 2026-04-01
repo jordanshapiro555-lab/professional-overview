@@ -1,25 +1,30 @@
 // script.js — nav toggle, smooth scroll, sticky header, active section highlight
 
 document.addEventListener('DOMContentLoaded', function () {
+  const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
+
   // Desktop secondary quiz CTA in sticky nav
-  document.querySelectorAll('.main-nav').forEach((navEl) => {
-    if (navEl.querySelector('.desktop-quiz-cta')) return;
-    const quizCta = document.createElement('button');
-    quizCta.type = 'button';
-    quizCta.className = 'btn btn-ghost desktop-quiz-cta';
-    quizCta.setAttribute('data-open-exit-quiz', 'true');
-    quizCta.textContent = 'Take the CRO Quiz';
-    navEl.appendChild(quizCta);
-  });
+  if (!isContactPage) {
+    document.querySelectorAll('.main-nav').forEach((navEl) => {
+      if (navEl.querySelector('.desktop-quiz-cta')) return;
+      const quizCta = document.createElement('a');
+      quizCta.href = '#';
+      quizCta.className = 'btn btn-ghost desktop-quiz-cta';
+      quizCta.setAttribute('data-open-exit-quiz', 'true');
+      quizCta.textContent = 'Take the CRO Quiz';
+      navEl.appendChild(quizCta);
+    });
+  }
 
   // Mobile sticky CTA banner across pages
-  if (!document.getElementById('mobile-sticky-banner')) {
+  if (!isContactPage && !document.getElementById('mobile-sticky-banner')) {
     document.body.insertAdjacentHTML('beforeend', `
       <div class="mobile-sticky-banner" id="mobile-sticky-banner" aria-label="Primary actions">
         <a class="btn btn-primary mobile-sticky-banner__cta" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Work with me</a>
         <button type="button" class="btn btn-ghost mobile-sticky-banner__cta" data-open-exit-quiz="true">Take the CRO quiz</button>
       </div>
     `);
+    document.body.classList.add('has-mobile-sticky-banner');
   }
 
   // Mobile nav toggle
@@ -163,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ── Exit intent fly-in quiz ──
-  if (!document.getElementById('exit-intent-quiz')) {
+  if (!isContactPage && !document.getElementById('exit-intent-quiz')) {
     const quizTemplate = `
       <div id="exit-intent-quiz" class="exit-intent-quiz" role="dialog" aria-modal="true" aria-labelledby="exit-quiz-title" aria-hidden="true">
         <div class="exit-intent-overlay" data-exit-close></div>
@@ -343,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const progress = Math.round(((step - 1) / 5) * 100);
       progressFill.style.width = `${progress}%`;
       progressValue.textContent = `${progress}%`;
-      const showBack = step > 1 || (step === 1 && !cta?.classList.contains('is-hidden'));
+      const showBack = step >= 1;
       backBtn?.classList.toggle('is-hidden', !showBack);
 
       if (nextBtn) {
@@ -584,6 +589,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('[data-open-exit-quiz="true"]').forEach((trigger) => {
       trigger.addEventListener('click', () => {
+        if (trigger.tagName === 'A') {
+          trigger.preventDefault();
+        }
         const opened = openQuiz(true);
         if (!opened) return;
         cta?.classList.remove('is-hidden');
