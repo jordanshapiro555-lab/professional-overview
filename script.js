@@ -487,6 +487,34 @@ document.addEventListener('DOMContentLoaded', function () {
       return Object.keys(out).length ? out : null;
     };
 
+    const isDevLoggingEnabled = () => {
+      const host = window.location.hostname;
+      return host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local');
+    };
+
+    const logDev = (label, data) => {
+      if (!isDevLoggingEnabled()) return;
+      console.info(label, data);
+    };
+
+    const collectCurrentAnswers = () => {
+      answers.goals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
+      answers.challenges = Array.from(exitQuiz.querySelectorAll('[data-step="3"] input:checked')).map((el) => el.value);
+      answers.traffic = document.getElementById('exit-quiz-traffic')?.value.trim() || '';
+      answers.trafficType = document.getElementById('exit-quiz-traffic-type')?.value.trim() || 'Sessions';
+      answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
+      answers.name = document.getElementById('exit-quiz-name')?.value.trim() || '';
+      answers.email = document.getElementById('exit-quiz-email')?.value.trim() || '';
+      answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
+    };
+
+    const parseTrafficValue = (value) => {
+      if (!value) return null;
+      const numericValue = Number(value);
+      if (!Number.isFinite(numericValue)) return null;
+      return Math.max(0, Math.round(numericValue));
+    };
+
     document.addEventListener('mouseout', (e) => {
       if (hasShownQuiz) return;
       if (e.clientY <= 0) {
@@ -563,9 +591,7 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       if (currentStep !== 6) return;
 
-      answers.name = document.getElementById('exit-quiz-name')?.value.trim() || '';
-      answers.email = document.getElementById('exit-quiz-email')?.value.trim() || '';
-      answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
+      collectCurrentAnswers();
       persistAnswers();
 
       const errorMessage = getValidationError();
@@ -578,6 +604,24 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const [firstName, ...rest] = answers.name.split(/\s+/).filter(Boolean);
+      const trafficValue = parseTrafficValue(answers.traffic);
+      const moduleFields = {
+        audience: answers.audience || null,
+        goals: answers.goals || [],
+        challenges: answers.challenges || [],
+        weekly_traffic_value: trafficValue,
+        weekly_traffic_unit: answers.trafficType || null,
+        weekly_traffic_display: trafficValue !== null
+          ? `${trafficValue} ${answers.trafficType || 'Sessions'}`
+          : null,
+        full_name: answers.name || null,
+        email: answers.email || null,
+        phone: answers.phone || null
+      };
+      if (answers.funnel) {
+        moduleFields.funnel_description = answers.funnel;
+      }
+
       const payload = {
         email: answers.email,
         first_name: firstName || null,
@@ -587,21 +631,26 @@ document.addEventListener('DOMContentLoaded', function () {
         page_url: window.location.href,
         referrer: document.referrer || null,
         utm: parseUTM(),
+        module_fields: moduleFields,
         meta: {
           user_agent: navigator.userAgent,
           language: navigator.language,
-          phone: answers.phone || null,
-          audience: answers.audience || null,
-          goals: answers.goals || [],
-          challenges: answers.challenges || [],
-          traffic: answers.traffic ? `${answers.traffic} ${answers.trafficType || 'Sessions'}` : null,
-          traffic_value: answers.traffic || null,
-          traffic_type: answers.trafficType || null,
-          funnel: answers.funnel || null
+          ...moduleFields
         }
       };
 
       try {
+        if (
+          !payload.email ||
+          !payload.first_name ||
+          moduleFields.weekly_traffic_value === null ||
+          !moduleFields.weekly_traffic_unit
+        ) {
+          throw new Error('Missing required quiz fields for submission.');
+        }
+
+        logDev('[exit-quiz] Supabase payload', payload);
+
         const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
           method: 'POST',
           headers: {
@@ -610,14 +659,33 @@ document.addEventListener('DOMContentLoaded', function () {
           body: JSON.stringify(payload)
         });
 
-        if (!resp.ok) throw new Error(await resp.text());
+        const responseBodyText = await resp.text();
+        let parsedResponse = null;
+        try {
+          parsedResponse = responseBodyText ? JSON.parse(responseBodyText) : null;
+        } catch {
+          parsedResponse = responseBodyText || null;
+        }
+
+        if (!resp.ok) {
+          logDev('[exit-quiz] Supabase error response', {
+            status: resp.status,
+            body: parsedResponse
+          });
+          throw new Error(typeof parsedResponse === 'string' ? parsedResponse : `Supabase request failed with status ${resp.status}`);
+        }
+
+        logDev('[exit-quiz] Supabase success response', {
+          status: resp.status,
+          body: parsedResponse
+        });
 
         panelForm.reset();
         handleSubmitSuccess();
       } catch (err) {
-        console.error(err);
+        console.error('[exit-quiz] Submit failed', err);
         if (errorEl) {
-          errorEl.textContent = 'Something went wrong.';
+          errorEl.textContent = 'Something went wrong. Please review your responses and try again.';
           errorEl.classList.remove('is-hidden');
         } else {
           alert('Something went wrong.');
