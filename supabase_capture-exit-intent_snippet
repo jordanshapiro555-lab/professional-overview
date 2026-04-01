@@ -1,0 +1,80 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+import { corsHeaders } from "jsr:@supabase/supabase-js/cors";
+
+function json(status: number, body: unknown) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
+}
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
+  if (req.method !== "POST") {
+    return json(405, { error: "Method not allowed" });
+  }
+
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return json(400, { error: "Invalid JSON" });
+  }
+
+  const {
+    email,
+    first_name = null,
+    last_name = null,
+    consent_email = false,
+    consented_at = null,
+    page_url = null,
+    referrer = null,
+    utm = null,
+    meta = null,
+  } = body;
+
+  if (!email || !isValidEmail(email)) {
+    return json(400, { error: "Invalid email" });
+  }
+
+  if (!consent_email) {
+    return json(400, { error: "Consent required" });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+
+  const { error } = await supabase
+    .from("exit_intent_submissions")
+    .insert({
+      email,
+      first_name,
+      last_name,
+      consent_email,
+      consented_at,
+      page_url,
+      referrer,
+      utm,
+      meta,
+      source: "exit_intent_panel",
+      forward_status: "pending",
+    });
+
+  if (error) {
+    return json(500, { error: error.message });
+  }
+
+  return json(200, { ok: true });
+});
