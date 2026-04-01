@@ -4,16 +4,27 @@ document.addEventListener('DOMContentLoaded', function () {
   const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
 
   // Desktop secondary quiz CTA in sticky nav
-  if (!isContactPage) {
+  const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
+  const ensureDesktopQuizCta = () => {
     document.querySelectorAll('.main-nav').forEach((navEl) => {
-      if (navEl.querySelector('.desktop-quiz-cta')) return;
-      const quizCta = document.createElement('a');
-      quizCta.href = '#';
-      quizCta.className = 'btn btn-ghost desktop-quiz-cta';
-      quizCta.setAttribute('data-open-exit-quiz', 'true');
-      quizCta.textContent = 'Take the CRO Quiz';
-      navEl.appendChild(quizCta);
+      const existingCta = navEl.querySelector('.desktop-quiz-cta');
+      if (!isContactPage && !isMobileViewport()) {
+        if (existingCta) return;
+        const quizCta = document.createElement('a');
+        quizCta.href = '#';
+        quizCta.className = 'btn btn-ghost desktop-quiz-cta';
+        quizCta.setAttribute('data-open-exit-quiz', 'true');
+        quizCta.textContent = 'Take the CRO Quiz';
+        navEl.appendChild(quizCta);
+        return;
+      }
+      if (existingCta) existingCta.remove();
     });
+  };
+
+  if (!isContactPage) {
+    ensureDesktopQuizCta();
+    window.addEventListener('resize', ensureDesktopQuizCta);
   }
 
   // Mobile sticky CTA banner across pages
@@ -30,11 +41,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
+  const mobileStickyBanner = document.getElementById('mobile-sticky-banner');
+
+  const syncMobileBannerWithNav = () => {
+    if (!mobileStickyBanner || !mainNav) return;
+    const navIsOpen = mainNav.classList.contains('open');
+    mobileStickyBanner.classList.toggle('is-hidden', navIsOpen);
+  };
+  syncMobileBannerWithNav();
 
   navToggle.addEventListener('click', function () {
     const expanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', String(!expanded));
     mainNav.classList.toggle('open');
+    syncMobileBannerWithNav();
     // animate hamburger
     navToggle.querySelector('.hamburger').classList.toggle('open');
   });
@@ -55,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (mainNav.classList.contains('open')) {
         mainNav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
+        syncMobileBannerWithNav();
       }
     });
   });
@@ -588,10 +609,8 @@ document.addEventListener('DOMContentLoaded', function () {
     closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));
 
     document.querySelectorAll('[data-open-exit-quiz="true"]').forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        if (trigger.tagName === 'A') {
-          trigger.preventDefault();
-        }
+      trigger.addEventListener('click', (e) => {
+        if (trigger.tagName === 'A') e.preventDefault();
         const opened = openQuiz(true);
         if (!opened) return;
         cta?.classList.remove('is-hidden');

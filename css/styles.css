@@ -281,18 +281,22 @@ body{
 
 .mobile-sticky-banner {
   position: fixed;
-  left: 12px;
-  right: 12px;
+  left: 0;
+  right: 0;
   top: 74px;
   z-index: 55;
   display: none;
   gap: 8px;
   padding: 10px;
   border: 1px solid rgba(11, 75, 216, 0.2);
-  border-radius: 14px;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 8px 24px rgba(12,18,31,0.12);
   backdrop-filter: blur(8px);
+}
+
+.mobile-sticky-banner.is-hidden {
+  display: none !important;
 }
 
 .mobile-sticky-banner__cta {
