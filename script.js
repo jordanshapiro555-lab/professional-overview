@@ -604,6 +604,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      const [firstName, ...rest] = answers.name.split(/\s+/).filter(Boolean);
       const trafficValue = parseTrafficValue(answers.traffic);
       const trafficUnit = answers.trafficType || null;
       const finalPayload = {
@@ -620,6 +621,13 @@ document.addEventListener('DOMContentLoaded', function () {
         weekly_traffic_unit: trafficUnit,
         weekly_traffic_value: trafficValue,
         page_url: window.location.href
+      };
+      const requestPayload = {
+        ...finalPayload,
+        first_name: firstName || null,
+        last_name: rest.join(' ') || null,
+        consent_email: true,
+        module_fields: finalPayload
       };
 
       try {
@@ -639,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function () {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(finalPayload)
+          body: JSON.stringify(requestPayload)
         });
 
         const responseBodyText = await resp.text();
