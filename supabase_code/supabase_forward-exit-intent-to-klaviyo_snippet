@@ -114,8 +114,8 @@ Deno.serve(async (req) => {
           first_name: normalizedFirstName,
           last_name: normalizedLastName,
           phone_number: normalizedPhone ?? undefined,
+          properties: profileProperties,
         },
-        properties: profileProperties,
       },
     });
 
