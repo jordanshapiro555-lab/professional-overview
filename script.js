@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const quizTemplate = `
       <div id="exit-intent-quiz" class="exit-intent-quiz" role="dialog" aria-modal="true" aria-labelledby="exit-quiz-title" aria-hidden="true">
         <div class="exit-intent-overlay" data-exit-close></div>
-        <div class="exit-intent-panel">
+        <form class="exit-intent-panel">
           <button class="exit-intent-close" type="button" aria-label="Close popup" data-exit-close>×</button>
           <div class="exit-intent-cta" id="exit-intent-step-0">
             <div class="exit-intent-top-bar"></div>
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
               <p>Look out for an email from Jordan with your next-step recommendations.</p>
             </div>
           </div>
-        </div>
+        </form>
       </div>`;
     document.body.insertAdjacentHTML('beforeend', quizTemplate);
   }
@@ -223,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const EXIT_QUIZ_LAST_SHOWN_KEY = 'exit_quiz_last_shown_at';
     const EXIT_QUIZ_COOLDOWN_MS = 120000;
     const closeTriggers = exitQuiz.querySelectorAll('[data-exit-close]');
+    const panelForm = exitQuiz.querySelector('.exit-intent-panel');
     const startBtn = document.getElementById('exit-quiz-start');
     const flow = document.getElementById('exit-intent-flow');
     const cta = document.getElementById('exit-intent-step-0');
@@ -319,6 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (nextBtn) {
         nextBtn.textContent = step === 6 ? 'Submit' : 'Next';
+        nextBtn.type = step === 6 ? 'submit' : 'button';
       }
 
       if (step === 2) {
@@ -354,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return '';
     };
 
-    const handleSubmit = () => {
+    const handleSubmitSuccess = () => {
       const selectedGoals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
       answers.goals = selectedGoals;
       steps.forEach((el) => el.classList.add('is-hidden'));
@@ -363,6 +365,16 @@ document.addEventListener('DOMContentLoaded', function () {
       progressFill.style.width = '100%';
       progressValue.textContent = '100%';
       successEl?.classList.remove('is-hidden');
+    };
+
+    const parseUTM = () => {
+      const url = new URL(window.location.href);
+      const out = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => {
+        const v = url.searchParams.get(k);
+        if (v) out[k] = v;
+      });
+      return Object.keys(out).length ? out : null;
     };
 
     document.addEventListener('mouseout', (e) => {
@@ -433,8 +445,70 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       if (currentStep < 6) {
         showStep(currentStep + 1);
-      } else {
-        handleSubmit();
+      }
+    });
+
+    panelForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (currentStep !== 6) return;
+
+      answers.name = document.getElementById('exit-quiz-name')?.value.trim() || '';
+      answers.email = document.getElementById('exit-quiz-email')?.value.trim() || '';
+      answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
+      persistAnswers();
+
+      const errorMessage = getValidationError();
+      if (errorMessage) {
+        if (errorEl) {
+          errorEl.textContent = errorMessage;
+          errorEl.classList.remove('is-hidden');
+        }
+        return;
+      }
+
+      const [firstName, ...rest] = answers.name.split(/\s+/).filter(Boolean);
+      const payload = {
+        email: answers.email,
+        first_name: firstName || null,
+        last_name: rest.join(' ') || null,
+        consent_email: true,
+        consented_at: new Date().toISOString(),
+        page_url: window.location.href,
+        referrer: document.referrer || null,
+        utm: parseUTM(),
+        meta: {
+          user_agent: navigator.userAgent,
+          language: navigator.language,
+          phone: answers.phone || null,
+          audience: answers.audience || null,
+          goals: answers.goals || [],
+          challenges: answers.challenges || [],
+          traffic: answers.traffic || null,
+          funnel: answers.funnel || null
+        }
+      };
+
+      try {
+        const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) throw new Error(await resp.text());
+
+        panelForm.reset();
+        handleSubmitSuccess();
+      } catch (err) {
+        console.error(err);
+        if (errorEl) {
+          errorEl.textContent = 'Something went wrong.';
+          errorEl.classList.remove('is-hidden');
+        } else {
+          alert('Something went wrong.');
+        }
       }
     });
 
