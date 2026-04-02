@@ -215,11 +215,17 @@ document.addEventListener('DOMContentLoaded', function () {
     winnersBottomCta.parentNode.insertBefore(appendixSection, winnersBottomCta);
 
     const track = appendixSection.querySelector('[data-appendix-track]');
+    const scrollHint = appendixSection.querySelector('.wn-appendix-scroll-hint');
 
     tallRows.forEach((row) => {
       row.classList.add('wn-appendix-card');
       track.appendChild(row);
     });
+
+    const appendixImageCount = track.querySelectorAll('.caseStudyTallRowImageDiv').length;
+    if (appendixImageCount <= 1 && scrollHint) {
+      scrollHint.remove();
+    }
   }
 
   // ── Sticky floating CTA ──
