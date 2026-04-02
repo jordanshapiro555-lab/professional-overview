@@ -205,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="wn-container">
         <p class="wn-section-label">Appendix</p>
         <h2 class="wn-section-heading">Full-page test visuals</h2>
+        <p class="wn-appendix-scroll-hint">Scroll horizontally to browse all screenshots <span aria-hidden="true">→</span></p>
         <div class="wn-appendix-scroll" data-appendix-scroll>
           <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
         </div>
@@ -219,54 +220,6 @@ document.addEventListener('DOMContentLoaded', function () {
       row.classList.add('wn-appendix-card');
       track.appendChild(row);
     });
-
-    const scrollAppendixByDelta = (delta) => {
-      if (!delta) return false;
-      const maxHorizontal = Math.max(track.scrollWidth - track.clientWidth, 0);
-      if (maxHorizontal <= 0) return false;
-
-      const isDesktop = window.matchMedia('(min-width: 900px)').matches;
-      const desktopBoost = isDesktop ? 2.8 : 1.4;
-      const boostedDelta = delta * desktopBoost;
-      const current = track.scrollLeft;
-      const next = Math.min(Math.max(current + boostedDelta, 0), maxHorizontal);
-      if (next === current) return false;
-      track.scrollLeft = next;
-      return true;
-    };
-
-    track.addEventListener('wheel', (event) => {
-      const axisDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-      const moved = scrollAppendixByDelta(axisDelta);
-      if (moved) {
-        event.preventDefault();
-      }
-    }, { passive: false });
-
-    const isScrollable = () => track.scrollWidth > track.clientWidth + 2;
-    const setScrollHintClass = () => {
-      track.classList.toggle('is-scrollable', isScrollable());
-    };
-
-    let rafId = null;
-    const queueHintRefresh = () => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        setScrollHintClass();
-      });
-    };
-
-    window.addEventListener('resize', queueHintRefresh);
-    window.addEventListener('load', queueHintRefresh);
-
-    track.querySelectorAll('img').forEach((img) => {
-      if (!img.complete) {
-        img.addEventListener('load', queueHintRefresh, { once: true });
-        return;
-      }
-    });
-    queueHintRefresh();
   }
 
   // ── Sticky floating CTA ──
