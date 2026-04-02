@@ -225,8 +225,11 @@ document.addEventListener('DOMContentLoaded', function () {
       const maxHorizontal = Math.max(track.scrollWidth - track.clientWidth, 0);
       if (maxHorizontal <= 0) return false;
 
+      const isDesktop = window.matchMedia('(min-width: 900px)').matches;
+      const desktopBoost = isDesktop ? 2.8 : 1.4;
+      const boostedDelta = delta * desktopBoost;
       const current = track.scrollLeft;
-      const next = Math.min(Math.max(current + delta, 0), maxHorizontal);
+      const next = Math.min(Math.max(current + boostedDelta, 0), maxHorizontal);
       if (next === current) return false;
       track.scrollLeft = next;
       return true;
