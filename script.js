@@ -192,6 +192,77 @@ document.addEventListener('DOMContentLoaded', function () {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+
+  // ── Winners appendix carousel (moves tall rows to bottom) ──
+  const isWinnerDetailPage = /\/work\/test-winners\/[^/]+\/?$/.test(window.location.pathname);
+  const winnersBottomCta = document.querySelector('.wn-bottom-cta');
+  const tallRows = Array.from(document.querySelectorAll('.caseStudyTallRow'));
+
+  if (isWinnerDetailPage && winnersBottomCta && tallRows.length) {
+    const appendixSection = document.createElement('section');
+    appendixSection.className = 'wn-section wn-section--alt wn-appendix';
+    appendixSection.innerHTML = `
+      <div class="wn-container">
+        <p class="wn-section-label">Appendix</p>
+        <h2 class="wn-section-heading">Full-page test visuals</h2>
+        <div class="wn-appendix-scroll" data-appendix-scroll>
+          <div class="wn-appendix-track-wrap">
+            <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    winnersBottomCta.parentNode.insertBefore(appendixSection, winnersBottomCta);
+
+    const track = appendixSection.querySelector('[data-appendix-track]');
+    const scrollSection = appendixSection.querySelector('[data-appendix-scroll]');
+
+    tallRows.forEach((row) => {
+      row.classList.add('wn-appendix-card');
+      track.appendChild(row);
+    });
+
+    const syncAppendixScroll = () => {
+      const maxHorizontal = Math.max(track.scrollWidth - track.clientWidth, 0);
+      if (maxHorizontal <= 0) {
+        scrollSection.style.height = 'auto';
+        track.scrollLeft = 0;
+        return;
+      }
+
+      const stickyOffset = 96;
+      const verticalDistance = maxHorizontal + window.innerHeight * 0.7;
+      scrollSection.style.height = `${verticalDistance + window.innerHeight}px`;
+
+      const rect = scrollSection.getBoundingClientRect();
+      const travel = Math.max(rect.height - window.innerHeight, 1);
+      const progress = Math.min(Math.max((stickyOffset - rect.top) / travel, 0), 1);
+      track.scrollLeft = progress * maxHorizontal;
+    };
+
+    let rafId = null;
+    const requestSync = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        syncAppendixScroll();
+      });
+    };
+
+    window.addEventListener('scroll', requestSync, { passive: true });
+    window.addEventListener('resize', requestSync);
+    window.addEventListener('load', requestSync);
+
+    track.querySelectorAll('img').forEach((img) => {
+      if (!img.complete) {
+        img.addEventListener('load', requestSync, { once: true });
+      }
+    });
+
+    requestSync();
+  }
+
   // ── Sticky floating CTA ──
   const stickyCta = document.getElementById('sticky-cta');
   const heroSection = document.querySelector('.hero');

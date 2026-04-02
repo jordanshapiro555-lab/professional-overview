@@ -430,3 +430,65 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ── Winners appendix carousel ─────────────────────────────── */
+.wn-appendix .wn-section-heading {
+  margin-bottom: 18px;
+}
+
+.wn-appendix-scroll {
+  position: relative;
+}
+
+.wn-appendix-track-wrap {
+  position: sticky;
+  top: 96px;
+  overflow: hidden;
+  padding-bottom: 14px;
+}
+
+.wn-appendix-track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scroll-behavior: auto;
+}
+
+.wn-appendix-track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.wn-appendix-track::-webkit-scrollbar-thumb {
+  background: rgba(10, 22, 40, 0.25);
+  border-radius: 999px;
+}
+
+.wn-appendix-card {
+  flex: 0 0 min(82vw, 980px);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.wn-appendix-card .caseStudyTallRowImageDiv {
+  width: 100%;
+}
+
+.wn-appendix-card .caseStudyTallRowContainerImage {
+  width: 100%;
+  border-radius: calc(var(--radius) - 4px);
+}
+
+@media (max-width: 700px) {
+  .wn-appendix-track-wrap {
+    top: 74px;
+  }
+
+  .wn-appendix-card {
+    flex-basis: 90vw;
+    padding: 8px;
+  }
+}
