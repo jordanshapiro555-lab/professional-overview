@@ -223,9 +223,6 @@
   font-size: 0.93rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .wn-results-table thead th {
@@ -415,6 +412,12 @@
     flex-direction: column;
     gap: 12px;
     padding: 22px;
+  }
+
+  .wn-results-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .wn-related-grid {
