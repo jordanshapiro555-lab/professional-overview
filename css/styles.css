@@ -1,5 +1,6 @@
 html, body {
   overflow-y: visible; /* Required so sticky works */
+  overflow-x: hidden;
 }
 
 body {
@@ -181,6 +182,10 @@ body{
   color:var(--accent-2);
 }
 
+.desktop-quiz-cta {
+  margin-left: -8px;
+}
+
 .homeHeroBullet::marker {
   content: "☑️ ";
 }
@@ -270,6 +275,42 @@ body{
   .features{ grid-template-columns:1fr; }
   .cards{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr; gap:8px; text-align:left; }
+  .desktop-quiz-cta { display:none; }
+  body.has-mobile-sticky-banner { padding-top: 164px; }
+}
+
+.mobile-sticky-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 74px;
+  z-index: 55;
+  display: none;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(11, 75, 216, 0.2);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 24px rgba(12,18,31,0.12);
+  backdrop-filter: blur(8px);
+}
+
+.mobile-sticky-banner.is-hidden {
+  display: none !important;
+}
+
+.mobile-sticky-banner__cta {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 0.88rem;
+  padding: 10px 8px;
+}
+
+@media (max-width:700px) {
+  .mobile-sticky-banner {
+    display: flex;
+  }
 }
 
 .homeCaseStudyLink{
@@ -1448,6 +1489,130 @@ body{
   gap: 4px;
 }
 
+/* ── Contact page layout ── */
+.contact-page-shell {
+  padding: 0;
+}
+
+.contact-hero {
+  margin-bottom: 18px;
+}
+
+.contact-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 3.3vw, 2.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.contact-hero-subhead {
+  margin: 0;
+  max-width: 880px;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+}
+
+.contact-dual-path {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+.contact-dual-path > * {
+  min-width: 0;
+}
+
+.contact-card {
+  background: #fff;
+  border: 1px solid #e6edf8;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(11, 22, 40, 0.06);
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.contact-card h2 {
+  margin: 0 0 8px;
+}
+
+.contact-card .muted {
+  margin-top: 0;
+}
+
+.contact-calendly-card .btn-calendly {
+  margin: 6px 0 14px;
+}
+
+.calendly-inline-wrap {
+  border: 1px solid #e8eef8;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.calendly-inline-wrap iframe {
+  width: 100%;
+  min-height: 660px;
+  border: 0;
+}
+
+.contact-form-trust {
+  margin: 4px 0 14px;
+  padding: 11px 12px;
+  background: #f0f8ff;
+  border: 1px solid #d8e9ff;
+  border-radius: 10px;
+  color: #0b2f67;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.contact-form-card {
+  overflow: hidden;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt,
+.contact-form-card .klaviyo-form-YyjtDt > * {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.contact-form-card .klaviyo-form-YyjtDt iframe,
+.contact-form-card .klaviyo-form-YyjtDt form,
+.contact-form-card .klaviyo-form-YyjtDt input,
+.contact-form-card .klaviyo-form-YyjtDt select,
+.contact-form-card .klaviyo-form-YyjtDt textarea,
+.contact-form-card .klaviyo-form-YyjtDt button {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.contact-expectations {
+  padding-top: 8px;
+  text-align: center;
+}
+
+.contact-expectations-inner {
+  max-width: 1040px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.contact-expectations ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  line-height: 1.6;
+  display: inline-block;
+  text-align: left;
+  max-width: 760px;
+}
+
+.stats-strip-grid-contact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 /* ── Contact page trust signals — rotating banner ── */
 .contact-trust-banner {
   overflow: hidden;
@@ -1691,6 +1856,12 @@ body{
   }
 }
 
+@media (max-width: 980px) {
+  .contact-dual-path {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── About section — two-column card layout ── */
 .about-section {
   background: #fff;
@@ -1888,6 +2059,23 @@ body{
   }
   .contact-trust-banner {
     max-width: 100vw;
+  }
+  .contact-page-shell,
+  .contact-expectations-inner {
+    padding: 0;
+  }
+  .contact-dual-path {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .contact-card {
+    padding: 16px;
+  }
+  .calendly-inline-wrap iframe {
+    min-height: 540px;
+  }
+  .stats-strip-grid-contact {
+    grid-template-columns: 1fr;
   }
   .risk-reversal {
     flex-direction: column;
@@ -2136,6 +2324,276 @@ html {
 
 @media (max-width: 700px) {
   .work-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Exit intent fly-in quiz ─────────────────────────────────────────────── */
+.exit-intent-quiz {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.exit-intent-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 23, 53, 0.42);
+  opacity: 0;
+  transition: opacity .24s ease;
+}
+
+.exit-intent-panel {
+  position: relative;
+  width: min(100%, 460px);
+  margin: 16px;
+  border-radius: 0;
+  overflow: hidden;
+  background: #f1eee8;
+  box-shadow: 0 20px 48px rgba(5, 22, 60, 0.28);
+  transform: translateY(120%);
+  transition: transform .34s ease;
+}
+
+.exit-intent-quiz.is-open {
+  pointer-events: none;
+}
+
+.exit-intent-quiz.is-open .exit-intent-overlay {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.exit-intent-quiz.is-open .exit-intent-panel {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.exit-intent-top-bar {
+  height: 12px;
+  background: linear-gradient(90deg, #0f6cff, #0b4bd8);
+}
+
+.exit-intent-cta-content {
+  padding: 28px 32px 32px;
+}
+
+.exit-intent-cta-content h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 2.7vw, 1.9rem);
+  color: #0e1a35;
+}
+
+.exit-intent-cta-content p {
+  margin: 0 0 22px;
+  color: #1f2f4e;
+  font-size: 1.1rem;
+}
+
+.exit-intent-primary-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(180deg,var(--accent),var(--accent-2));
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  padding: 14px 18px;
+  cursor: pointer;
+}
+.exit-intent-primary-btn:hover {
+  background: #1a3aa5;
+}
+
+.exit-intent-secondary-btn {
+  border: 1px solid #b9c8de;
+  border-radius: 10px;
+  background: #fff;
+  color: #35537f;
+  font-weight: 700;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.exit-intent-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(6, 48, 109, 0.55);
+  border: 0;
+  font-size: 1.6rem;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.exit-quiz-header {
+  background: linear-gradient(120deg, #0e5db8 0%, #004aa3 55%, #1268c8 100%);
+  color: #fff;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  font-weight: 800;
+  text-align: center;
+  padding: 20px 20px;
+}
+
+.exit-intent-quiz-flow {
+  background: #fff;
+}
+
+.exit-quiz-step {
+  padding: 24px 24px 6px;
+}
+
+.exit-quiz-question {
+  margin: 0 0 16px;
+  font-weight: 600;
+  color: #1f355d;
+}
+
+.exit-quiz-options-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.exit-quiz-tile {
+  border: 1px solid #cfd8e5;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f5f9ff 0%, #ebf2fc 100%);
+  color: #0f4f9f;
+  font-weight: 700;
+  padding: 20px 10px;
+  cursor: pointer;
+}
+
+.exit-quiz-tile.is-selected {
+  border-color: #0e60c1;
+  box-shadow: inset 0 0 0 2px #0e60c1;
+}
+
+.exit-quiz-checks label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  color: #22395e;
+}
+
+.exit-quiz-input,
+.exit-quiz-textarea {
+  width: 100%;
+  border: 1px solid #ccd5e3;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font: inherit;
+  color: #102a52;
+}
+
+.exit-quiz-traffic-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 10px;
+}
+
+.exit-quiz-select {
+  cursor: pointer;
+}
+
+.exit-quiz-textarea {
+  resize: vertical;
+}
+
+.exit-quiz-form {
+  display: grid;
+  gap: 10px;
+}
+
+.exit-quiz-footer {
+  padding: 12px 24px 24px;
+}
+
+.exit-quiz-progress-label {
+  margin: 0 0 6px;
+  font-size: .98rem;
+  font-weight: 700;
+  color: #26446f;
+}
+
+.exit-quiz-progress {
+  width: 100%;
+  height: 12px;
+  background: #d9e2ee;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.exit-quiz-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #0f6cff 0%, #0b4bd8 100%);
+  transition: width .24s ease;
+}
+
+.exit-quiz-error {
+  margin: 0 0 10px;
+  color: #c13232;
+  font-size: .92rem;
+  font-weight: 600;
+}
+
+.exit-quiz-nav {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+}
+
+.exit-quiz-skip {
+  margin-top: 10px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #8592a6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.exit-quiz-success {
+  padding: 36px 24px 30px;
+  text-align: center;
+}
+
+.exit-quiz-success h3 {
+  margin: 0 0 8px;
+  color: #0d366f;
+}
+
+.exit-quiz-success p {
+  margin: 0;
+  color: #3a557e;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+@media (max-width: 560px) {
+  .exit-intent-panel {
+    margin: 0;
+    width: 100%;
+    max-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .exit-quiz-options-grid {
     grid-template-columns: 1fr;
   }
 }

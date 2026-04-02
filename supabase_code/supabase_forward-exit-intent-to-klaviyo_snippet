@@ -1,0 +1,233 @@
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+function json(status: number, body: unknown) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+async function klaviyoPost(path: string, body: unknown) {
+  const resp = await fetch(`https://a.klaviyo.com${path}`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Klaviyo-API-Key ${Deno.env.get("KLAVIYO_PRIVATE_KEY")!}`,
+      "accept": "application/vnd.api+json",
+      "content-type": "application/vnd.api+json",
+      "revision": Deno.env.get("KLAVIYO_REVISION")!,
+    },
+    body: JSON.stringify(body),
+  });
+
+  const text = await resp.text();
+  const data = text ? JSON.parse(text) : {};
+  if (!resp.ok) throw new Error(text);
+  return data;
+}
+
+Deno.serve(async (req) => {
+  if (req.method !== "POST") {
+    return json(405, { error: "Method not allowed" });
+  }
+
+  const secret = req.headers.get("x-webhook-secret");
+  const expectedSecret = Deno.env.get("EXIT_INTENT_WEBHOOK_SECRET");
+
+  if (!expectedSecret) {
+    return json(500, { error: "Missing EXIT_INTENT_WEBHOOK_SECRET env var" });
+  }
+
+  if (secret !== expectedSecret) {
+    return json(401, { error: "Unauthorized" });
+  }
+
+  let payload: any;
+  try {
+    payload = await req.json();
+  } catch {
+    return json(400, { error: "Invalid JSON body" });
+  }
+
+  const record = payload?.record;
+
+  if (!record?.id) {
+    return json(400, { error: "Missing record.id" });
+  }
+
+  if (!record?.email) {
+    return json(400, { error: "Missing email" });
+  }
+
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+
+  try {
+    // Normalize incoming payload.record data into reusable profile/event properties.
+    const normalizedFullName = typeof record.full_name === "string"
+      ? record.full_name.trim()
+      : "";
+    const nameParts = normalizedFullName ? normalizedFullName.split(/\s+/) : [];
+    const normalizedFirstName = record.first_name ?? nameParts[0] ?? null;
+    const normalizedLastName = record.last_name ?? (nameParts.length > 1
+      ? nameParts.slice(1).join(" ")
+      : null);
+    const normalizedPhone = typeof record.phone === "string"
+      ? record.phone.trim() || null
+      : record.phone ?? null;
+
+    const profilePropertyExclusions = new Set([
+      "id",
+      "attempt_count",
+      "forward_status",
+      "sent_at",
+      "last_attempt_at",
+      "last_error",
+      "created_at",
+      "updated_at",
+      "klaviyo_profile_id",
+      "klaviyo_subscription_job_id",
+      "klaviyo_event_id",
+    ]);
+
+    const profileProperties = Object.fromEntries(
+      Object.entries(record).filter(([key, value]) => (
+        !profilePropertyExclusions.has(key) && value !== undefined
+      ))
+    );
+
+    const eventProperties = Object.fromEntries(
+      Object.entries({
+        ...profileProperties,
+        submission_id: record.id,
+        source: record.source ?? "exit_intent_panel",
+      }).filter(([, value]) => value !== undefined)
+    );
+
+    // Import/update Klaviyo profile with latest submission fields.
+    const profileResp = await klaviyoPost("/api/profile-import/", {
+      data: {
+        type: "profile",
+        attributes: {
+          email: record.email,
+          first_name: normalizedFirstName,
+          last_name: normalizedLastName,
+          phone_number: normalizedPhone ?? undefined,
+          properties: profileProperties,
+        },
+      },
+    });
+
+    // Create opt-in job when consent is present; include SMS subscription when phone exists.
+    let subscribeResp = null;
+    if (record.consent_email) {
+      const subscriptionChannels: Record<string, unknown> = {
+        email: {
+          marketing: {
+            consent: "SUBSCRIBED",
+          },
+        },
+      };
+
+      if (normalizedPhone) {
+        subscriptionChannels.sms = {
+          marketing: {
+            consent: "SUBSCRIBED",
+          },
+        };
+      }
+
+      subscribeResp = await klaviyoPost("/api/profile-subscription-bulk-create-jobs", {
+        data: {
+          type: "profile-subscription-bulk-create-job",
+          attributes: {
+            custom_source: "CRO Quiz Form",
+            historical_import: false,
+            profiles: {
+              data: [
+                {
+                  type: "profile",
+                  attributes: {
+                    email: record.email,
+                    phone_number: normalizedPhone ?? undefined,
+                    subscriptions: subscriptionChannels,
+                  },
+                },
+              ],
+            },
+          },
+          relationships: {
+            list: {
+              data: {
+                type: "list",
+                id: Deno.env.get("KLAVIYO_LIST_ID")!,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    // Create CRO quiz submission event tied to the email profile.
+    const eventResp = await klaviyoPost("/api/events", {
+      data: {
+        type: "event",
+        attributes: {
+          properties: eventProperties,
+          metric: {
+            data: {
+              type: "metric",
+              attributes: {
+                name: "CRO Quiz Submission",
+              },
+            },
+          },
+          profile: {
+            data: {
+              type: "profile",
+              attributes: {
+                email: record.email,
+              },
+            },
+          },
+          unique_id: record.id,
+        },
+      },
+    });
+
+    const { error: updateError } = await supabase
+      .from("exit_intent_submissions")
+      .update({
+        forward_status: "sent",
+        sent_at: new Date().toISOString(),
+        klaviyo_profile_id: profileResp?.data?.id ?? null,
+        klaviyo_subscription_job_id: subscribeResp?.data?.id ?? null,
+        klaviyo_event_id: eventResp?.data?.id ?? null,
+        last_error: null,
+      })
+      .eq("id", record.id);
+
+    if (updateError) {
+      return json(500, {
+        error: `Klaviyo succeeded, but Supabase update failed: ${updateError.message}`,
+      });
+    }
+
+    return json(200, { ok: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+
+    await supabase
+      .from("exit_intent_submissions")
+      .update({
+        forward_status: "failed",
+        attempt_count: (record.attempt_count || 0) + 1,
+        last_attempt_at: new Date().toISOString(),
+        last_error: message,
+      })
+      .eq("id", record.id);
+
+    return json(500, { error: message });
+  }
+});
