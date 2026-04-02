@@ -73,6 +73,25 @@ body{
   font-size:1.1rem;
   color:var(--text);
   text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand svg{
+  flex-shrink:0;
+  border-radius:6px;
+}
+
+/* footer brand */
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:4px;
+}
+.footer-brand svg{
+  flex-shrink:0;
+  border-radius:5px;
 }
 
 /* nav */
