@@ -206,9 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="wn-section-label">Appendix</p>
         <h2 class="wn-section-heading">Full-page test visuals</h2>
         <div class="wn-appendix-scroll" data-appendix-scroll>
-          <div class="wn-appendix-track-wrap">
-            <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
-          </div>
+          <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
         </div>
       </div>
     `;
@@ -216,51 +214,56 @@ document.addEventListener('DOMContentLoaded', function () {
     winnersBottomCta.parentNode.insertBefore(appendixSection, winnersBottomCta);
 
     const track = appendixSection.querySelector('[data-appendix-track]');
-    const scrollSection = appendixSection.querySelector('[data-appendix-scroll]');
 
     tallRows.forEach((row) => {
       row.classList.add('wn-appendix-card');
       track.appendChild(row);
     });
 
-    const syncAppendixScroll = () => {
+    const scrollAppendixByDelta = (delta) => {
+      if (!delta) return false;
       const maxHorizontal = Math.max(track.scrollWidth - track.clientWidth, 0);
-      if (maxHorizontal <= 0) {
-        scrollSection.style.height = 'auto';
-        track.scrollLeft = 0;
-        return;
+      if (maxHorizontal <= 0) return false;
+
+      const current = track.scrollLeft;
+      const next = Math.min(Math.max(current + delta, 0), maxHorizontal);
+      if (next === current) return false;
+      track.scrollLeft = next;
+      return true;
+    };
+
+    track.addEventListener('wheel', (event) => {
+      const axisDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      const moved = scrollAppendixByDelta(axisDelta);
+      if (moved) {
+        event.preventDefault();
       }
+    }, { passive: false });
 
-      const stickyOffset = 96;
-      const verticalDistance = maxHorizontal + window.innerHeight * 0.7;
-      scrollSection.style.height = `${verticalDistance + window.innerHeight}px`;
-
-      const rect = scrollSection.getBoundingClientRect();
-      const travel = Math.max(rect.height - window.innerHeight, 1);
-      const progress = Math.min(Math.max((stickyOffset - rect.top) / travel, 0), 1);
-      track.scrollLeft = progress * maxHorizontal;
+    const isScrollable = () => track.scrollWidth > track.clientWidth + 2;
+    const setScrollHintClass = () => {
+      track.classList.toggle('is-scrollable', isScrollable());
     };
 
     let rafId = null;
-    const requestSync = () => {
+    const queueHintRefresh = () => {
       if (rafId) return;
-      rafId = window.requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         rafId = null;
-        syncAppendixScroll();
+        setScrollHintClass();
       });
     };
 
-    window.addEventListener('scroll', requestSync, { passive: true });
-    window.addEventListener('resize', requestSync);
-    window.addEventListener('load', requestSync);
+    window.addEventListener('resize', queueHintRefresh);
+    window.addEventListener('load', queueHintRefresh);
 
     track.querySelectorAll('img').forEach((img) => {
       if (!img.complete) {
-        img.addEventListener('load', requestSync, { once: true });
+        img.addEventListener('load', queueHintRefresh, { once: true });
+        return;
       }
     });
-
-    requestSync();
+    queueHintRefresh();
   }
 
   // ── Sticky floating CTA ──
