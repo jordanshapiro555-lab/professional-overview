@@ -222,8 +222,10 @@
   border-collapse: collapse;
   font-size: 0.93rem;
   border-radius: var(--radius);
-  overflow: hidden;
   box-shadow: var(--shadow);
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .wn-results-table thead th {
@@ -391,6 +393,12 @@
 .wn-related-metric {
   font-size: 0.83rem;
   color: var(--muted);
+}
+
+/* ── Hero image — prevent flex-stretch distortion ──────────── */
+.caseStudyHeroContainerImage {
+  object-fit: contain;
+  align-self: flex-start;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
