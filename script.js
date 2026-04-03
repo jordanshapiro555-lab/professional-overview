@@ -192,6 +192,42 @@ document.addEventListener('DOMContentLoaded', function () {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+
+  // ── Winners appendix carousel (moves tall rows to bottom) ──
+  const isWinnerDetailPage = /\/work\/test-winners\/[^/]+\/?$/.test(window.location.pathname);
+  const winnersBottomCta = document.querySelector('.wn-bottom-cta');
+  const tallRows = Array.from(document.querySelectorAll('.caseStudyTallRow'));
+
+  if (isWinnerDetailPage && winnersBottomCta && tallRows.length) {
+    const appendixSection = document.createElement('section');
+    appendixSection.className = 'wn-section wn-section--alt wn-appendix';
+    appendixSection.innerHTML = `
+      <div class="wn-container">
+        <p class="wn-section-label">Appendix</p>
+        <h2 class="wn-section-heading">Full-page test visuals</h2>
+        <p class="wn-appendix-scroll-hint">Scroll horizontally to browse all screenshots <span aria-hidden="true">→</span></p>
+        <div class="wn-appendix-scroll" data-appendix-scroll>
+          <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
+        </div>
+      </div>
+    `;
+
+    winnersBottomCta.parentNode.insertBefore(appendixSection, winnersBottomCta);
+
+    const track = appendixSection.querySelector('[data-appendix-track]');
+    const scrollHint = appendixSection.querySelector('.wn-appendix-scroll-hint');
+
+    tallRows.forEach((row) => {
+      row.classList.add('wn-appendix-card');
+      track.appendChild(row);
+    });
+
+    const appendixImageCount = track.querySelectorAll('.caseStudyTallRowImageDiv').length;
+    if (appendixImageCount <= 1 && scrollHint) {
+      scrollHint.remove();
+    }
+  }
+
   // ── Sticky floating CTA ──
   const stickyCta = document.getElementById('sticky-cta');
   const heroSection = document.querySelector('.hero');
