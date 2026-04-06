@@ -86,15 +86,101 @@
 <img src="../../assets/img/CaseStudiesHeroImage.png" style="height: 200px;">
       </div>
     </section>
-  <!-- Case study cards -->  
+  <!-- Filter / Sort Toolbar -->
+  <section class="winners-toolbar">
+    <div class="container">
+      <p class="filter-toolbar-label">Filter by</p>
+
+      <!-- Mobile: single trigger button -->
+      <button class="mobile-filter-trigger" type="button">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <line x1="2" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="2" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="5" cy="5" r="1.5" fill="currentColor"/>
+          <circle cx="12" cy="9" r="1.5" fill="currentColor"/>
+          <circle cx="8" cy="13" r="1.5" fill="currentColor"/>
+        </svg>
+        <span class="mobile-filter-label">Filter + Sort</span>
+      </button>
+
+      <!-- Desktop: filter row -->
+      <div class="filter-row">
+
+        <div class="filter-group" data-filter="industry">
+          <button class="filter-trigger" aria-expanded="false">Industry <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="filter-dropdown" role="group" aria-label="Filter by industry">
+            <label class="filter-chip"><input type="checkbox" value="healthcare"> Healthcare</label>
+            <label class="filter-chip"><input type="checkbox" value="retail"> Retail</label>
+            <label class="filter-chip"><input type="checkbox" value="education"> Education</label>
+          </div>
+        </div>
+
+        <div class="filter-group" data-filter="section">
+          <button class="filter-trigger" aria-expanded="false">Site Section <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="filter-dropdown" role="group" aria-label="Filter by site section">
+            <label class="filter-chip"><input type="checkbox" value="home"> Home</label>
+            <label class="filter-chip"><input type="checkbox" value="navigation"> Navigation</label>
+            <label class="filter-chip"><input type="checkbox" value="form"> Form</label>
+            <label class="filter-chip"><input type="checkbox" value="product-listing"> Product Listing</label>
+            <label class="filter-chip"><input type="checkbox" value="product-detail"> Product Detail</label>
+            <label class="filter-chip"><input type="checkbox" value="resources"> Resources</label>
+          </div>
+        </div>
+
+        <div class="filter-group" data-filter="device">
+          <button class="filter-trigger" aria-expanded="false">Device <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="filter-dropdown" role="group" aria-label="Filter by device">
+            <label class="filter-chip"><input type="checkbox" value="desktop"> Desktop</label>
+            <label class="filter-chip"><input type="checkbox" value="mobile"> Mobile</label>
+            <label class="filter-chip"><input type="checkbox" value="all"> All Devices</label>
+          </div>
+        </div>
+
+        <div class="filter-group" data-filter="kpi">
+          <button class="filter-trigger" aria-expanded="false">KPI <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="filter-dropdown" role="group" aria-label="Filter by KPI">
+            <label class="filter-chip"><input type="checkbox" value="ctr"> CTR</label>
+            <label class="filter-chip"><input type="checkbox" value="cvr"> CVR</label>
+            <label class="filter-chip"><input type="checkbox" value="cart-adds"> Cart Adds</label>
+            <label class="filter-chip"><input type="checkbox" value="add-to-cart"> Add to Cart</label>
+            <label class="filter-chip"><input type="checkbox" value="quote-starts"> Quote Starts</label>
+            <label class="filter-chip"><input type="checkbox" value="agent-starts"> Agent Starts</label>
+            <label class="filter-chip"><input type="checkbox" value="cta-engagement"> CTA Engagement</label>
+            <label class="filter-chip"><input type="checkbox" value="form-fills"> Form Fills</label>
+            <label class="filter-chip"><input type="checkbox" value="form-completions"> Form Completions</label>
+          </div>
+        </div>
+
+        <div class="sort-group">
+          <label class="sr-only" for="winners-sort">Sort by</label>
+          <select id="winners-sort" class="sort-select">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="highest">Highest impact</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="active-filters" hidden>
+        <div class="active-filters-list"></div>
+        <button class="clear-all-filters" type="button">Clear all</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case study cards -->
 <section class="blog-grid-section">
   <div class="container">
     <div class="blog-grid">
-      
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=6.6>
+      <p class="no-results" hidden>No tests match your filters. Try broadening your selection.</p>
+
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=6.6 data-industry="healthcare" data-section="home" data-device="all" data-kpi="ctr" data-metric-text="+6.6% CTR" data-order="1">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-hp-product-grid-redesign" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_HP_Groduct_Grid_Re-design.png" alt="UHOne_HP_Groduct_Grid_Re-design1">
+            <span class="metric-badge">+6.6% CTR</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">6.6% Home CTR Lift Via Product Grid Redesign</h3>
@@ -103,10 +189,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=11.9>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=11.9 data-industry="healthcare" data-section="home" data-device="all" data-kpi="cvr" data-metric-text="+11.9% CVR" data-order="2">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-hp-social-proof-redesign" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_HP_Social_Proof_Re-design_Hero.png" alt="UHOne Homepage Social Proof Redesign">
+            <span class="metric-badge">+11.9% CVR</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Increasing Home CVR By Redesigning Social Proof</h3>
@@ -115,10 +202,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=8.2>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=8.2 data-industry="healthcare" data-section="home" data-device="all" data-kpi="form-fills" data-metric-text="+8.2% Form Fills" data-order="3">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-home-census-new-tab" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/UHOne_Home_Census_New_Tab_Hero.png" alt="Opening Forms In A New Tab From Home">
+            <span class="metric-badge">+8.2% Form Fills</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Form Fill Optimization Via Simultaneous Research & Form Fill</h3>
@@ -129,10 +217,11 @@
 
 <!-- Row 2 -->
 
-           <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Form" data-label-lift=6.6>
+           <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Form" data-label-lift=6.6 data-industry="healthcare" data-section="form" data-device="all" data-kpi="cart-adds" data-metric-text="+6.6% Cart Adds" data-order="4">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/census-product-availability-notification" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_Census_Product_Availability_Notification_Hero.png" alt="UHOne_Census_Product_Availability_Notification_Hero.png">
+            <span class="metric-badge">+6.6% Cart Adds</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">6.6% Cart Addition Lift Via Dynamic Pop-up</h3>
@@ -141,10 +230,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Home" data-label-lift=24.2>
+      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Home" data-label-lift=24.2 data-industry="healthcare" data-section="home" data-device="all" data-kpi="cta-engagement" data-metric-text="+24.2% CTA Engagement" data-order="5">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/healthmarkets-homepage-simplified-hero-cta" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_HealthMarkets_Homepage Simplified Hero CTA_Hero.png" alt="HealthMarkets Simplified Hero CTA">
+            <span class="metric-badge">+24.2% CTA Engagement</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Increasing Hero CTA Engagement With A Simplified Form</h3>
@@ -153,10 +243,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=8.2>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=8.2 data-industry="healthcare" data-section="navigation" data-device="all" data-kpi="cart-adds" data-metric-text="+8.2% Cart Adds" data-order="6">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-global-triterm-countdown-banner" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_Global_Pre_Shop_TTM-targeted_TriTerm_Coutndown_Banner_Hero.png" alt="Global Countdown Timer For Sunset Product">
+            <span class="metric-badge">+8.2% Cart Adds</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Countdown Timer For High Priority Sunsetting Product</h3>
@@ -167,10 +258,11 @@
 
      <!-- Row 3 -->
 
-           <article class="blog-grid-card" data-label-brand="Aeropostale" data-label-page="PLP" data-label-lift=16.5>
+           <article class="blog-grid-card" data-label-brand="Aeropostale" data-label-page="PLP" data-label-lift=16.5 data-industry="retail" data-section="product-listing" data-device="all" data-kpi="cart-adds" data-metric-text="+16.5% Cart Adds" data-order="7">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/aero-prominent-atc-on-plp" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/HC_Aero_Prominent_ATC_On_PLP_Hero.png" alt="Aero_Prominent_ATC_On_PLP_Hero.png">
+            <span class="metric-badge">+16.5% Cart Adds</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">16.5% Cart Addition Lift Via More Prominent CTA</h3>
@@ -179,10 +271,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=11>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=11 data-industry="healthcare" data-section="navigation" data-device="all" data-kpi="cart-adds" data-metric-text="+11% Cart Adds" data-order="8">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-product-intent-sticky-nav" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_Product_Intent_Capture_Via_Sticky_Nav_Hero.png" alt="UHOne Product Intent Capture Via Sticky Nav">
+            <span class="metric-badge">+11% Cart Adds</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Increasing Cart Additions With Additional Product Intent Capture</h3>
@@ -191,10 +284,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=2.1>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Global" data-label-lift=2.1 data-industry="healthcare" data-section="navigation" data-device="all" data-kpi="ctr" data-metric-text="+2.1% CTR" data-order="9">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-product-intent-sticky-nav-fast-follow" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_Product_Intent_Capture_Via_Sticky_Nav_Fast-follow_Single_CTA_Hero.png" alt="Simplified Global Product Intent Capture Feature">
+            <span class="metric-badge">+2.1% CTR</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">Improving CTR With Simpler Features</h3>
@@ -205,10 +299,11 @@
 
       <!-- Row 4 (hidden until expanded) -->
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=3.4>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=3.4 data-industry="healthcare" data-section="home" data-device="desktop" data-kpi="quote-starts" data-metric-text="+3.4% Quote Starts" data-order="10">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-hp-forbes-award-social-proof" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_HP_Forbes_Award_Social_Proof_Hero.png" alt="UHOne Forbes Award Social Proof Homepage">
+            <span class="metric-badge">+3.4% Quote Starts</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">3.4% Desktop Quote Start Rate Lift Via Forbes Award Social Proof</h3>
@@ -217,10 +312,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Global" data-label-lift=10.62>
+      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Global" data-label-lift=10.62 data-industry="healthcare" data-section="navigation" data-device="all" data-kpi="agent-starts" data-metric-text="+10.6% Agent Starts" data-order="11">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/healthmarkets-global-sticky-cta-nav" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_HM_Global_Sticky_CTA_Nav_Hero.png" alt="HealthMarkets Global Sticky CTA Navigation">
+            <span class="metric-badge">+10.6% Agent Starts</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">10.6% Agent Start Lift Via Global Sticky CTA Nav</h3>
@@ -229,10 +325,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Resources" data-label-lift=143>
+      <article class="blog-grid-card" data-label-brand="HealthMarkets" data-label-page="Resources" data-label-lift=143 data-industry="healthcare" data-section="resources" data-device="all" data-kpi="agent-starts" data-metric-text="+143% Agent Starts" data-order="12">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/healthmarkets-resources-sticky-cta-nav" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_HM_Resources_Sticky_CTA_Nav_Hero.png" alt="HealthMarkets Resources Sticky CTA Navigation">
+            <span class="metric-badge">+143% Agent Starts</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">143% Agent Start Page Lift Via Resources Sticky CTA Nav</h3>
@@ -243,10 +340,11 @@
 
       <!-- Row 5 (hidden until expanded) -->
 
-      <article class="blog-grid-card" data-label-brand="Brooks Brothers" data-label-page="PDP" data-label-lift=2.14>
+      <article class="blog-grid-card" data-label-brand="Brooks Brothers" data-label-page="PDP" data-label-lift=2.14 data-industry="retail" data-section="product-detail" data-device="all" data-kpi="add-to-cart" data-metric-text="+2.14% Add to Cart" data-order="13">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/hc-brooks-focused-pdp" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/HC_Brooks_Focused_PDP_Hero.png" alt="Brooks Brothers Focused PDP with Search Icon">
+            <span class="metric-badge">+2.14% Add to Cart</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">2.14% Add to Cart Lift Via Focused PDP With Search Icon In Nav</h3>
@@ -255,10 +353,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="DeVry" data-label-page="Form" data-label-lift=17.11>
+      <article class="blog-grid-card" data-label-brand="DeVry" data-label-page="Form" data-label-lift=17.11 data-industry="education" data-section="form" data-device="all" data-kpi="form-completions" data-metric-text="+17.1% Form Completions" data-order="14">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/hc-devry-area-of-study-prefill" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/HC_DeVry_Area_Of_Study_Pre-fill_Hero.png" alt="DeVry Area of Study Pre-fill on Lead Form">
+            <span class="metric-badge">+17.1% Form Completions</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">17.11% Lead Form Completion Lift Via Area of Study Pre-fill</h3>
@@ -267,10 +366,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=2.1>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=2.1 data-industry="healthcare" data-section="home" data-device="all" data-kpi="quote-starts" data-metric-text="+2.1% Quote Starts" data-order="15">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-hp-american-idealism-hero" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_HP_American_Idealism_Hero_Hero.png" alt="UHOne American Idealism Hero Imagery">
+            <span class="metric-badge">+2.1% Quote Starts</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">2.1% Quote Start Rate Lift Via American Idealism Hero Imagery</h3>
@@ -279,10 +379,11 @@
         </a>
       </article>
 
-      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=4.45>
+      <article class="blog-grid-card" data-label-brand="UHOne" data-label-page="Home" data-label-lift=4.45 data-industry="healthcare" data-section="home" data-device="mobile" data-kpi="quote-starts" data-metric-text="+4.5% Quote Starts" data-order="16">
         <a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/uhone-hp-mobile-product-grid-reintro" class="blog-grid-link">
           <div class="blog-grid-media">
             <img src="../../assets/winners/NM_UHOne_HP_Mobile_Product_Grid_Reintro_Hero.png" alt="UHOne Mobile Product Grid Re-introduction">
+            <span class="metric-badge">+4.5% Quote Starts</span>
           </div>
           <div class="blog-grid-body">
             <h3 class="blog-grid-heading">4.5% Quote Start Rate Lift Via Mobile Product Grid Re-introduction</h3>
@@ -351,15 +452,455 @@
       </div>
     </div>
   </footer>
+<!-- Mobile Filter Drawer -->
+<div class="filter-drawer-backdrop" hidden></div>
+<div class="filter-drawer" aria-modal="true" role="dialog" aria-label="Filter and sort tests" hidden>
+  <div class="filter-drawer-header">
+    <button class="filter-drawer-close" type="button" aria-label="Close filters">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="filter-drawer-body">
+    <div class="drawer-section">
+      <label class="drawer-section-label" for="mobile-sort">Sort By</label>
+      <select id="mobile-sort" class="drawer-sort-select">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="highest">Highest impact</option>
+      </select>
+    </div>
+
+    <div class="drawer-section" data-drawer-filter="industry">
+      <button class="drawer-section-heading" type="button" aria-expanded="true">
+        <span>Industry</span>
+        <span class="drawer-section-toggle">&mdash;</span>
+      </button>
+      <div class="drawer-chips">
+        <label class="filter-chip"><input type="checkbox" value="healthcare"> Healthcare</label>
+        <label class="filter-chip"><input type="checkbox" value="retail"> Retail</label>
+        <label class="filter-chip"><input type="checkbox" value="education"> Education</label>
+      </div>
+    </div>
+
+    <div class="drawer-section" data-drawer-filter="section">
+      <button class="drawer-section-heading" type="button" aria-expanded="true">
+        <span>Site Section</span>
+        <span class="drawer-section-toggle">&mdash;</span>
+      </button>
+      <div class="drawer-chips">
+        <label class="filter-chip"><input type="checkbox" value="home"> Home</label>
+        <label class="filter-chip"><input type="checkbox" value="navigation"> Navigation</label>
+        <label class="filter-chip"><input type="checkbox" value="form"> Form</label>
+        <label class="filter-chip"><input type="checkbox" value="product-listing"> Product Listing</label>
+        <label class="filter-chip"><input type="checkbox" value="product-detail"> Product Detail</label>
+        <label class="filter-chip"><input type="checkbox" value="resources"> Resources</label>
+      </div>
+    </div>
+
+    <div class="drawer-section" data-drawer-filter="device">
+      <button class="drawer-section-heading" type="button" aria-expanded="true">
+        <span>Device</span>
+        <span class="drawer-section-toggle">&mdash;</span>
+      </button>
+      <div class="drawer-chips">
+        <label class="filter-chip"><input type="checkbox" value="desktop"> Desktop</label>
+        <label class="filter-chip"><input type="checkbox" value="mobile"> Mobile</label>
+        <label class="filter-chip"><input type="checkbox" value="all"> All Devices</label>
+      </div>
+    </div>
+
+    <div class="drawer-section" data-drawer-filter="kpi">
+      <button class="drawer-section-heading" type="button" aria-expanded="true">
+        <span>KPI</span>
+        <span class="drawer-section-toggle">&mdash;</span>
+      </button>
+      <div class="drawer-chips">
+        <label class="filter-chip"><input type="checkbox" value="ctr"> CTR</label>
+        <label class="filter-chip"><input type="checkbox" value="cvr"> CVR</label>
+        <label class="filter-chip"><input type="checkbox" value="cart-adds"> Cart Adds</label>
+        <label class="filter-chip"><input type="checkbox" value="add-to-cart"> Add to Cart</label>
+        <label class="filter-chip"><input type="checkbox" value="quote-starts"> Quote Starts</label>
+        <label class="filter-chip"><input type="checkbox" value="agent-starts"> Agent Starts</label>
+        <label class="filter-chip"><input type="checkbox" value="cta-engagement"> CTA Engagement</label>
+        <label class="filter-chip"><input type="checkbox" value="form-fills"> Form Fills</label>
+        <label class="filter-chip"><input type="checkbox" value="form-completions"> Form Completions</label>
+      </div>
+    </div>
+  </div>
+  <div class="filter-drawer-footer">
+    <button class="drawer-clear-btn" type="button">Clear All</button>
+    <button class="drawer-apply-btn" type="button">Show Results</button>
+  </div>
+</div>
+
    <script src="../../script.js"></script>
  <script>
-document.querySelectorAll(".seeMoreButton").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const target = document.querySelector(btn.dataset.target);
-    const expanded = target.classList.toggle("is-expanded");
-    btn.textContent = expanded ? "See less" : "See more";
+(function () {
+  /* ---- References ---- */
+  const grid = document.querySelector('.blog-grid');
+  const cards = () => [...grid.querySelectorAll('.blog-grid-card')];
+  const noResults = grid.querySelector('.no-results');
+  const btnContainer = document.querySelector('.buttonContainer');
+  const seeMoreBtn = document.querySelector('.seeMoreButton');
+  const activeFiltersWrap = document.querySelector('.active-filters');
+  const activeFiltersList = activeFiltersWrap.querySelector('.active-filters-list');
+  const clearAllBtn = activeFiltersWrap.querySelector('.clear-all-filters');
+  const sortSelect = document.getElementById('winners-sort');
+
+  /* Drawer references */
+  const mobileTrigger = document.querySelector('.mobile-filter-trigger');
+  const mobileLabel = mobileTrigger.querySelector('.mobile-filter-label');
+  const backdrop = document.querySelector('.filter-drawer-backdrop');
+  const drawer = document.querySelector('.filter-drawer');
+  const drawerClose = drawer.querySelector('.filter-drawer-close');
+  const drawerApply = drawer.querySelector('.drawer-apply-btn');
+  const drawerClear = drawer.querySelector('.drawer-clear-btn');
+  const mobileSortSelect = document.getElementById('mobile-sort');
+
+  /* Trigger base names for count badges */
+  const triggerNames = {};
+  document.querySelectorAll('.filter-row .filter-group').forEach(g => {
+    const trigger = g.querySelector('.filter-trigger');
+    triggerNames[g.dataset.filter] = trigger.childNodes[0].textContent.trim();
   });
-});
+
+  /* ---- State ---- */
+  const state = { filters: { industry: [], section: [], device: [], kpi: [] }, sort: 'newest' };
+
+  /* ---- "See more" button (original behavior) ---- */
+  if (seeMoreBtn) {
+    seeMoreBtn.addEventListener('click', () => {
+      const expanded = grid.classList.toggle('is-expanded');
+      seeMoreBtn.textContent = expanded ? 'See less' : 'See more';
+    });
+  }
+
+  /* ============================================================
+     DESKTOP: Dropdown open/close
+     ============================================================ */
+  document.querySelectorAll('.filter-trigger').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const group = trigger.closest('.filter-group');
+      const wasOpen = group.classList.contains('open');
+      closeAllDropdowns();
+      if (!wasOpen) {
+        group.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  function closeAllDropdowns() {
+    document.querySelectorAll('.filter-group.open').forEach(g => {
+      g.classList.remove('open');
+      g.querySelector('.filter-trigger').setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.filter-group')) closeAllDropdowns();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeAllDropdowns();
+      if (!drawer.hidden) closeDrawer();
+    }
+  });
+
+  /* ---- Desktop checkbox change ---- */
+  document.querySelectorAll('.filter-row .filter-chip input').forEach(input => {
+    input.addEventListener('change', () => {
+      const chip = input.closest('.filter-chip');
+      chip.classList.toggle('active', input.checked);
+      syncCheckboxToState(input);
+      applyFilters();
+      applySort();
+      updateTriggerStates();
+      updateActiveFilterPills();
+      updateMobileTrigger();
+    });
+  });
+
+  /* ---- Sort change (desktop) ---- */
+  sortSelect.addEventListener('change', () => {
+    state.sort = sortSelect.value;
+    mobileSortSelect.value = state.sort;
+    applyFilters();
+    applySort();
+  });
+
+  /* ---- Clear all (desktop) ---- */
+  clearAllBtn.addEventListener('click', () => {
+    resetAll();
+  });
+
+  /* ============================================================
+     MOBILE DRAWER
+     ============================================================ */
+  mobileTrigger.addEventListener('click', () => openDrawer());
+
+  drawerClose.addEventListener('click', () => closeDrawer());
+
+  backdrop.addEventListener('click', () => closeDrawer());
+
+  /* Accordion toggle */
+  drawer.querySelectorAll('.drawer-section-heading').forEach(heading => {
+    heading.addEventListener('click', () => {
+      const section = heading.closest('.drawer-section');
+      const isCollapsed = section.classList.toggle('collapsed');
+      heading.setAttribute('aria-expanded', !isCollapsed);
+      heading.querySelector('.drawer-section-toggle').textContent = isCollapsed ? '+' : '\u2014';
+    });
+  });
+
+  /* Drawer chip clicks (toggle active class immediately for visual feedback) */
+  drawer.querySelectorAll('.filter-chip input').forEach(input => {
+    input.addEventListener('change', () => {
+      input.closest('.filter-chip').classList.toggle('active', input.checked);
+    });
+  });
+
+  /* Apply button */
+  drawerApply.addEventListener('click', () => {
+    syncDrawerToState();
+    syncStateToDesktopCheckboxes();
+    applyFilters();
+    applySort();
+    updateTriggerStates();
+    updateActiveFilterPills();
+    updateMobileTrigger();
+    closeDrawer();
+  });
+
+  /* Clear button */
+  drawerClear.addEventListener('click', () => {
+    resetAll();
+    closeDrawer();
+  });
+
+  function openDrawer() {
+    syncStateToDrawerCheckboxes();
+    mobileSortSelect.value = state.sort;
+    backdrop.hidden = false;
+    drawer.hidden = false;
+    document.body.classList.add('drawer-open');
+    requestAnimationFrame(() => {
+      backdrop.classList.add('visible');
+      drawer.classList.add('visible');
+    });
+  }
+
+  function closeDrawer() {
+    backdrop.classList.remove('visible');
+    drawer.classList.remove('visible');
+    document.body.classList.remove('drawer-open');
+    setTimeout(() => {
+      backdrop.hidden = true;
+      drawer.hidden = true;
+    }, 300);
+  }
+
+  /* ============================================================
+     SYNC HELPERS
+     ============================================================ */
+  function syncCheckboxToState(input) {
+    const group = input.closest('.filter-group') || input.closest('[data-drawer-filter]');
+    const dim = group ? (group.dataset.filter || group.dataset.drawerFilter) : null;
+    if (!dim) return;
+    const val = input.value;
+    if (input.checked) {
+      if (!state.filters[dim].includes(val)) state.filters[dim].push(val);
+    } else {
+      state.filters[dim] = state.filters[dim].filter(v => v !== val);
+    }
+  }
+
+  function syncDrawerToState() {
+    // Read all drawer checkboxes into state
+    Object.keys(state.filters).forEach(dim => { state.filters[dim] = []; });
+    drawer.querySelectorAll('[data-drawer-filter]').forEach(section => {
+      const dim = section.dataset.drawerFilter;
+      section.querySelectorAll('input:checked').forEach(cb => {
+        state.filters[dim].push(cb.value);
+      });
+    });
+    state.sort = mobileSortSelect.value;
+    sortSelect.value = state.sort;
+  }
+
+  function syncStateToDesktopCheckboxes() {
+    document.querySelectorAll('.filter-row .filter-group').forEach(group => {
+      const dim = group.dataset.filter;
+      group.querySelectorAll('.filter-chip input').forEach(cb => {
+        cb.checked = state.filters[dim].includes(cb.value);
+        cb.closest('.filter-chip').classList.toggle('active', cb.checked);
+      });
+    });
+  }
+
+  function syncStateToDrawerCheckboxes() {
+    drawer.querySelectorAll('[data-drawer-filter]').forEach(section => {
+      const dim = section.dataset.drawerFilter;
+      section.querySelectorAll('.filter-chip input').forEach(cb => {
+        cb.checked = state.filters[dim].includes(cb.value);
+        cb.closest('.filter-chip').classList.toggle('active', cb.checked);
+      });
+    });
+  }
+
+  function resetAll() {
+    Object.keys(state.filters).forEach(dim => { state.filters[dim] = []; });
+    state.sort = 'newest';
+    sortSelect.value = 'newest';
+    mobileSortSelect.value = 'newest';
+    document.querySelectorAll('.filter-chip input').forEach(input => {
+      input.checked = false;
+      input.closest('.filter-chip').classList.remove('active');
+    });
+    applyFilters();
+    applySort();
+    updateTriggerStates();
+    updateActiveFilterPills();
+    updateMobileTrigger();
+  }
+
+  /* ============================================================
+     CORE FILTER + SORT LOGIC
+     ============================================================ */
+  function hasActiveFilters() {
+    return Object.values(state.filters).some(arr => arr.length > 0);
+  }
+
+  function applyFilters() {
+    const active = hasActiveFilters();
+    grid.classList.toggle('is-filtered', active || state.sort !== 'newest');
+    btnContainer.classList.toggle('filter-active', active || state.sort !== 'newest');
+
+    if (!active && state.sort === 'newest') {
+      grid.classList.remove('is-filtered');
+      btnContainer.classList.remove('filter-active');
+    }
+
+    let visibleCount = 0;
+    cards().forEach(card => {
+      if (!active) {
+        card.classList.remove('filter-hidden');
+        visibleCount++;
+        return;
+      }
+      const match = Object.entries(state.filters).every(([dim, vals]) => {
+        if (vals.length === 0) return true;
+        return vals.includes(card.dataset[dim]);
+      });
+      card.classList.toggle('filter-hidden', !match);
+      if (match) visibleCount++;
+    });
+
+    if (noResults) {
+      noResults.hidden = visibleCount > 0 || !active;
+    }
+  }
+
+  function applySort() {
+    const allCards = cards();
+    allCards.sort((a, b) => {
+      if (state.sort === 'newest') return +a.dataset.order - +b.dataset.order;
+      if (state.sort === 'oldest') return +b.dataset.order - +a.dataset.order;
+      if (state.sort === 'highest') return parseFloat(b.dataset.labelLift) - parseFloat(a.dataset.labelLift);
+      return 0;
+    });
+    allCards.forEach(card => grid.appendChild(card));
+  }
+
+  /* ---- Trigger states with count badge ---- */
+  function updateTriggerStates() {
+    document.querySelectorAll('.filter-row .filter-group').forEach(group => {
+      const dim = group.dataset.filter;
+      const trigger = group.querySelector('.filter-trigger');
+      const count = state.filters[dim].length;
+      trigger.classList.toggle('has-selection', count > 0);
+
+      // Update text with count badge
+      const existingBadge = trigger.querySelector('.trigger-count');
+      if (existingBadge) existingBadge.remove();
+
+      // Reset text node to base name
+      trigger.childNodes[0].textContent = triggerNames[dim] + ' ';
+
+      if (count > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'trigger-count';
+        badge.textContent = count;
+        trigger.insertBefore(badge, trigger.querySelector('svg'));
+      }
+    });
+  }
+
+  /* ---- Mobile trigger count ---- */
+  function updateMobileTrigger() {
+    const totalCount = Object.values(state.filters).reduce((sum, arr) => sum + arr.length, 0);
+    const hasSort = state.sort !== 'newest';
+    const existingCount = mobileTrigger.querySelector('.mobile-filter-count');
+    if (existingCount) existingCount.remove();
+
+    mobileTrigger.classList.toggle('has-filters', totalCount > 0 || hasSort);
+
+    if (totalCount > 0) {
+      mobileLabel.textContent = 'Filter + Sort';
+      const badge = document.createElement('span');
+      badge.className = 'mobile-filter-count';
+      badge.textContent = totalCount;
+      mobileTrigger.appendChild(badge);
+    } else {
+      mobileLabel.textContent = 'Filter + Sort';
+    }
+  }
+
+  /* ---- Label map for readable pill text ---- */
+  const labels = {
+    healthcare: 'Healthcare', retail: 'Retail', education: 'Education',
+    home: 'Home', navigation: 'Navigation', form: 'Form',
+    'product-listing': 'Product Listing', 'product-detail': 'Product Detail', resources: 'Resources',
+    desktop: 'Desktop', mobile: 'Mobile', all: 'All Devices',
+    ctr: 'CTR', cvr: 'CVR', 'cart-adds': 'Cart Adds', 'add-to-cart': 'Add to Cart',
+    'quote-starts': 'Quote Starts', 'agent-starts': 'Agent Starts',
+    'cta-engagement': 'CTA Engagement', 'form-fills': 'Form Fills', 'form-completions': 'Form Completions'
+  };
+
+  /* ---- Active filter pills ---- */
+  function updateActiveFilterPills() {
+    const active = hasActiveFilters();
+    activeFiltersWrap.hidden = !active;
+    activeFiltersList.innerHTML = '';
+
+    Object.entries(state.filters).forEach(([dim, vals]) => {
+      vals.forEach(val => {
+        const pill = document.createElement('span');
+        pill.className = 'active-filter-pill';
+        pill.innerHTML = (labels[val] || val) + ' <button type="button" aria-label="Remove ' + (labels[val] || val) + ' filter">&times;</button>';
+        pill.querySelector('button').addEventListener('click', () => {
+          // Uncheck desktop checkbox
+          const cb = document.querySelector('.filter-row .filter-group[data-filter="' + dim + '"] input[value="' + val + '"]');
+          if (cb) {
+            cb.checked = false;
+            cb.closest('.filter-chip').classList.remove('active');
+          }
+          state.filters[dim] = state.filters[dim].filter(v => v !== val);
+          applyFilters();
+          applySort();
+          updateTriggerStates();
+          updateActiveFilterPills();
+          updateMobileTrigger();
+        });
+        activeFiltersList.appendChild(pill);
+      });
+    });
+  }
+})();
  </script>
 
   <!-- Sticky floating CTA -->
