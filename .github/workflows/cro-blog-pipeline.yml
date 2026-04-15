@@ -1,0 +1,27 @@
+name: CRO Blog Pipeline
+on:
+  schedule:
+    - cron: '0 14 1,15 * *'  # 1st and 15th of each month, 14:00 UTC (~10am ET)
+  workflow_dispatch:           # enables the manual "Run workflow" button
+
+jobs:
+  generate-blog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install @anthropic-ai/claude-agent-sdk resend
+      - name: Run pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: node scripts/pipeline.mjs
