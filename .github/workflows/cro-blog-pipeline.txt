@@ -1,4 +1,4 @@
-name: CRO Blog Pipeline
+"name: CRO Blog Pipeline
 on:
   schedule:
     - cron: '0 14 1,15 * *'
@@ -36,3 +36,4 @@ jobs:
           REPO: ${{ github.repository }}
           TOPIC_SEED: ${{ inputs.topic_seed }}
         run: node scripts/pipeline.mjs
+"
