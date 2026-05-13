@@ -13,16 +13,17 @@
 }
 
 .cro-pdp-hero h1 {
-  margin: 0 0 16px;
-  max-width: 780px;
-  font-size: clamp(2.2rem, 5vw, 4.6rem);
-  line-height: 0.98;
+  margin: 0 0 14px;
+  max-width: 680px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
   letter-spacing: 0;
 }
 
 .cro-pdp-hero .lead {
-  max-width: 720px;
-  font-size: 1.08rem;
+  max-width: 620px;
+  font-size: 1rem;
+  line-height: 1.58;
 }
 
 .audit-snapshot {
@@ -140,14 +141,69 @@
 
 .deliverable-proof h2 {
   margin: 0 0 10px;
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  line-height: 1.1;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  line-height: 1.14;
 }
 
 .deliverable-proof p:not(.section-eyebrow) {
   color: var(--muted);
-  line-height: 1.65;
-  margin-bottom: 18px;
+  line-height: 1.58;
+  margin-bottom: 16px;
+}
+
+.audit-example-tabs input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.audit-example-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.audit-example-tablist label {
+  border: 1px solid rgba(15,108,204,0.18);
+  border-radius: 999px;
+  color: var(--accent-2);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 8px 12px;
+}
+
+#audit-example-strategy:checked ~ .audit-example-tablist label[for="audit-example-strategy"],
+#audit-example-roadmap:checked ~ .audit-example-tablist label[for="audit-example-roadmap"],
+#audit-example-briefing:checked ~ .audit-example-tablist label[for="audit-example-briefing"] {
+  background: var(--accent-2);
+  color: #fff;
+}
+
+.audit-example-panel {
+  display: none;
+  border: 1px solid rgba(15,108,204,0.12);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.audit-example-panel h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.audit-example-panel p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+#audit-example-strategy:checked ~ .audit-example-panels .audit-example-panel--strategy,
+#audit-example-roadmap:checked ~ .audit-example-panels .audit-example-panel--roadmap,
+#audit-example-briefing:checked ~ .audit-example-panels .audit-example-panel--briefing {
+  display: block;
 }
 
 .deliverable-proof__preview {
@@ -202,11 +258,70 @@
 }
 
 .engagement-steps {
+  display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
 }
 
 .engagement-steps .process-step {
+  display: block;
   border-radius: 8px;
+  min-width: 0;
+  min-height: 260px;
+  padding: 22px;
+}
+
+.engagement-steps .process-step .step-number {
+  display: inline-flex;
+  margin-bottom: 16px;
+}
+
+.engagement-steps .process-step h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.engagement-steps .process-step p {
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+.collapsible-faq .faq-item {
+  padding: 0;
+  overflow: hidden;
+}
+
+.collapsible-faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 46px 18px 22px;
+  position: relative;
+  font-weight: 800;
+}
+
+.collapsible-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-2);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.collapsible-faq details[open] summary::after {
+  content: "-";
+}
+
+.collapsible-faq .faq-item p {
+  padding: 0 22px 20px;
 }
 
 .cro-final-cta {
@@ -225,6 +340,10 @@
     grid-template-columns: 1fr;
   }
 
+  .engagement-steps .process-step {
+    min-height: 0;
+  }
+
   .audit-snapshot {
     padding: 22px;
   }
@@ -237,7 +356,7 @@
   }
 
   .cro-pdp-hero h1 {
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 12vw, 2.5rem);
   }
 
   .deliverable-proof {
