@@ -1,0 +1,385 @@
+/* CRO audit PDP rebuild */
+.cro-audit-page .container {
+  max-width: 1120px;
+}
+
+.cro-pdp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 36px;
+  align-items: center;
+  padding-top: 54px;
+  padding-bottom: 34px;
+}
+
+.cro-pdp-hero h1 {
+  margin: 0 0 14px;
+  max-width: 680px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.cro-pdp-hero .lead {
+  max-width: 620px;
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.audit-snapshot {
+  background: #0f1724;
+  color: #fff;
+  border-radius: 8px;
+  padding: 26px;
+  box-shadow: 0 18px 40px rgba(15, 23, 36, 0.18);
+}
+
+.audit-snapshot__label {
+  margin: 0 0 16px;
+  color: #a8d8ff;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.audit-snapshot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.audit-snapshot li {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+
+.audit-snapshot strong,
+.audit-snapshot span {
+  display: block;
+}
+
+.audit-snapshot strong {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.audit-snapshot span {
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.proof-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.proof-strip div {
+  background: #f8fbff;
+  border: 1px solid rgba(15,108,204,0.12);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.proof-strip strong,
+.proof-strip span {
+  display: block;
+}
+
+.proof-strip strong {
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.proof-strip span {
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.reason-grid .reason-card {
+  border-radius: 8px;
+}
+
+.reason-card > span {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--accent-2);
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+.compact-deliverables {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compact-deliverables .deliverable-item {
+  border-radius: 8px;
+}
+
+.compact-deliverables .deliverable-icon {
+  color: #0b4bd8;
+  font-weight: 800;
+}
+
+.deliverable-proof {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.62fr);
+  gap: 24px;
+  align-items: start;
+  background: linear-gradient(135deg, #eef7ff 0%, #fff 56%);
+  border: 1px solid rgba(15,108,204,0.14);
+  border-radius: 8px;
+  padding: 28px;
+}
+
+.deliverable-proof h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  line-height: 1.14;
+}
+
+.deliverable-proof p:not(.section-eyebrow) {
+  color: var(--muted);
+  line-height: 1.58;
+  margin-bottom: 16px;
+}
+
+.audit-example-tabs {
+  margin: 16px 0;
+}
+
+.audit-example-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.audit-example-tab {
+  appearance: none;
+  border: 1px solid rgba(15,108,204,0.18);
+  border-radius: 8px;
+  background: #f8fbff;
+  color: #17356f;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.1;
+  padding: 10px 12px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.audit-example-tab:hover,
+.audit-example-tab:focus-visible {
+  border-color: rgba(15,108,204,0.42);
+}
+
+.audit-example-tab:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.audit-example-tab.is-active {
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  color: #fff;
+}
+
+.audit-example-panel {
+  display: none;
+  border: 1px solid rgba(15,108,204,0.12);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+  margin-bottom: 0;
+}
+
+.audit-example-panel.is-active {
+  display: block;
+}
+
+.audit-example-panel[hidden] {
+  display: none !important;
+}
+
+.audit-example-panel h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+}
+
+.audit-example-panel p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.deliverable-proof__preview {
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.preview-page {
+  width: min(100%, 280px);
+  min-height: 286px;
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid rgba(15,108,204,0.14);
+  box-shadow: 0 18px 34px rgba(14,21,47,0.13);
+  transform: rotate(1.5deg);
+}
+
+.preview-page span,
+.preview-page strong,
+.preview-page small,
+.preview-page i {
+  display: block;
+}
+
+.preview-page span {
+  color: var(--accent-2);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.preview-page strong {
+  font-size: 1.35rem;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.preview-page i {
+  height: 34px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #e9f2ff, #f7fbff);
+}
+
+.preview-page small {
+  margin-top: 18px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.engagement-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.engagement-steps .process-step {
+  display: block;
+  border-radius: 8px;
+  min-width: 0;
+  min-height: 260px;
+  padding: 22px;
+}
+
+.engagement-steps .process-step .step-number {
+  display: inline-flex;
+  margin-bottom: 16px;
+}
+
+.engagement-steps .process-step h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.engagement-steps .process-step p {
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+.collapsible-faq .faq-item {
+  padding: 0;
+  overflow: hidden;
+}
+
+.collapsible-faq summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 18px 46px 18px 22px;
+  position: relative;
+  font-weight: 800;
+}
+
+.collapsible-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.collapsible-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-2);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.collapsible-faq details[open] summary::after {
+  content: "-";
+}
+
+.collapsible-faq .faq-item p {
+  padding: 0 22px 20px;
+}
+
+.cro-final-cta {
+  border-radius: 8px;
+}
+
+@media (max-width: 980px) {
+  .cro-pdp-hero,
+  .deliverable-proof {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-strip,
+  .compact-deliverables,
+  .engagement-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-steps .process-step {
+    min-height: 0;
+  }
+
+  .audit-snapshot {
+    padding: 22px;
+  }
+
+  .deliverable-proof__preview {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .cro-pdp-hero {
+    padding-top: 30px;
+    gap: 22px;
+  }
+
+  .deliverable-proof {
+    padding: 22px;
+  }
+
+  .audit-example-tab {
+    flex: 1 1 100%;
+  }
+}
