@@ -1,5 +1,6 @@
 /* Mobile-only follow-up refinements for the CRO audit page. */
-.insight-mobile-panel {
+.insight-mobile-panel,
+.signs-carousel-dots {
   display: none;
 }
 
@@ -101,11 +102,51 @@
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }
+
+  .signs-carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.2rem;
+  }
+
+  .signs-carousel-dots button {
+    width: 0.7rem;
+    height: 0.7rem;
+    padding: 0;
+    border: 1px solid rgba(31, 42, 122, 0.34);
+    border-radius: 999px;
+    background: #dce6ff;
+    cursor: pointer;
+    transition: transform 180ms ease, width 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  .signs-carousel-dots button:hover,
+  .signs-carousel-dots button:focus-visible {
+    transform: translateY(-1px) scale(1.08);
+    border-color: #1f2a7a;
+    outline: none;
+  }
+
+  .signs-carousel-dots button:focus-visible {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+  }
+
+  .signs-carousel-dots button.is-active {
+    width: 1.65rem;
+    background: #1f2a7a;
+    border-color: #1f2a7a;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .insight-tile.is-active + .insight-mobile-panel {
     animation: none;
+  }
+
+  .signs-carousel-dots button {
+    transition: none;
   }
 }
 
