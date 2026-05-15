@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Strategic audit preview</title>
+  <desc id="desc">A strategic audit slide preview showing progressive discovery, evidence cards, a query mapping chart, data table, and pathfinder examples.</desc>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <rect width="286" height="44" x="0" y="22" rx="0" fill="#3864f4"/>
+  <text x="34" y="50" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Information Hierarchy</text>
+  <text x="800" y="127" text-anchor="middle" fill="#1f3196" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Progressive Discovery Converts Undecided</text>
+  <text x="800" y="178" text-anchor="middle" fill="#1f3196" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Users Into Qualified Inquiries</text>
+  <g transform="translate(94 263)">
+    <rect width="452" height="576" rx="34" fill="#ffffff" stroke="#22349d" stroke-width="2"/>
+    <rect width="452" height="122" rx="18" fill="#22349d"/>
+    <circle cx="46" cy="52" r="19" fill="none" stroke="#fff" stroke-width="5"/>
+    <line x1="61" y1="67" x2="80" y2="88" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <text x="100" y="54" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">Specificity Indicates</text>
+    <text x="100" y="88" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">Intent</text>
+    <text x="226" y="160" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">When specific query intent matches</text>
+    <text x="226" y="186" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">landing page specificity, V2I improves</text>
+    <text x="226" y="212" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">by +44% and broad content by +10%</text>
+    <text x="226" y="318" text-anchor="middle" fill="#777" font-family="Inter, Arial, sans-serif" font-size="24">V2I By Query &amp; LP Mapping</text>
+    <line x1="92" y1="440" x2="414" y2="440" stroke="#ddd"/>
+    <line x1="92" y1="380" x2="414" y2="380" stroke="#e8e8e8"/>
+    <line x1="92" y1="320" x2="414" y2="320" stroke="#e8e8e8"/>
+    <rect x="123" y="396" width="26" height="44" fill="#3864f4"/>
+    <rect x="202" y="391" width="26" height="49" fill="#3864f4"/>
+    <rect x="281" y="374" width="26" height="66" fill="#59aa62"/>
+    <rect x="360" y="394" width="26" height="46" fill="#3864f4"/>
+  </g>
+  <g transform="translate(580 263)">
+    <rect width="452" height="576" rx="34" fill="#ffffff" stroke="#22349d" stroke-width="2"/>
+    <rect width="452" height="122" rx="18" fill="#22349d"/>
+    <circle cx="51" cy="29" r="8" fill="#fff"/>
+    <path d="M34 98h34l-7-60h-20z" fill="#fff"/>
+    <line x1="35" y1="54" x2="20" y2="48" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="62" y1="54" x2="80" y2="52" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <text x="98" y="34" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">Most Users Don't Know</text>
+    <text x="98" y="66" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">What They Want (At</text>
+    <text x="98" y="98" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">First)</text>
+    <text x="226" y="168" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">41% of paid spend targets queries</text>
+    <text x="226" y="194" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">without clear level or pathway - the</text>
+    <text x="226" y="220" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">experience asks users to choose</text>
+    <text x="226" y="246" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">without specific context</text>
+    <g transform="translate(54 320)">
+      <rect width="344" height="112" fill="#f7fbff" stroke="#d7e2f4"/>
+      <g font-family="Inter, Arial, sans-serif" font-size="6">
+        <text x="8" y="14">User Search Topic</text><text x="125" y="14">Unknown Level</text><text x="222" y="14">Search Value</text><text x="294" y="14">Intent</text>
+      </g>
+      <g>
+        <rect x="122" y="24" width="52" height="78" rx="8" fill="none" stroke="#e6392d" stroke-width="4"/>
+        <rect x="8" y="24" width="328" height="10" fill="#cdebc8"/><rect x="8" y="36" width="328" height="10" fill="#f6e69a"/><rect x="8" y="48" width="328" height="10" fill="#f3b1a7"/><rect x="8" y="60" width="328" height="10" fill="#cdebc8"/><rect x="8" y="72" width="328" height="10" fill="#f6e69a"/><rect x="8" y="84" width="328" height="10" fill="#f3b1a7"/>
+      </g>
+    </g>
+    <circle cx="20" cy="536" r="82" fill="#22349d" stroke="#fff" stroke-width="5"/>
+    <text x="20" y="514" text-anchor="middle" fill="#ffeb3b" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="900">+43%</text>
+    <text x="20" y="546" text-anchor="middle" fill="#ffeb3b" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="900">CVR</text>
+  </g>
+  <g transform="translate(1062 263)">
+    <rect width="452" height="576" rx="34" fill="#ffffff" stroke="#2d8fe8" stroke-width="2"/>
+    <rect width="452" height="122" rx="18" fill="#22349d"/>
+    <circle cx="52" cy="35" r="9" fill="#fff"/><line x1="52" y1="48" x2="52" y2="81" stroke="#fff" stroke-width="8"/><line x1="29" y1="36" x2="47" y2="53" stroke="#fff" stroke-width="8" stroke-linecap="round"/><line x1="75" y1="36" x2="57" y2="53" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <text x="96" y="34" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">Competitors Guide</text>
+    <text x="96" y="66" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">Discovery, Rather than</text>
+    <text x="96" y="98" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="800">Gate It</text>
+    <text x="226" y="160" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">ASU and Coursera use quiz-style</text>
+    <text x="226" y="186" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">pathfinders and topic to program</text>
+    <text x="226" y="212" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="22">flows to move undecided users</text>
+    <g transform="translate(34 278)">
+      <rect width="110" height="270" rx="12" fill="#fff" stroke="#ddd"/><rect x="16" y="62" width="78" height="18" fill="#f6f6f6"/><rect x="16" y="96" width="78" height="10" fill="#ffcc26"/><rect x="16" y="128" width="78" height="34" fill="#f4f6fb"/><rect x="16" y="174" width="78" height="34" fill="#f4f6fb"/>
+      <polygon points="130,140 156,154 130,168" fill="#22349d"/>
+      <rect x="166" width="122" height="270" rx="12" fill="#fff" stroke="#ddd"/><rect x="166" y="0" width="122" height="84" rx="12" fill="#d8e9ff"/><rect x="182" y="104" width="90" height="8" fill="#22349d"/><rect x="182" y="132" width="90" height="70" fill="#eef4ff"/>
+      <rect x="304" width="112" height="270" rx="12" fill="#fff" stroke="#ddd"/><rect x="320" y="40" width="80" height="28" rx="6" fill="#fff" stroke="#ddd"/><rect x="320" y="84" width="80" height="28" rx="6" fill="#f6f7fb"/><rect x="320" y="128" width="80" height="28" rx="6" fill="#f6f7fb"/><rect x="320" y="172" width="80" height="28" rx="6" fill="#f6f7fb"/><rect x="338" y="232" width="44" height="18" rx="4" fill="#234bd7"/>
+    </g>
+  </g>
+  <text x="38" y="872" fill="#999" font-family="Inter, Arial, sans-serif" font-size="14">*2025 data on KWDs &gt; $25 spend</text>
+  <text x="1532" y="870" text-anchor="end" fill="#aaa" font-family="Inter, Arial, sans-serif" font-size="12">HORIZON MEDIA | DEVRY | 10</text>
+</svg>
