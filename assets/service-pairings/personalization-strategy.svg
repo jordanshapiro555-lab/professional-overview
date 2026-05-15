@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">Personalization strategy workspace</title>
+  <desc id="desc">A realistic consulting workspace with audience segment dashboards and personalized customer journey planning.</desc>
+  <defs>
+    <linearGradient id="wall" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f6fbff"/><stop offset="1" stop-color="#dfeeff"/></linearGradient>
+    <linearGradient id="desk" x1="0" x2="1"><stop offset="0" stop-color="#8b6b55"/><stop offset="1" stop-color="#c59b78"/></linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="900" height="560" fill="url(#wall)"/>
+  <circle cx="730" cy="95" r="126" fill="#b9dcff" opacity="0.45" filter="url(#soft)"/>
+  <rect x="0" y="410" width="900" height="150" fill="url(#desk)"/>
+  <rect x="80" y="74" width="500" height="310" rx="22" fill="#16203a" stroke="#ffffff" stroke-width="8"/>
+  <rect x="112" y="108" width="436" height="232" rx="10" fill="#f8fbff"/>
+  <rect x="134" y="132" width="166" height="78" rx="12" fill="#e8f1ff"/>
+  <rect x="320" y="132" width="196" height="78" rx="12" fill="#edf9f2"/>
+  <rect x="134" y="232" width="382" height="22" rx="11" fill="#dbe8ff"/>
+  <rect x="134" y="272" width="310" height="16" rx="8" fill="#b9cef8"/>
+  <rect x="134" y="302" width="238" height="16" rx="8" fill="#b9cef8"/>
+  <circle cx="172" cy="171" r="24" fill="#2457e6"/><circle cx="357" cy="171" r="24" fill="#25a36f"/>
+  <path d="M640 198c28-42 92-42 120 0 24 36 18 92-18 118-26 18-76 18-102 0-36-26-42-82-18-118z" fill="#f1c9b4"/>
+  <path d="M612 222c10-78 138-88 170-15 16 36-2 80-22 102-8-52-44-82-104-90-12 28-22 60-44 82-18-28-19-52 0-79z" fill="#1f2937"/>
+  <rect x="620" y="310" width="146" height="122" rx="28" fill="#2644a6"/>
+  <rect x="664" y="430" width="110" height="34" rx="8" fill="#f1c9b4"/>
+  <rect x="568" y="414" width="126" height="64" rx="14" fill="#101827" opacity="0.9"/>
+  <rect x="596" y="432" width="70" height="9" rx="4" fill="#7dd3fc"/>
+  <rect x="596" y="450" width="42" height="9" rx="4" fill="#dff6ff"/>
+  <rect x="138" y="442" width="344" height="24" rx="12" fill="#ffffff" opacity="0.5"/>
+</svg>
