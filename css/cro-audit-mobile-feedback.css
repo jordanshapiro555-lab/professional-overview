@@ -1,0 +1,161 @@
+/* Mobile-only follow-up refinements for the CRO audit page. */
+.insight-mobile-panel,
+.signs-carousel-dots {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .insight-selector__layout {
+    display: block;
+  }
+
+  .insight-selector__tabs {
+    gap: 0.8rem;
+  }
+
+  .insight-selector__panels {
+    display: none;
+  }
+
+  .insight-tile {
+    width: 100%;
+  }
+
+  .insight-tile.is-active + .insight-mobile-panel {
+    display: block;
+    margin: -0.25rem 0 0.95rem;
+    padding: 1.15rem;
+    border: 1px solid rgba(29, 78, 216, 0.18);
+    border-radius: 0 0 18px 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+    box-shadow: 0 18px 34px rgba(30, 64, 175, 0.12);
+    animation: insight-mobile-reveal 220ms ease both;
+  }
+
+  .insight-mobile-panel span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.85rem;
+    background: #1f2a7a;
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .insight-mobile-panel h3 {
+    margin: 0 0 0.65rem;
+    color: #111827;
+    font-size: clamp(1.15rem, 5vw, 1.4rem);
+    line-height: 1.12;
+  }
+
+  .insight-mobile-panel p {
+    margin: 0;
+    color: #596478;
+    line-height: 1.55;
+  }
+
+  .audit-example-panel.is-active {
+    display: block;
+    padding: 0.75rem;
+  }
+
+  .audit-example-panel__copy {
+    display: none;
+  }
+
+  .audit-example-figure {
+    margin: 0;
+  }
+
+  .audit-example-figure img {
+    object-fit: contain;
+  }
+
+  #fit .section-header {
+    margin-bottom: 1rem;
+  }
+
+  .signs-grid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 0.9rem;
+    margin-inline: calc(var(--container-padding, 1rem) * -1);
+    padding: 0.25rem calc((100vw - min(76vw, 330px)) / 2) 1.1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: calc((100vw - min(76vw, 330px)) / 2);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .signs-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sign-item {
+    flex: 0 0 min(76vw, 330px);
+    min-height: 235px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .signs-carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0.2rem;
+  }
+
+  .signs-carousel-dots button {
+    width: 0.7rem;
+    height: 0.7rem;
+    padding: 0;
+    border: 1px solid rgba(31, 42, 122, 0.34);
+    border-radius: 999px;
+    background: #dce6ff;
+    cursor: pointer;
+    transition: transform 180ms ease, width 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  .signs-carousel-dots button:hover,
+  .signs-carousel-dots button:focus-visible {
+    transform: translateY(-1px) scale(1.08);
+    border-color: #1f2a7a;
+    outline: none;
+  }
+
+  .signs-carousel-dots button:focus-visible {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+  }
+
+  .signs-carousel-dots button.is-active {
+    width: 1.65rem;
+    background: #1f2a7a;
+    border-color: #1f2a7a;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .insight-tile.is-active + .insight-mobile-panel {
+    animation: none;
+  }
+
+  .signs-carousel-dots button {
+    transition: none;
+  }
+}
+
+@keyframes insight-mobile-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Program management photo-style workspace</title>
+  <desc id="desc">A hyper-realistic styled experimentation operations room with planning boards, dashboards, and program management activity.</desc>
+  <defs>
+    <linearGradient id="room" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#f9fafb"/><stop offset="0.45" stop-color="#ecf3ff"/><stop offset="1" stop-color="#d7e4f4"/></linearGradient>
+    <linearGradient id="screen" x1="0" x2="1"><stop offset="0" stop-color="#111827"/><stop offset="1" stop-color="#223a8a"/></linearGradient>
+    <radialGradient id="warmSkin" cx="45%" cy="28%" r="70%"><stop offset="0" stop-color="#ffd8bf"/><stop offset="0.75" stop-color="#c18462"/><stop offset="1" stop-color="#744832"/></radialGradient>
+    <radialGradient id="coolSkin" cx="50%" cy="28%" r="72%"><stop offset="0" stop-color="#f7c9ac"/><stop offset="0.72" stop-color="#a86f4f"/><stop offset="1" stop-color="#65432e"/></radialGradient>
+    <filter id="photoShadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#101a34" flood-opacity="0.2"/></filter>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="16"/></filter>
+  </defs>
+  <rect width="1200" height="760" fill="url(#room)"/>
+  <circle cx="1060" cy="92" r="150" fill="#ffffff" opacity="0.55" filter="url(#blur)"/>
+  <g filter="url(#photoShadow)">
+    <rect x="72" y="76" width="1056" height="428" rx="34" fill="url(#screen)"/>
+    <rect x="120" y="126" width="286" height="292" rx="18" fill="#ffffff" opacity="0.97"/>
+    <rect x="456" y="126" width="286" height="292" rx="18" fill="#ffffff" opacity="0.97"/>
+    <rect x="792" y="126" width="286" height="292" rx="18" fill="#ffffff" opacity="0.97"/>
+    <rect x="152" y="164" width="178" height="18" rx="9" fill="#2563eb"/><rect x="152" y="224" width="210" height="62" rx="14" fill="#eaf1ff"/><rect x="152" y="314" width="156" height="62" rx="14" fill="#eaf1ff"/>
+    <rect x="488" y="164" width="178" height="18" rx="9" fill="#2563eb"/><rect x="488" y="224" width="210" height="62" rx="14" fill="#eaf1ff"/><rect x="488" y="314" width="156" height="62" rx="14" fill="#eaf1ff"/>
+    <rect x="824" y="164" width="166" height="18" rx="9" fill="#2563eb"/><rect x="824" y="224" width="196" height="62" rx="14" fill="#eaf1ff"/><rect x="824" y="314" width="146" height="62" rx="14" fill="#eaf1ff"/>
+  </g>
+  <ellipse cx="600" cy="650" rx="420" ry="62" fill="#0f172a" opacity="0.16" filter="url(#blur)"/>
+  <g filter="url(#photoShadow)">
+    <circle cx="262" cy="552" r="86" fill="url(#warmSkin)"/><path d="M188 532c8-100 146-142 202-48 20 34 20 78 2 118-36-66-102-96-204-70z" fill="#263040"/>
+    <rect x="168" y="616" width="196" height="112" rx="50" fill="#162a73"/>
+    <circle cx="870" cy="552" r="86" fill="url(#coolSkin)"/><path d="M798 532c14-100 150-134 204-42 22 38 18 86-4 122-34-68-104-98-200-80z" fill="#151c2a"/>
+    <rect x="778" y="616" width="196" height="112" rx="50" fill="#2563eb"/>
+    <rect x="408" y="520" width="384" height="138" rx="20" fill="#ffffff" stroke="#d9e2f2"/>
+    <rect x="444" y="558" width="288" height="16" rx="8" fill="#c4d3f3"/><rect x="444" y="596" width="210" height="16" rx="8" fill="#c4d3f3"/>
+    <path d="M444 632h290" stroke="#2563eb" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  </g>
+</svg>
