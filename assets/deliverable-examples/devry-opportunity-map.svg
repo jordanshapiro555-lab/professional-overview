@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Opportunity map preview</title>
+  <desc id="desc">An opportunity map slide preview showing three progressive discovery cards for pathing, specific program discovery, and guided user paths.</desc>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <rect width="286" height="44" x="0" y="24" rx="0" fill="#3864f4"/>
+  <text x="34" y="52" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Information Hierarchy</text>
+  <text x="800" y="128" text-anchor="middle" fill="#1f3196" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Optimization Opportunities:</text>
+  <text x="800" y="182" text-anchor="middle" fill="#1f3196" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="800">Topic &amp; Career Goal Pathing Enable Progressive Discovery</text>
+  <g transform="translate(270 230)">
+    <rect width="338" height="618" rx="18" fill="#cbd6e6"/>
+    <rect width="338" height="360" rx="18" fill="#ffffff" stroke="#c5cede"/>
+    <g transform="translate(28 28)">
+      <rect width="86" height="142" rx="8" fill="#eef4ff" stroke="#c5cede"/><rect x="14" y="28" width="58" height="12" fill="#1736a0"/><rect x="14" y="52" width="58" height="20" rx="10" fill="#f5d428"/><rect x="14" y="88" width="58" height="8" fill="#4564c6"/><rect x="14" y="106" width="58" height="8" fill="#4564c6"/>
+      <rect x="112" width="86" height="142" rx="8" fill="#eef4ff" stroke="#c5cede"/><rect x="126" y="28" width="58" height="12" fill="#1736a0"/><rect x="126" y="52" width="58" height="20" rx="10" fill="#f5d428"/><rect x="126" y="88" width="58" height="8" fill="#4564c6"/><rect x="126" y="106" width="58" height="8" fill="#4564c6"/>
+      <rect x="224" width="86" height="142" rx="8" fill="#eef4ff" stroke="#c5cede"/><rect x="238" y="28" width="58" height="12" fill="#1736a0"/><rect x="238" y="52" width="58" height="20" rx="10" fill="#f5d428"/><rect x="238" y="88" width="58" height="8" fill="#4564c6"/><rect x="238" y="106" width="58" height="8" fill="#4564c6"/>
+      <line x1="70" y1="155" x2="70" y2="220" stroke="#22349d" stroke-width="2"/><line x1="154" y1="155" x2="154" y2="220" stroke="#22349d" stroke-width="2"/><line x1="266" y1="155" x2="266" y2="220" stroke="#22349d" stroke-width="2"/>
+      <rect x="24" y="224" width="80" height="98" fill="#fff" stroke="#c5cede"/><rect x="122" y="224" width="80" height="98" fill="#fff" stroke="#c5cede"/><rect x="224" y="224" width="80" height="98" fill="#fff" stroke="#c5cede"/>
+    </g>
+    <text x="169" y="400" text-anchor="middle" fill="#2f68f5" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="900">PROGRESSIVE PATHING</text>
+    <text x="169" y="462" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">Improved content discovery</text>
+    <text x="169" y="492" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">enables users to progress</text>
+    <text x="169" y="522" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">from high-level interests to</text>
+    <text x="169" y="552" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">targeted programs, reducing</text>
+    <text x="169" y="582" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">friction through focused</text>
+    <text x="169" y="612" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">specialization paths</text>
+  </g>
+  <g transform="translate(630 230)">
+    <rect width="338" height="618" rx="18" fill="#cbd6e6"/>
+    <rect width="338" height="360" rx="18" fill="#ffffff" stroke="#c5cede"/>
+    <rect x="0" y="0" width="338" height="106" rx="18" fill="#22349d"/>
+    <rect x="184" y="0" width="154" height="116" rx="14" fill="#d7dde9"/>
+    <text x="28" y="188" fill="#1736a0" font-family="Inter, Arial, sans-serif" font-size="18">Earn an online computer</text>
+    <text x="28" y="210" fill="#1736a0" font-family="Inter, Arial, sans-serif" font-size="18">information systems degree</text>
+    <rect x="226" y="166" width="88" height="42" rx="10" fill="#dcecff"/>
+    <rect x="236" y="234" width="82" height="26" rx="13" fill="#2f68f5"/>
+    <text x="277" y="252" text-anchor="middle" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="800">Request info</text>
+    <line x1="30" y1="242" x2="198" y2="242" stroke="#c5cede"/><line x1="30" y1="270" x2="198" y2="270" stroke="#c5cede"/><line x1="30" y1="298" x2="198" y2="298" stroke="#c5cede"/>
+    <text x="169" y="400" text-anchor="middle" fill="#2f68f5" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="900">SPECIFIC PROGRAM</text>
+    <text x="169" y="430" text-anchor="middle" fill="#2f68f5" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="900">DISCOVERY</text>
+    <text x="169" y="500" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">Enabling user discovery all</text>
+    <text x="169" y="530" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">the way to their exact</text>
+    <text x="169" y="560" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">program of interest avoids</text>
+    <text x="169" y="590" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">halting exploration and</text>
+    <text x="169" y="620" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">produces high quality leads</text>
+  </g>
+  <g transform="translate(990 230)">
+    <rect width="338" height="618" rx="18" fill="#cbd6e6"/>
+    <rect width="338" height="360" rx="18" fill="#ffffff" stroke="#c5cede"/>
+    <text x="169" y="42" text-anchor="middle" fill="#555" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">What degree are you</text>
+    <text x="169" y="74" text-anchor="middle" fill="#555" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">seeking?</text>
+    <rect x="30" y="102" width="278" height="36" fill="#fff" stroke="#aaa"/><rect x="30" y="156" width="278" height="36" fill="#fff" stroke="#aaa"/><rect x="30" y="210" width="278" height="36" fill="#fff" stroke="#aaa"/>
+    <rect x="30" y="278" width="278" height="34" fill="#b82025"/>
+    <text x="169" y="301" text-anchor="middle" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Next</text>
+    <text x="169" y="400" text-anchor="middle" fill="#2f68f5" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="900">GUIDED USER PATHS</text>
+    <text x="169" y="462" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">Guided pathfinders reduce</text>
+    <text x="169" y="492" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">decision burden for</text>
+    <text x="169" y="522" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">undecided users, especially</text>
+    <text x="169" y="552" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">when decisions are put into</text>
+    <text x="169" y="582" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">user terms like role-based</text>
+    <text x="169" y="612" text-anchor="middle" fill="#111" font-family="Inter, Arial, sans-serif" font-size="24">discovery</text>
+  </g>
+  <text x="1532" y="870" text-anchor="end" fill="#aaa" font-family="Inter, Arial, sans-serif" font-size="12">HORIZON MEDIA | DEVRY | 11</text>
+</svg>
