@@ -4,6 +4,22 @@
 
   const ORIGINAL_SITE_SCRIPT_SRC = 'https://cdn.jsdelivr.net/gh/jordanshapiro555-lab/CRO-Consulting@db6ee2173d4e7335886a962b38c5e9a271e36263/script.js';
   const SITE_ROOT = '/CRO-Consulting/';
+  const BRAND_MARK_SVG = `
+      <svg width="36" height="36" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="hdr-conv-glow" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="400" fill="#0A1628"/>
+      <polygon points="48,70 352,70 296,152 104,152" fill="#00C9A7" opacity="0.28"/>
+      <polygon points="108,162 292,162 248,244 152,244" fill="#00C9A7" opacity="0.60"/>
+      <polygon points="156,254 244,254 200,336" fill="#00C9A7" opacity="1.0"/>
+      <polygon points="156,254 244,254 200,336" fill="url(#hdr-conv-glow)"/>
+      <line x1="104" y1="157" x2="296" y2="157" stroke="#0A1628" stroke-width="5"/>
+      <line x1="152" y1="249" x2="248" y2="249" stroke="#0A1628" stroke-width="5"/>
+    </svg>`;
 
   function loadOriginalSiteScript() {
     if (window.__oneshotOriginalSiteScriptLoaded) return;
@@ -18,6 +34,13 @@
     script.src = ORIGINAL_SITE_SCRIPT_SRC;
     script.async = false;
     document.head.appendChild(script);
+  }
+
+  function normalizeSiteHeaderBrand() {
+    document.querySelectorAll('.site-header .brand').forEach((brand) => {
+      if (brand.querySelector('svg')) return;
+      brand.insertAdjacentHTML('afterbegin', BRAND_MARK_SVG);
+    });
   }
 
   function hasAsset(selector, suffix) {
@@ -76,11 +99,16 @@
     ensureChatbotScript();
   }
 
+  function bootSiteEnhancements() {
+    normalizeSiteHeaderBrand();
+    ensureChatbotWidget();
+  }
+
   loadOriginalSiteScript();
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureChatbotWidget);
+    document.addEventListener('DOMContentLoaded', bootSiteEnhancements);
   } else {
-    ensureChatbotWidget();
+    bootSiteEnhancements();
   }
 })();
