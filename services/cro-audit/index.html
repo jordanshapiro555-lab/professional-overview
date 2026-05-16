@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="../../css/services.css">
   <link rel="stylesheet" href="../../css/cro-audit.css">
   <link rel="stylesheet" href="../../css/cro-audit-mobile-feedback.css">
+  <link rel="stylesheet" href="../../css/chatbot.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,5 +63,31 @@
 <footer class="site-footer"><div class="container footer-grid"><div><strong>Jordan's CRO Studio</strong><p class="muted">Optimization &amp; experimentation consulting</p></div><div><nav class="footer-nav" aria-label="Footer"><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/services">Services</a><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/work">Work</a><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/blog">Blog</a><a href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Contact</a></nav></div><div><small class="muted">&copy; <span id="year"></span> Jordan's CRO Studio</small></div></div></footer>
 <script src="../../script.js"></script>
 <script>(() => {const isMobile = () => window.matchMedia('(max-width: 700px)').matches;const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;const bindTabs = (tabSelector, panelSelector, tabKey, panelKey, options = {}) => {const tabs = Array.from(document.querySelectorAll(tabSelector));const panels = Array.from(document.querySelectorAll(panelSelector));if (!tabs.length || !panels.length) return;const deactivateTabs = () => {tabs.forEach((item) => {item.classList.remove('is-active');item.setAttribute('aria-selected', 'false');item.tabIndex = 0;});panels.forEach((panel) => {panel.classList.remove('is-active');panel.hidden = true;});};const activateTab = (tab, moveFocus = false) => {const target = tab.dataset[tabKey];const isAlreadyActive = tab.classList.contains('is-active');if (options.collapseActiveOnMobile && isAlreadyActive && isMobile()) {deactivateTabs();if (moveFocus) tab.focus();return;}tabs.forEach((item) => {const selected = item === tab;item.classList.toggle('is-active', selected);item.setAttribute('aria-selected', String(selected));item.tabIndex = selected ? 0 : -1;});panels.forEach((panel) => {const selected = panel.dataset[panelKey] === target;panel.classList.toggle('is-active', selected);panel.hidden = !selected;});if (moveFocus) tab.focus();};tabs.forEach((tab, index) => {tab.addEventListener('click', () => activateTab(tab));tab.addEventListener('keydown', (event) => {const keyMap = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };if (!(event.key in keyMap)) return;event.preventDefault();const nextIndex = (index + keyMap[event.key] + tabs.length) % tabs.length;activateTab(tabs[nextIndex], true);});});if (options.collapseActiveOnMobile) {window.matchMedia('(max-width: 700px)').addEventListener('change', (event) => {if (!event.matches && !tabs.some((tab) => tab.classList.contains('is-active'))) activateTab(tabs[0]);});}};const bindSignsCarousel = () => {const carousel = document.querySelector('.signs-grid');const cards = carousel ? Array.from(carousel.querySelectorAll('.sign-item')) : [];const dots = Array.from(document.querySelectorAll('.signs-carousel-dots button'));if (!carousel || !cards.length || !dots.length) return;let frame = null;const setActive = (index) => {dots.forEach((dot, dotIndex) => {const active = dotIndex === index;dot.classList.toggle('is-active', active);dot.setAttribute('aria-current', String(active));});};const updateActive = () => {frame = null;const center = carousel.scrollLeft + carousel.clientWidth / 2;const activeIndex = cards.reduce((closestIndex, card, index) => {const cardCenter = card.offsetLeft + card.offsetWidth / 2;const closestCard = cards[closestIndex];const closestCenter = closestCard.offsetLeft + closestCard.offsetWidth / 2;return Math.abs(cardCenter - center) < Math.abs(closestCenter - center) ? index : closestIndex;}, 0);setActive(activeIndex);};dots.forEach((dot, index) => {dot.addEventListener('click', () => {cards[index].scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });setActive(index);});});carousel.addEventListener('scroll', () => {if (frame) return;frame = window.requestAnimationFrame(updateActive);}, { passive: true });updateActive();};bindTabs('.audit-example-tab', '.audit-example-panel', 'auditTab', 'auditPanel');bindTabs('.insight-tile', '.insight-panel', 'insightTab', 'insightPanel', { collapseActiveOnMobile: true });bindSignsCarousel();})();</script>
+
+<!-- AI Chatbot Widget -->
+<div id="chat-widget">
+  <div id="chat-panel" role="dialog" aria-label="Chat with Jordan's AI assistant">
+    <div id="chat-header">
+      <div class="chat-avatar">&#129302;</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">Jordan's AI Assistant</div>
+        <div class="chat-header-status">Online</div>
+      </div>
+    </div>
+    <div id="chat-messages" aria-live="polite"></div>
+    <div id="chat-suggestions"></div>
+    <div id="chat-input-area">
+      <textarea id="chat-input" placeholder="Ask me about Jordan..." rows="1" aria-label="Type your message"></textarea>
+      <button id="chat-send" aria-label="Send message">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+  <button id="chat-toggle" aria-label="Open chat" aria-expanded="false">
+    <svg class="icon-chat" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    <svg class="icon-close" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+</div>
+<script src="../../js/chatbot.js"></script>
 </body>
 </html>
