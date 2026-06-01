@@ -11,6 +11,62 @@
   const WELCOME_MESSAGE =
     "Hi! I'm Jordan's AI assistant 👋 Ask me anything about Jordan's CRO expertise, case studies, or how he can help grow your business!";
 
+  const SITE_ROOT = 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
+
+  const logoSvg = (id, size) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="${id}" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="400" fill="#0A1628"/>
+      <polygon points="48,70 352,70 296,152 104,152" fill="#00C9A7" opacity="0.28"/>
+      <polygon points="108,162 292,162 248,244 152,244" fill="#00C9A7" opacity="0.60"/>
+      <polygon points="156,254 244,254 200,336" fill="#00C9A7" opacity="1.0"/>
+      <polygon points="156,254 244,254 200,336" fill="url(#${id})"/>
+      <line x1="104" y1="157" x2="296" y2="157" stroke="#0A1628" stroke-width="5"/>
+      <line x1="152" y1="249" x2="248" y2="249" stroke="#0A1628" stroke-width="5"/>
+    </svg>`;
+
+  function normalizeSiteChrome() {
+    const brand = document.querySelector('.site-header .brand');
+    if (brand) {
+      brand.href = `${SITE_ROOT}/`;
+      brand.setAttribute('aria-label', "Jordan's CRO Studio - Home");
+      if (!brand.querySelector('svg')) {
+        brand.innerHTML = `${logoSvg('hdr-conv-glow', 36)}<span>Jordan's CRO Studio</span>`;
+      }
+    }
+
+    const footer = document.querySelector('.site-footer .footer-grid');
+    if (footer) {
+      footer.innerHTML = `
+        <div>
+          <div class="footer-brand">
+            ${logoSvg('ftr-conv-glow', 28)}
+            <strong>Jordan's CRO Studio</strong>
+          </div>
+          <p class="muted">Optimization &amp; experimentation agency</p>
+        </div>
+        <div>
+          <nav class="footer-nav" aria-label="Footer">
+            <a href="${SITE_ROOT}/work">Work</a>
+            <a href="${SITE_ROOT}/process">Process</a>
+            <a href="${SITE_ROOT}/about">About</a>
+            <a href="${SITE_ROOT}/blog">Blog</a>
+            <a href="${SITE_ROOT}/contact">Contact</a>
+            <a href="https://www.linkedin.com/in/jordan-shapiro-797315153/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:jordanshapiro555@gmail.com">Email</a>
+          </nav>
+        </div>
+        <div><small class="muted">&copy; <span id="year"></span> Jordan's CRO Studio</small></div>`;
+      const yearEl = footer.querySelector('#year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    }
+  }
+
   const WIDGET_HTML = `
   <div id="chat-widget">
     <div id="chat-panel" role="dialog" aria-label="Chat with Jordan's AI assistant">
@@ -48,6 +104,8 @@
   }
 
   function init() {
+    normalizeSiteChrome();
+
     const widget = ensureWidget();
     if (!widget || widget.dataset.chatbotInitialized === 'true') return;
     widget.dataset.chatbotInitialized = 'true';
