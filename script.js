@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Smooth scrolling for same-page hash links
   const normalizePath = (path) => {
     if (!path) return '/';
-    let normalized = path.replace(/\/+$|\/$/g, '');
+    let normalized = path.replace(/\/+$/g, '');
     if (!normalized) normalized = '/';
     normalized = normalized.replace(/\.html$/i, '');
     return normalized || '/';
@@ -846,3 +846,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+(function () {
+  const BASE_PATH = '/CRO-Consulting/';
+
+  const normalizePath = (path) => {
+    const withoutTrailingSlash = path.replace(/\/+$/g, '');
+    return withoutTrailingSlash.replace(/\.html$/i, '');
+  };
+
+  const shouldLoadChatbot = () => {
+    const path = normalizePath(window.location.pathname);
+    const servicesRoot = normalizePath(`${BASE_PATH}services`);
+    const blogRoot = normalizePath(`${BASE_PATH}blog`);
+
+    return path === servicesRoot ||
+      path.startsWith(`${servicesRoot}/`) ||
+      path === blogRoot ||
+      path.startsWith(`${blogRoot}/`);
+  };
+
+  const assetExists = (selector, assetPath) => {
+    return Array.from(document.querySelectorAll(selector)).some((el) => {
+      const value = el.getAttribute('href') || el.getAttribute('src') || '';
+      return value.includes(assetPath);
+    });
+  };
+
+  const loadStylesheet = () => {
+    if (assetExists('link[rel="stylesheet"]', '/css/chatbot.css')) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `${BASE_PATH}css/chatbot.css`;
+    document.head.appendChild(link);
+  };
+
+  const loadScript = () => {
+    if (assetExists('script[src]', '/js/chatbot.js')) return;
+
+    const script = document.createElement('script');
+    script.src = `${BASE_PATH}js/chatbot.js`;
+    document.body.appendChild(script);
+  };
+
+  const loadChatbot = () => {
+    if (!shouldLoadChatbot()) return;
+    loadStylesheet();
+    loadScript();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadChatbot);
+  } else {
+    loadChatbot();
+  }
+})();
