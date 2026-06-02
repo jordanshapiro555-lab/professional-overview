@@ -1,0 +1,81 @@
+/* Scoped helpers for non-audit service PDP rollout. */
+.cro-audit-page .cro-service-hero-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background: #ffffff;
+  color: var(--cro-ink);
+  border: 1px solid rgba(20, 32, 111, 0.12);
+}
+
+.cro-audit-page .cro-service-hero-card::before,
+.cro-audit-page .cro-service-hero-card::after {
+  display: none;
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__header {
+  margin-bottom: 0;
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__label {
+  color: var(--cro-blue);
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__header span {
+  border-color: rgba(36, 87, 230, 0.18);
+  color: var(--cro-navy);
+  background: var(--cro-blue-soft);
+}
+
+.cro-audit-page .cro-hero-image {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(20, 32, 111, 0.12);
+  background: #f8fbff;
+}
+
+.cro-audit-page .cro-hero-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.cro-audit-page .cro-hero-metric {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cro-audit-page .cro-hero-metric li {
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--cro-blue-soft);
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cro-audit-page .process-download {
+  margin-left: 8px;
+}
+
+@media (max-width: 700px) {
+  .cro-audit-page .cro-service-hero-card {
+    padding: 14px;
+  }
+
+  .cro-audit-page .cro-hero-metric {
+    grid-template-columns: 1fr;
+  }
+
+  .cro-audit-page .process-download {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
