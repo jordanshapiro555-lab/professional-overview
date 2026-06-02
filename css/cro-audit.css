@@ -453,7 +453,7 @@
   .related-service-grid { grid-template-columns: 1fr; }
   .engagement-steps::before { display: none; }
   .engagement-steps .process-step { min-height: 0; }
-  .audit-snapshot { padding: 22px; }
+  .audit-snapshot { display: none; }
 }
 
 @media (max-width: 700px) {
