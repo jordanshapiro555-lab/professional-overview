@@ -1,0 +1,255 @@
+/* Scoped helpers for non-audit service PDP rollout. */
+.cro-audit-page .cro-service-hero-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background: #ffffff;
+  color: var(--cro-ink);
+  border: 1px solid rgba(20, 32, 111, 0.12);
+}
+
+.cro-audit-page .cro-service-hero-card::before,
+.cro-audit-page .cro-service-hero-card::after {
+  display: none;
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__header {
+  margin-bottom: 0;
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__label {
+  color: var(--cro-blue);
+}
+
+.cro-audit-page .cro-service-hero-card .audit-snapshot__header span {
+  border-color: rgba(36, 87, 230, 0.18);
+  color: var(--cro-navy);
+  background: var(--cro-blue-soft);
+}
+
+.cro-audit-page .cro-hero-image {
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(20, 32, 111, 0.12);
+  background: #f8fbff;
+}
+
+.cro-audit-page .cro-hero-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.cro-audit-page .cro-hero-metric {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cro-audit-page .cro-hero-metric li {
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--cro-blue-soft);
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cro-audit-page .process-download {
+  margin-left: 8px;
+}
+
+.cro-audit-page .training-artifact {
+  min-height: 320px;
+  padding: 22px;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+}
+
+.cro-audit-page .training-board {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.cro-audit-page .training-board__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cro-audit-page .training-board__label {
+  margin: 0;
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cro-audit-page .training-board__pill {
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #ffffff;
+  color: var(--cro-blue);
+  font-size: 0.72rem;
+  font-weight: 800;
+  box-shadow: 0 8px 22px rgba(20, 32, 111, 0.08);
+}
+
+.cro-audit-page .training-board__canvas {
+  display: grid;
+  gap: 10px;
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(20, 32, 111, 0.1);
+  box-shadow: 0 18px 40px rgba(20, 32, 111, 0.1);
+}
+
+.cro-audit-page .training-board__row {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 10px;
+  align-items: center;
+  border-radius: 8px;
+  padding: 10px;
+  background: #f7faff;
+}
+
+.cro-audit-page .training-board__row strong,
+.cro-audit-page .training-board__row span {
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.cro-audit-page .training-board__bar {
+  display: block;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--cro-blue);
+}
+
+.cro-audit-page .training-board__bar--short {
+  width: 46%;
+}
+
+.cro-audit-page .training-board__bar--mid {
+  width: 68%;
+}
+
+.cro-audit-page .training-board__bar--long {
+  width: 88%;
+}
+
+.cro-audit-page .training-board__notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.cro-audit-page .training-board__note {
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff7d8;
+  color: #654f00;
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.cro-audit-page .training-artifact--design .training-board__canvas {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cro-audit-page .training-check {
+  border-radius: 8px;
+  padding: 12px;
+  background: #f7faff;
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.cro-audit-page .training-check::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #ffffff 0 34%, var(--cro-blue) 36% 100%);
+}
+
+.cro-audit-page .training-artifact--readout .training-board__canvas {
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: stretch;
+}
+
+.cro-audit-page .training-result-card {
+  display: grid;
+  align-content: center;
+  border-radius: 8px;
+  padding: 14px;
+  background: #f7faff;
+}
+
+.cro-audit-page .training-result-card b {
+  color: var(--cro-blue);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.cro-audit-page .training-result-card span {
+  margin-top: 6px;
+  color: var(--cro-navy);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.cro-audit-page .training-next-step {
+  display: grid;
+  align-content: center;
+  border-radius: 8px;
+  padding: 14px;
+  background: #e9f0ff;
+  color: var(--cro-navy);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+@media (max-width: 700px) {
+  .cro-audit-page .cro-service-hero-card {
+    padding: 14px;
+  }
+
+  .cro-audit-page .cro-hero-metric {
+    grid-template-columns: 1fr;
+  }
+
+  .cro-audit-page .process-download {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .cro-audit-page .training-artifact {
+    min-height: 280px;
+    padding: 14px;
+  }
+
+  .cro-audit-page .training-board__row,
+  .cro-audit-page .training-artifact--design .training-board__canvas,
+  .cro-audit-page .training-artifact--readout .training-board__canvas,
+  .cro-audit-page .training-board__notes {
+    grid-template-columns: 1fr;
+  }
+}
