@@ -1760,6 +1760,94 @@ body{
   border-color: rgba(15,108,204,0.2);
 }
 
+/* ── Service product grid ── */
+.services-grid {
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 18px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  padding: 28px 20px 22px;
+  border-radius: 14px;
+  border: 1px solid #eef2fb;
+  box-shadow: 0 2px 12px rgba(12,18,31,0.04);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+  cursor: pointer;
+}
+
+.service-card:hover {
+  background: #f0f6ff;
+  box-shadow: 0 8px 28px rgba(12,18,31,0.09);
+  transform: translateY(-3px);
+  border-color: rgba(15,108,204,0.25);
+}
+
+.service-card:hover .service-card-title {
+  color: var(--accent-2);
+}
+
+.service-card:hover .service-card-title span {
+  transform: translateX(3px);
+}
+
+.service-card-icon {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.service-card-title {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--heading);
+  transition: color var(--transition);
+}
+
+.service-card-title span {
+  display: inline-block;
+  transition: transform var(--transition);
+  margin-left: 2px;
+}
+
+.service-card-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .service-card {
+    padding: 20px 16px 18px;
+  }
+  .service-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .service-card-title {
+    font-size: 0.95rem;
+  }
+  .service-card-desc {
+    font-size: 0.82rem;
+  }
+}
+
 /* ── Process step cards ── */
 .process-steps {
   display: grid;
