@@ -1,0 +1,75 @@
+name: Codex global nav patch
+
+on:
+  push:
+    branches:
+      - codex/keyword-analysis-mapping-page
+
+permissions:
+  contents: write
+
+jobs:
+  patch-global-nav:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/keyword-analysis-mapping-page
+      - name: Patch global nav script
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'script.js';
+          let content = fs.readFileSync(path, 'utf8');
+          const marker = 'ensureKeywordMappingNavLink';
+          const insert = `
+
+  const ensureKeywordMappingNavLink = () => {
+    const keywordMappingHref = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/services/keyword-analysis-and-mapping';
+    document.querySelectorAll('.nav-item-dropdown').forEach((item) => {
+      const topLink = item.querySelector('.nav-link');
+      const dropdown = item.querySelector('.nav-dropdown');
+      if (!topLink || !dropdown || !topLink.href.includes('/services')) return;
+      if (dropdown.querySelector('a[href*="/services/keyword-analysis-and-mapping"]')) return;
+
+      const keywordItem = document.createElement('li');
+      const keywordLink = document.createElement('a');
+      keywordLink.href = keywordMappingHref;
+      keywordLink.textContent = 'Keyword Analysis & Mapping';
+      keywordItem.appendChild(keywordLink);
+
+      const croAuditLink = dropdown.querySelector('a[href*="/services/cro-audit"]');
+      const croAuditItem = croAuditLink ? croAuditLink.closest('li') : null;
+      if (croAuditItem) {
+        croAuditItem.insertAdjacentElement('afterend', keywordItem);
+      } else {
+        dropdown.insertAdjacentElement('afterbegin', keywordItem);
+      }
+    });
+  };
+
+  ensureKeywordMappingNavLink();`;
+
+          if (!content.includes(marker)) {
+            const pattern = /(document\.addEventListener\('DOMContentLoaded', function \(\) \{\s+const isContactPage = \/\(\^\|\\\/\)contact\(\?:\\\.html\)\?\$\/\.test\(window\.location\.pathname\);)/;
+            if (!pattern.test(content)) {
+              throw new Error('Could not find global nav insertion point in script.js');
+            }
+            content = content.replace(pattern, `$1${insert}`);
+            fs.writeFileSync(path, content, 'utf8');
+          }
+
+          fs.rmSync('.github/workflows/codex-global-nav-patch.yml');
+          NODE
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add script.js .github/workflows/codex-global-nav-patch.yml
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add global keyword mapping nav link"
+            git push origin HEAD:codex/keyword-analysis-mapping-page
+          fi
