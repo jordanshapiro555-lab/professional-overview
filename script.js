@@ -2,6 +2,40 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
+  const SITE_BASE_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/';
+  const SERVICE_NAV_ITEMS = [
+    { slug: 'cro-audit', label: 'CRO Audit' },
+    { slug: 'keyword-analysis-and-mapping', label: 'Keyword Analysis & Mapping' },
+    { slug: 'personalization', label: 'Personalization' },
+    { slug: 'program-management', label: 'Program Management' },
+    { slug: 'program-up-skilling', label: 'Program Up-Skilling' }
+  ];
+
+  const buildSiteUrl = (path) => new URL(path.replace(/^\/+/, ''), SITE_BASE_URL).href;
+
+  const renderServicesNav = () => {
+    document.querySelectorAll('.main-nav .nav-item-dropdown').forEach((dropdownItem) => {
+      const topLevelLink = dropdownItem.querySelector(':scope > .nav-link');
+      const dropdownList = dropdownItem.querySelector(':scope > .nav-dropdown');
+      if (!topLevelLink || !dropdownList) return;
+
+      let topLevelUrl;
+      try {
+        topLevelUrl = new URL(topLevelLink.getAttribute('href') || '', window.location.href);
+      } catch {
+        return;
+      }
+
+      const topLevelPath = topLevelUrl.pathname.replace(/\/+$/g, '').replace(/\.html$/i, '');
+      if (topLevelPath !== '/CRO-Consulting/services') return;
+
+      dropdownList.innerHTML = SERVICE_NAV_ITEMS
+        .map((item) => `<li><a href="${buildSiteUrl(`services/${item.slug}/`)}">${item.label}</a></li>`)
+        .join('');
+    });
+  };
+
+  renderServicesNav();
 
   // Desktop secondary quiz CTA in sticky nav
   const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
