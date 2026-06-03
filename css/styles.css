@@ -2119,10 +2119,8 @@ body{
   transform: translateX(2px);
 }
 
-/* ── Scroll behavior ── */
-html {
-  scroll-behavior: smooth;
-}
+/* scroll-behavior: smooth removed — JS handles smooth scrolling per-interaction
+   to avoid double-animation jank when programmatic scrollBy offsets are applied */
 
 .hero-ctas {
   display: flex;
