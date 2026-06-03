@@ -233,7 +233,7 @@
   }
 
  .cro-service-hero-card {
-  display: none;
+  display: none !important;
  }
 
   .cro-audit-page .cro-hero-metric {
