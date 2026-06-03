@@ -228,9 +228,13 @@
 }
 
 @media (max-width: 700px) {
-  .cro-audit-page .cro-service-hero-card {
+  .cro-audit-page {
     padding: 14px;
   }
+
+ .cro-service-hero-card {
+  display: none;
+ }
 
   .cro-audit-page .cro-hero-metric {
     grid-template-columns: 1fr;
