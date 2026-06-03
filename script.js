@@ -39,13 +39,13 @@
       return;
     }
 
-    const originalAddEventListener = document.addEventListener.bind(document);
+    const originalAddEventListener = document.addEventListener;
     document.addEventListener = function (type, listener, options) {
       if (type === 'DOMContentLoaded' && typeof listener === 'function') {
         window.setTimeout(() => listener.call(document, new Event('DOMContentLoaded')), 0);
         return;
       }
-      return originalAddEventListener(type, listener, options);
+      return originalAddEventListener.call(document, type, listener, options);
     };
 
     loadScript(() => {
