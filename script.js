@@ -1,17 +1,34 @@
-// script.js — nav toggle, smooth scroll, sticky header, active section highlight
+// script.js - nav, shared service dropdown, sticky CTAs, quiz, and page helpers
 
 document.addEventListener('DOMContentLoaded', function () {
-  const isContactPage = /(^|\/)contact(?:\.html)?$/.test(window.location.pathname);
   const SITE_BASE_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/';
   const SERVICE_NAV_ITEMS = [
     { slug: 'cro-audit', label: 'CRO Audit' },
     { slug: 'keyword-analysis-and-mapping', label: 'Keyword Analysis & Mapping' },
+    { slug: 'seo-technical-page-speed-audit', label: 'SEO Technical Page Speed Audit' },
     { slug: 'personalization', label: 'Personalization' },
     { slug: 'program-management', label: 'Program Management' },
     { slug: 'program-up-skilling', label: 'Program Up-Skilling' }
   ];
 
-  const buildSiteUrl = (path) => new URL(path.replace(/^\/+/, ''), SITE_BASE_URL).href;
+  const normalizePath = (path) => {
+    let normalized = path || '/';
+    while (normalized.length > 1 && normalized.endsWith('/')) normalized = normalized.slice(0, -1);
+    if (normalized.toLowerCase().endsWith('.html')) normalized = normalized.slice(0, -5);
+    return normalized || '/';
+  };
+
+  const stripLeadingSlashes = (path) => {
+    let out = path || '';
+    while (out.startsWith('/')) out = out.slice(1);
+    return out;
+  };
+
+  const buildSiteUrl = (path) => new URL(stripLeadingSlashes(path), SITE_BASE_URL).href;
+  const currentPath = normalizePath(window.location.pathname);
+  const isContactPage = currentPath.endsWith('/contact');
+  const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
+  const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderServicesNav = () => {
     document.querySelectorAll('.main-nav .nav-item-dropdown').forEach((dropdownItem) => {
@@ -26,19 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      const topLevelPath = topLevelUrl.pathname.replace(/\/+$/g, '').replace(/\.html$/i, '');
-      if (topLevelPath !== '/CRO-Consulting/services') return;
-
+      if (normalizePath(topLevelUrl.pathname) !== '/CRO-Consulting/services') return;
       dropdownList.innerHTML = SERVICE_NAV_ITEMS
-        .map((item) => `<li><a href="${buildSiteUrl(`services/${item.slug}/`)}">${item.label}</a></li>`)
+        .map((item) => `<li><a href='${buildSiteUrl(`services/${item.slug}/`)}'>${item.label}</a></li>`)
         .join('');
     });
   };
 
   renderServicesNav();
 
-  // Desktop secondary quiz CTA in sticky nav
-  const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
   const ensureDesktopQuizCta = () => {
     document.querySelectorAll('.main-nav').forEach((navEl) => {
       const existingCta = navEl.querySelector('.desktop-quiz-cta');
@@ -61,101 +74,83 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', ensureDesktopQuizCta);
   }
 
-  // Mobile sticky CTA banner across pages
   if (!isContactPage && !document.getElementById('mobile-sticky-banner')) {
     document.body.insertAdjacentHTML('beforeend', `
-      <div class="mobile-sticky-banner" id="mobile-sticky-banner" aria-label="Primary actions">
-        <a class="btn btn-primary mobile-sticky-banner__cta" href="https://jordanshapiro555-lab.github.io/CRO-Consulting/contact">Work with me</a>
-        <button type="button" class="btn btn-ghost mobile-sticky-banner__cta" data-open-exit-quiz="true">Take the CRO quiz</button>
+      <div class='mobile-sticky-banner' id='mobile-sticky-banner' aria-label='Primary actions'>
+        <a class='btn btn-primary mobile-sticky-banner__cta' href='https://jordanshapiro555-lab.github.io/CRO-Consulting/contact'>Work with me</a>
+        <button type='button' class='btn btn-ghost mobile-sticky-banner__cta' data-open-exit-quiz='true'>Take the CRO quiz</button>
       </div>
     `);
     document.body.classList.add('has-mobile-sticky-banner');
   }
 
-  // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
   const mainNav = document.getElementById('main-nav');
   const mobileStickyBanner = document.getElementById('mobile-sticky-banner');
 
   const syncMobileBannerWithNav = () => {
     if (!mobileStickyBanner || !mainNav) return;
-    const navIsOpen = mainNav.classList.contains('open');
-    mobileStickyBanner.classList.toggle('is-hidden', navIsOpen);
+    mobileStickyBanner.classList.toggle('is-hidden', mainNav.classList.contains('open'));
   };
-  syncMobileBannerWithNav();
 
-  navToggle.addEventListener('click', function () {
-    const expanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', String(!expanded));
-    mainNav.classList.toggle('open');
+  if (navToggle && mainNav) {
     syncMobileBannerWithNav();
-    // animate hamburger
-    navToggle.querySelector('.hamburger').classList.toggle('open');
-  });
+    navToggle.addEventListener('click', function () {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      mainNav.classList.toggle('open');
+      syncMobileBannerWithNav();
+      navToggle.querySelector('.hamburger')?.classList.toggle('open');
+    });
+  }
 
-  // Mobile Work dropdown toggle (chevron button)
-  document.querySelectorAll('.nav-dropdown-toggle').forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
+  document.querySelectorAll('.nav-dropdown-toggle').forEach((btn) => {
+    btn.addEventListener('click', function (event) {
+      event.stopPropagation();
       const item = btn.closest('.nav-item-dropdown');
+      if (!item) return;
       const expanded = item.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', String(expanded));
     });
   });
 
-  // Close mobile nav when a nav-link is clicked
-  document.querySelectorAll('.nav-link').forEach(link => {
+  document.querySelectorAll('.nav-link').forEach((link) => {
     link.addEventListener('click', () => {
-      if (mainNav.classList.contains('open')) {
-        mainNav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
-        syncMobileBannerWithNav();
-      }
+      if (!mainNav || !navToggle || !mainNav.classList.contains('open')) return;
+      mainNav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      syncMobileBannerWithNav();
     });
   });
 
-  // Sticky header shadow on scroll
   const header = document.getElementById('site-header');
-  const hero = document.querySelector('.hero');
-  const heroBottom = hero ? (hero.getBoundingClientRect().height - 48) : 100;
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 8) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  });
+  if (header) {
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+  }
 
-  // Smooth scrolling for same-page hash links
-  const normalizePath = (path) => {
-    if (!path) return '/';
-    let normalized = path.replace(/\/+$/g, '');
-    if (!normalized) normalized = '/';
-    normalized = normalized.replace(/\.html$/i, '');
-    return normalized || '/';
-  };
-
-  const scrollToHashTarget = (hash, { updateHash = false, smooth = true } = {}) => {
+  const scrollToHashTarget = (hash, options = {}) => {
+    const updateHash = Boolean(options.updateHash);
+    const smooth = options.smooth !== false;
     if (!hash || hash === '#') {
       window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
       if (updateHash) history.replaceState(null, '', '#');
       return true;
     }
 
-    const targetId = decodeURIComponent(hash.replace(/^#/, ''));
+    const targetId = decodeURIComponent(hash.replace('#', ''));
     const targetEl = document.getElementById(targetId);
     if (!targetEl) return false;
 
-    // Use scrollIntoView first for reliable anchor targeting, then offset for sticky header.
     targetEl.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
     window.scrollBy({ top: -72, behavior: smooth ? 'smooth' : 'auto' });
-
     if (updateHash) history.replaceState(null, '', `#${encodeURIComponent(targetId)}`);
     return true;
   };
 
-  document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
-    anchor.addEventListener('click', function (e) {
+  document.querySelectorAll("a[href*='#']").forEach((anchor) => {
+    anchor.addEventListener('click', function (event) {
       const rawHref = this.getAttribute('href');
       if (!rawHref) return;
 
@@ -166,103 +161,104 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      const isSamePage =
-        url.origin === window.location.origin &&
-        normalizePath(url.pathname) === normalizePath(window.location.pathname);
-
+      const isSamePage = url.origin === window.location.origin && normalizePath(url.pathname) === currentPath;
       if (!isSamePage) return;
 
-      e.preventDefault();
+      event.preventDefault();
       scrollToHashTarget(url.hash || '#', { updateHash: true });
     });
   });
 
   if (window.location.hash) {
     [0, 120, 360].forEach((delay) => {
-      setTimeout(() => {
-        scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
-      }, delay);
+      setTimeout(() => scrollToHashTarget(window.location.hash, { smooth: false }), delay);
     });
   }
 
   window.addEventListener('load', () => {
-    if (window.location.hash) {
-      scrollToHashTarget(window.location.hash, { updateHash: false, smooth: false });
-    }
+    if (window.location.hash) scrollToHashTarget(window.location.hash, { smooth: false });
   });
 
-  window.addEventListener('hashchange', () => {
-    scrollToHashTarget(window.location.hash, { updateHash: false, smooth: true });
-  });
+  window.addEventListener('hashchange', () => scrollToHashTarget(window.location.hash, { smooth: true }));
 
-  // Highlight active nav link using IntersectionObserver
   const sections = document.querySelectorAll('main section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
-
-  const obsOptions = { root: null, rootMargin: '0px', threshold: 0.45 };
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
         const id = entry.target.getAttribute('id');
-        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
-      }
-    });
-  }, obsOptions);
+        navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
+      });
+    }, { root: null, rootMargin: '0px', threshold: 0.45 });
+    sections.forEach((section) => observer.observe(section));
+  }
 
-  sections.forEach(s => observer.observe(s));
-
-  // Make case study cards fully clickable
-  document.querySelectorAll('.cards .card').forEach(function (card) {
-    var link = card.querySelector('.card-link');
+  document.querySelectorAll('.cards .card').forEach((card) => {
+    const link = card.querySelector('.card-link');
     if (!link) return;
-    card.addEventListener('click', function (e) {
-      if (!e.target.closest('a')) {
-        window.location.href = link.getAttribute('href');
-      }
+    card.addEventListener('click', (event) => {
+      if (!event.target.closest('a')) window.location.href = link.getAttribute('href');
     });
   });
 
-  // Update footer year
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  document.querySelectorAll('.experienceHero_imgCard').forEach((card) => {
+    if (!('IntersectionObserver' in window)) {
+      card.classList.add('fadeInUp');
+      return;
+    }
+    new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('fadeInUp');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 }).observe(card);
+  });
 
-  // ── Winners appendix carousel (moves tall rows to bottom) ──
-  const isWinnerDetailPage = /\/work\/test-winners\/[^/]+\/?$/.test(window.location.pathname);
+  const experienceDropdown = document.querySelector('.experienceDropdown');
+  const experienceDropdownButton = document.getElementById('experienceDropdownButton');
+  if (experienceDropdown && experienceDropdownButton) {
+    experienceDropdownButton.addEventListener('click', () => {
+      const selectedValue = experienceDropdown.value;
+      if (!selectedValue) return;
+      const targetEl = document.getElementById(`${selectedValue}Experience`);
+      if (!targetEl) return;
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.scrollBy({ top: -72, behavior: 'smooth' });
+      history.replaceState(null, '', `#${selectedValue}Experience`);
+    });
+  }
+
+  const isWinnerDetailPage = currentPath.includes('/work/test-winners/') && currentPath !== '/CRO-Consulting/work/test-winners';
   const winnersBottomCta = document.querySelector('.wn-bottom-cta');
   const tallRows = Array.from(document.querySelectorAll('.caseStudyTallRow'));
-
   if (isWinnerDetailPage && winnersBottomCta && tallRows.length) {
     const appendixSection = document.createElement('section');
     appendixSection.className = 'wn-section wn-section--alt wn-appendix';
     appendixSection.innerHTML = `
-      <div class="wn-container">
-        <p class="wn-section-label">Appendix</p>
-        <h2 class="wn-section-heading">Full-page test visuals</h2>
-        <p class="wn-appendix-scroll-hint">Scroll horizontally to browse all screenshots <span aria-hidden="true">→</span></p>
-        <div class="wn-appendix-scroll" data-appendix-scroll>
-          <div class="wn-appendix-track" data-appendix-track aria-label="Appendix image carousel"></div>
+      <div class='wn-container'>
+        <p class='wn-section-label'>Appendix</p>
+        <h2 class='wn-section-heading'>Full-page test visuals</h2>
+        <p class='wn-appendix-scroll-hint'>Scroll horizontally to browse all screenshots <span aria-hidden='true'>→</span></p>
+        <div class='wn-appendix-scroll' data-appendix-scroll>
+          <div class='wn-appendix-track' data-appendix-track aria-label='Appendix image carousel'></div>
         </div>
       </div>
     `;
-
     winnersBottomCta.parentNode.insertBefore(appendixSection, winnersBottomCta);
-
     const track = appendixSection.querySelector('[data-appendix-track]');
     const scrollHint = appendixSection.querySelector('.wn-appendix-scroll-hint');
-
     tallRows.forEach((row) => {
       row.classList.add('wn-appendix-card');
       track.appendChild(row);
     });
-
-    const appendixImageCount = track.querySelectorAll('.caseStudyTallRowImageDiv').length;
-    if (appendixImageCount <= 1 && scrollHint) {
-      scrollHint.remove();
-    }
+    if (track.querySelectorAll('.caseStudyTallRowImageDiv').length <= 1 && scrollHint) scrollHint.remove();
   }
 
-  // ── Sticky floating CTA ──
   const stickyCta = document.getElementById('sticky-cta');
   const heroSection = document.querySelector('.hero');
   const footerEl = document.querySelector('.site-footer');
@@ -270,35 +266,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkSticky = () => {
       const footerTop = footerEl ? footerEl.getBoundingClientRect().top : window.innerHeight;
       const nearFooter = footerTop <= window.innerHeight * 0.6;
-      let pastThreshold;
-      if (heroSection) {
-        pastThreshold = heroSection.getBoundingClientRect().bottom < 0;
-      } else {
-        pastThreshold = window.scrollY > 300;
-      }
-      if (pastThreshold && !nearFooter) {
-        stickyCta.classList.add('visible');
-      } else {
-        stickyCta.classList.remove('visible');
-      }
+      const pastThreshold = heroSection ? heroSection.getBoundingClientRect().bottom < 0 : window.scrollY > 300;
+      stickyCta.classList.toggle('visible', pastThreshold && !nearFooter);
     };
     window.addEventListener('scroll', checkSticky, { passive: true });
+    checkSticky();
   }
 
-  // ── Count-up animation for stats strip ──
   const statsStrip = document.querySelector('.stats-strip');
-  if (statsStrip) {
+  if (statsStrip && 'IntersectionObserver' in window) {
     let fired = false;
     const runCounters = () => {
-      statsStrip.querySelectorAll('.count[data-to]').forEach(el => {
+      statsStrip.querySelectorAll('.count[data-to]').forEach((el) => {
         const target = parseFloat(el.dataset.to);
         const decimals = parseInt(el.dataset.decimals || '0', 10);
-        if (isNaN(target)) return;
+        if (Number.isNaN(target)) return;
         const duration = 1400;
         let startTime = null;
-        const step = (ts) => {
-          if (!startTime) startTime = ts;
-          const progress = Math.min((ts - startTime) / duration, 1);
+        const step = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
           const current = target * eased;
           el.textContent = decimals > 0 ? current.toFixed(decimals) : Math.round(current).toString();
@@ -308,89 +295,41 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     };
     new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !fired) { fired = true; runCounters(); }
+      if (entry.isIntersecting && !fired) {
+        fired = true;
+        runCounters();
+      }
     }, { threshold: 0.5 }).observe(statsStrip);
   }
 
-  // ── Exit intent fly-in quiz ──
   if (!isContactPage && !document.getElementById('exit-intent-quiz')) {
-    const quizTemplate = `
-      <div id="exit-intent-quiz" class="exit-intent-quiz" role="dialog" aria-modal="true" aria-labelledby="exit-quiz-title" aria-hidden="true">
-        <div class="exit-intent-overlay" data-exit-close></div>
-        <form class="exit-intent-panel">
-          <button class="exit-intent-close" type="button" aria-label="Close popup" data-exit-close>×</button>
-          <div class="exit-intent-cta" id="exit-intent-step-0">
-            <div class="exit-intent-top-bar"></div>
-            <div class="exit-intent-cta-content">
-              <h2 id="exit-quiz-title">Free CRO needs quiz</h2>
+    document.body.insertAdjacentHTML('beforeend', `
+      <div id='exit-intent-quiz' class='exit-intent-quiz' role='dialog' aria-modal='true' aria-labelledby='exit-quiz-title' aria-hidden='true'>
+        <div class='exit-intent-overlay' data-exit-close></div>
+        <form class='exit-intent-panel'>
+          <button class='exit-intent-close' type='button' aria-label='Close popup' data-exit-close>×</button>
+          <div class='exit-intent-cta' id='exit-intent-step-0'>
+            <div class='exit-intent-top-bar'></div>
+            <div class='exit-intent-cta-content'>
+              <h2 id='exit-quiz-title'>Free CRO needs quiz</h2>
               <p>Find out what you need to improve your site</p>
-              <button class="exit-intent-primary-btn" type="button" id="exit-quiz-start">Take the quiz</button>
+              <button class='exit-intent-primary-btn' type='button' id='exit-quiz-start'>Take the quiz</button>
             </div>
           </div>
-          <div class="exit-intent-quiz-flow is-hidden" id="exit-intent-flow">
-            <div class="exit-quiz-header">Let's Get Started!</div>
-            <div class="exit-quiz-step" data-step="1">
-              <p class="exit-quiz-question">What kind of funnel do you have?</p>
-              <div class="exit-quiz-options-grid">
-                <button type="button" class="exit-quiz-tile" data-value="Ecommerce">Ecommerce</button>
-                <button type="button" class="exit-quiz-tile" data-value="Lead Generation">Lead Generation</button>
-              </div>
-            </div>
-            <div class="exit-quiz-step is-hidden" data-step="2">
-              <p class="exit-quiz-question">What are you hoping to get out of a CRO consultant? <strong>(Select all that apply)</strong></p>
-              <div id="exit-quiz-goals" class="exit-quiz-checks"></div>
-            </div>
-            <div class="exit-quiz-step is-hidden" data-step="3">
-              <p class="exit-quiz-question">Where are you struggling today? <strong>(Select all that apply)</strong></p>
-              <div class="exit-quiz-checks">
-                <label><input type="checkbox" value="Strategy"> Strategy</label>
-                <label><input type="checkbox" value="Idea Generation"> Idea Generation</label>
-                <label><input type="checkbox" value="Design"> Design</label>
-                <label><input type="checkbox" value="Development"> Development</label>
-                <label><input type="checkbox" value="Tracking"> Tracking</label>
-                <label><input type="checkbox" value="Analysis"> Analysis</label>
-              </div>
-            </div>
-            <div class="exit-quiz-step is-hidden" data-step="4">
-              <p class="exit-quiz-question">Approximately how much traffic goes to your site weekly?</p>
-              <div class="exit-quiz-traffic-row">
-                <input type="number" id="exit-quiz-traffic" class="exit-quiz-input" placeholder="100000" value="100000" min="0" step="1">
-                <select id="exit-quiz-traffic-type" class="exit-quiz-input exit-quiz-select" aria-label="Traffic unit">
-                  <option value="Users">Users</option>
-                  <option value="Sessions" selected>Sessions</option>
-                </select>
-              </div>
-            </div>
-            <div class="exit-quiz-step is-hidden" data-step="5">
-              <p class="exit-quiz-question">Optional: Describe your funnel below:</p>
-              <textarea id="exit-quiz-funnel" class="exit-quiz-textarea" rows="4" placeholder="Describe your funnel and where you're seeing the biggest drop-off..."></textarea>
-              <button class="exit-quiz-skip" id="exit-quiz-skip-funnel" type="button">Skip this question</button>
-            </div>
-            <div class="exit-quiz-step is-hidden" data-step="6">
-              <p class="exit-quiz-question">Get your free consultation summary:</p>
-              <div class="exit-quiz-form">
-                <input type="text" id="exit-quiz-name" class="exit-quiz-input" placeholder="Your Name" required>
-                <input type="email" id="exit-quiz-email" class="exit-quiz-input" placeholder="Your Email" required>
-                <input type="tel" id="exit-quiz-phone" class="exit-quiz-input" placeholder="Your Phone">
-              </div>
-            </div>
-            <div class="exit-quiz-footer">
-              <p class="exit-quiz-progress-label">Progress: <span id="exit-quiz-progress-value">0%</span></p>
-              <div class="exit-quiz-progress"><div class="exit-quiz-progress-fill" id="exit-quiz-progress-fill"></div></div>
-              <p class="exit-quiz-error is-hidden" id="exit-quiz-error" role="alert"></p>
-              <div class="exit-quiz-nav">
-                <button type="button" id="exit-quiz-back" class="exit-intent-secondary-btn is-hidden">Back</button>
-                <button type="button" id="exit-quiz-next" class="exit-intent-primary-btn">Next</button>
-              </div>
-            </div>
-            <div class="exit-quiz-success is-hidden" id="exit-quiz-success">
-              <h3>Thanks! Your quiz is complete.</h3>
-              <p>Look out for an email from Jordan with your next-step recommendations.</p>
-            </div>
+          <div class='exit-intent-quiz-flow is-hidden' id='exit-intent-flow'>
+            <div class='exit-quiz-header'>Let's Get Started!</div>
+            <div class='exit-quiz-step' data-step='1'><p class='exit-quiz-question'>What kind of funnel do you have?</p><div class='exit-quiz-options-grid'><button type='button' class='exit-quiz-tile' data-value='Ecommerce'>Ecommerce</button><button type='button' class='exit-quiz-tile' data-value='Lead Generation'>Lead Generation</button></div></div>
+            <div class='exit-quiz-step is-hidden' data-step='2'><p class='exit-quiz-question'>What are you hoping to get out of a CRO consultant? <strong>(Select all that apply)</strong></p><div id='exit-quiz-goals' class='exit-quiz-checks'></div></div>
+            <div class='exit-quiz-step is-hidden' data-step='3'><p class='exit-quiz-question'>Where are you struggling today? <strong>(Select all that apply)</strong></p><div class='exit-quiz-checks'><label><input type='checkbox' value='Strategy'> Strategy</label><label><input type='checkbox' value='Idea Generation'> Idea Generation</label><label><input type='checkbox' value='Design'> Design</label><label><input type='checkbox' value='Development'> Development</label><label><input type='checkbox' value='Tracking'> Tracking</label><label><input type='checkbox' value='Analysis'> Analysis</label></div></div>
+            <div class='exit-quiz-step is-hidden' data-step='4'><p class='exit-quiz-question'>Approximately how much traffic goes to your site weekly?</p><div class='exit-quiz-traffic-row'><input type='number' id='exit-quiz-traffic' class='exit-quiz-input' placeholder='100000' value='100000' min='0' step='1'><select id='exit-quiz-traffic-type' class='exit-quiz-input exit-quiz-select' aria-label='Traffic unit'><option value='Users'>Users</option><option value='Sessions' selected>Sessions</option></select></div></div>
+            <div class='exit-quiz-step is-hidden' data-step='5'><p class='exit-quiz-question'>Optional: Describe your funnel below:</p><textarea id='exit-quiz-funnel' class='exit-quiz-textarea' rows='4' placeholder='Describe your funnel and where you are seeing the biggest drop-off...'></textarea><button class='exit-quiz-skip' id='exit-quiz-skip-funnel' type='button'>Skip this question</button></div>
+            <div class='exit-quiz-step is-hidden' data-step='6'><p class='exit-quiz-question'>Get your free consultation summary:</p><div class='exit-quiz-form'><input type='text' id='exit-quiz-name' class='exit-quiz-input' placeholder='Your Name' required><input type='email' id='exit-quiz-email' class='exit-quiz-input' placeholder='Your Email' required><input type='tel' id='exit-quiz-phone' class='exit-quiz-input' placeholder='Your Phone'></div></div>
+            <div class='exit-quiz-footer'><p class='exit-quiz-progress-label'>Progress: <span id='exit-quiz-progress-value'>0%</span></p><div class='exit-quiz-progress'><div class='exit-quiz-progress-fill' id='exit-quiz-progress-fill'></div></div><p class='exit-quiz-error is-hidden' id='exit-quiz-error' role='alert'></p><div class='exit-quiz-nav'><button type='button' id='exit-quiz-back' class='exit-intent-secondary-btn is-hidden'>Back</button><button type='button' id='exit-quiz-next' class='exit-intent-primary-btn'>Next</button></div></div>
+            <div class='exit-quiz-success is-hidden' id='exit-quiz-success'><h3>Thanks! Your quiz is complete.</h3><p>Look out for an email from Jordan with your next-step recommendations.</p></div>
           </div>
         </form>
-      </div>`;
-    document.body.insertAdjacentHTML('beforeend', quizTemplate);
+      </div>
+    `);
   }
 
   const exitQuiz = document.getElementById('exit-intent-quiz');
@@ -415,11 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorEl = document.getElementById('exit-quiz-error');
 
     const savedAnswers = (() => {
-      try {
-        return JSON.parse(sessionStorage.getItem(EXIT_QUIZ_ANSWERS_KEY) || '{}');
-      } catch {
-        return {};
-      }
+      try { return JSON.parse(sessionStorage.getItem(EXIT_QUIZ_ANSWERS_KEY) || '{}'); } catch { return {}; }
     })();
 
     let hasShownQuiz = false;
@@ -437,32 +372,13 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const stepGoals = {
-      Ecommerce: [
-        'More purchases',
-        'Better landing pages',
-        'More product engagement',
-        'Higher order values'
-      ],
-      'Lead Generation': [
-        'Better landing page conversion rate',
-        'Higher form completion',
-        'Improved lead quality',
-        'More personalization'
-      ]
+      Ecommerce: ['More purchases', 'Better landing pages', 'More product engagement', 'Higher order values'],
+      'Lead Generation': ['Better landing page conversion rate', 'Higher form completion', 'Improved lead quality', 'More personalization']
     };
 
-    const persistAnswers = () => {
-      sessionStorage.setItem(EXIT_QUIZ_ANSWERS_KEY, JSON.stringify(answers));
-    };
-
-    const withinCooldown = () => {
-      const lastShown = Number(sessionStorage.getItem(EXIT_QUIZ_LAST_SHOWN_KEY) || '0');
-      return Date.now() - lastShown < EXIT_QUIZ_COOLDOWN_MS;
-    };
-
-    const markShown = () => {
-      sessionStorage.setItem(EXIT_QUIZ_LAST_SHOWN_KEY, String(Date.now()));
-    };
+    const persistAnswers = () => sessionStorage.setItem(EXIT_QUIZ_ANSWERS_KEY, JSON.stringify(answers));
+    const withinCooldown = () => Date.now() - Number(sessionStorage.getItem(EXIT_QUIZ_LAST_SHOWN_KEY) || '0') < EXIT_QUIZ_COOLDOWN_MS;
+    const markShown = () => sessionStorage.setItem(EXIT_QUIZ_LAST_SHOWN_KEY, String(Date.now()));
 
     const openQuiz = (force = false) => {
       if (!force && withinCooldown()) return false;
@@ -481,94 +397,38 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!goalsWrap) return;
       const options = stepGoals[answers.audience] || stepGoals['Lead Generation'];
       goalsWrap.innerHTML = options
-        .map((item) => `<label><input type="checkbox" value="${item}" ${answers.goals.includes(item) ? 'checked' : ''}> ${item}</label>`)
+        .map((item) => `<label><input type='checkbox' value='${item}' ${answers.goals.includes(item) ? 'checked' : ''}> ${item}</label>`)
         .join('');
+    };
+
+    const showError = (message) => {
+      if (!errorEl) return;
+      errorEl.textContent = message;
+      errorEl.classList.toggle('is-hidden', !message);
     };
 
     const showStep = (step) => {
       currentStep = step;
       steps.forEach((el) => el.classList.toggle('is-hidden', Number(el.dataset.step) !== step));
       successEl?.classList.add('is-hidden');
-
-      const progress = Math.round(((step - 1) / 5) * 100);
-      progressFill.style.width = `${progress}%`;
-      progressValue.textContent = `${progress}%`;
-      const showBack = step >= 1;
-      backBtn?.classList.toggle('is-hidden', !showBack);
-
+      if (progressFill) progressFill.style.width = `${Math.round(((step - 1) / 5) * 100)}%`;
+      if (progressValue) progressValue.textContent = `${Math.round(((step - 1) / 5) * 100)}%`;
+      backBtn?.classList.toggle('is-hidden', step < 1);
       if (nextBtn) {
         nextBtn.textContent = step === 6 ? 'Submit' : 'Next';
         nextBtn.type = step === 6 ? 'submit' : 'button';
       }
-
-      if (step === 2) {
-        renderStepGoals();
-      }
+      if (step === 2) renderStepGoals();
       if (step === 3) {
         exitQuiz.querySelectorAll('[data-step="3"] input').forEach((el) => {
           el.checked = answers.challenges.includes(el.value);
         });
       }
-      if (errorEl) {
-        errorEl.textContent = '';
-        errorEl.classList.add('is-hidden');
-      }
-    };
-
-    const getValidationError = () => {
-      if (currentStep === 1 && !answers.audience) return 'Please select Ecommerce or Lead Generation.';
-      if (currentStep === 2 && !goalsWrap.querySelector('input:checked')) return 'Please choose at least one CRO goal.';
-      if (currentStep === 3) {
-        if (!exitQuiz.querySelector('[data-step="3"] input:checked')) return 'Please choose at least one current challenge.';
-      }
-      if (currentStep === 4) {
-        const trafficValue = document.getElementById('exit-quiz-traffic')?.value.trim();
-        if (!trafficValue) return 'Please enter your weekly traffic estimate.';
-        const trafficTypeValue = document.getElementById('exit-quiz-traffic-type')?.value.trim();
-        if (!trafficTypeValue) return 'Please select traffic unit.';
-      }
-      if (currentStep === 6) {
-        const name = document.getElementById('exit-quiz-name')?.value.trim();
-        const email = document.getElementById('exit-quiz-email')?.value.trim();
-        const phone = document.getElementById('exit-quiz-phone')?.value.trim();
-        if (!(name && email && phone)) return 'Please enter your name, email, and phone to continue.';
-      }
-      return '';
-    };
-
-    const handleSubmitSuccess = () => {
-      const selectedGoals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
-      answers.goals = selectedGoals;
-      steps.forEach((el) => el.classList.add('is-hidden'));
-      backBtn?.classList.add('is-hidden');
-      nextBtn?.classList.add('is-hidden');
-      progressFill.style.width = '100%';
-      progressValue.textContent = '100%';
-      successEl?.classList.remove('is-hidden');
-    };
-
-    const parseUTM = () => {
-      const url = new URL(window.location.href);
-      const out = {};
-      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((k) => {
-        const v = url.searchParams.get(k);
-        if (v) out[k] = v;
-      });
-      return Object.keys(out).length ? out : null;
-    };
-
-    const isDevLoggingEnabled = () => {
-      const host = window.location.hostname;
-      return host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local');
-    };
-
-    const logDev = (label, data) => {
-      if (!isDevLoggingEnabled()) return;
-      console.info(label, data);
+      showError('');
     };
 
     const collectCurrentAnswers = () => {
-      answers.goals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
+      answers.goals = goalsWrap ? Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value) : [];
       answers.challenges = Array.from(exitQuiz.querySelectorAll('[data-step="3"] input:checked')).map((el) => el.value);
       answers.traffic = document.getElementById('exit-quiz-traffic')?.value.trim() || '';
       answers.trafficType = document.getElementById('exit-quiz-traffic-type')?.value.trim() || 'Sessions';
@@ -578,19 +438,35 @@ document.addEventListener('DOMContentLoaded', function () {
       answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
     };
 
+    const getValidationError = () => {
+      collectCurrentAnswers();
+      if (currentStep === 1 && !answers.audience) return 'Please select Ecommerce or Lead Generation.';
+      if (currentStep === 2 && !answers.goals.length) return 'Please choose at least one CRO goal.';
+      if (currentStep === 3 && !answers.challenges.length) return 'Please choose at least one current challenge.';
+      if (currentStep === 4 && !answers.traffic) return 'Please enter your weekly traffic estimate.';
+      if (currentStep === 4 && !answers.trafficType) return 'Please select traffic unit.';
+      if (currentStep === 6 && !(answers.name && answers.email && answers.phone)) return 'Please enter your name, email, and phone to continue.';
+      return '';
+    };
+
     const parseTrafficValue = (value) => {
       if (!value) return null;
-      const normalizedValue = String(value).replace(/,/g, '').trim();
-      const numericValue = Number(normalizedValue);
+      const numericValue = Number(String(value).split(',').join('').trim());
       if (!Number.isFinite(numericValue)) return null;
       return Math.max(0, Math.round(numericValue));
     };
 
-    document.addEventListener('mouseout', (e) => {
-      if (hasShownQuiz) return;
-      if (e.clientY <= 0) {
-        hasShownQuiz = openQuiz();
-      }
+    const handleSubmitSuccess = () => {
+      steps.forEach((el) => el.classList.add('is-hidden'));
+      backBtn?.classList.add('is-hidden');
+      nextBtn?.classList.add('is-hidden');
+      if (progressFill) progressFill.style.width = '100%';
+      if (progressValue) progressValue.textContent = '100%';
+      successEl?.classList.remove('is-hidden');
+    };
+
+    document.addEventListener('mouseout', (event) => {
+      if (!hasShownQuiz && event.clientY <= 0) hasShownQuiz = openQuiz();
     });
 
     let lastY = window.scrollY;
@@ -601,10 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const currentY = window.scrollY;
       const deltaY = currentY - lastY;
       const deltaT = now - lastT;
-      const fastUpward = deltaY < -75 && deltaT < 260 && lastY > 280;
-      if (fastUpward) {
-        hasShownQuiz = openQuiz();
-      }
+      if (deltaY < -75 && deltaT < 260 && lastY > 280) hasShownQuiz = openQuiz();
       lastY = currentY;
       lastT = now;
     }, { passive: true });
@@ -620,63 +493,36 @@ document.addEventListener('DOMContentLoaded', function () {
         q1Tiles.forEach((tile) => tile.classList.remove('is-selected'));
         btn.classList.add('is-selected');
         answers.audience = btn.dataset.value || '';
+        answers.goals = [];
         persistAnswers();
       });
     });
 
     nextBtn?.addEventListener('click', () => {
-      if (currentStep === 2) {
-        answers.goals = Array.from(goalsWrap.querySelectorAll('input:checked')).map((el) => el.value);
-      }
-      if (currentStep === 3) {
-        answers.challenges = Array.from(exitQuiz.querySelectorAll('[data-step="3"] input:checked')).map((el) => el.value);
-      }
-      if (currentStep === 4) {
-        answers.traffic = document.getElementById('exit-quiz-traffic')?.value.trim() || '';
-        answers.trafficType = document.getElementById('exit-quiz-traffic-type')?.value.trim() || 'Sessions';
-      }
-      if (currentStep === 5) {
-        answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
-      }
-      if (currentStep === 6) {
-        answers.name = document.getElementById('exit-quiz-name')?.value.trim() || '';
-        answers.email = document.getElementById('exit-quiz-email')?.value.trim() || '';
-        answers.phone = document.getElementById('exit-quiz-phone')?.value.trim() || '';
-      }
-      persistAnswers();
-
-      const errorMessage = getValidationError();
-      if (errorMessage) {
-        if (errorEl) {
-          errorEl.textContent = errorMessage;
-          errorEl.classList.remove('is-hidden');
-        }
-        return;
-      }
-      if (currentStep < 6) {
-        showStep(currentStep + 1);
-      }
-    });
-
-    panelForm?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (currentStep !== 6) return;
-
       collectCurrentAnswers();
       persistAnswers();
-
       const errorMessage = getValidationError();
       if (errorMessage) {
-        if (errorEl) {
-          errorEl.textContent = errorMessage;
-          errorEl.classList.remove('is-hidden');
-        }
+        showError(errorMessage);
+        return;
+      }
+      if (currentStep < 6) showStep(currentStep + 1);
+    });
+
+    panelForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (currentStep !== 6) return;
+      collectCurrentAnswers();
+      persistAnswers();
+      const errorMessage = getValidationError();
+      if (errorMessage) {
+        showError(errorMessage);
         return;
       }
 
-      const [firstName, ...rest] = answers.name.split(/\s+/).filter(Boolean);
+      const nameParts = answers.name.split(' ').filter(Boolean);
+      const firstName = nameParts.shift() || null;
       const trafficValue = parseTrafficValue(answers.traffic);
-      const trafficUnit = answers.trafficType || null;
       const finalPayload = {
         audience: answers.audience || null,
         goals: Array.isArray(answers.goals) ? answers.goals : [],
@@ -685,74 +531,36 @@ document.addEventListener('DOMContentLoaded', function () {
         full_name: answers.name || null,
         funnel_description: answers.funnel || null,
         phone: answers.phone || null,
-        weekly_traffic_display: answers.traffic
-          ? `${answers.traffic} ${trafficUnit || 'Sessions'}`
-          : null,
-        weekly_traffic_unit: trafficUnit,
+        weekly_traffic_display: answers.traffic ? `${answers.traffic} ${answers.trafficType || 'Sessions'}` : null,
+        weekly_traffic_unit: answers.trafficType || null,
         weekly_traffic_value: trafficValue,
         page_url: window.location.href
       };
       const requestPayload = {
         ...finalPayload,
-        first_name: firstName || null,
-        last_name: rest.join(' ') || null,
+        first_name: firstName,
+        last_name: nameParts.join(' ') || null,
         consent_email: true,
         module_fields: { ...finalPayload },
         meta: { ...finalPayload }
       };
 
       try {
-        if (
-          !finalPayload.email ||
-          !finalPayload.full_name ||
-          finalPayload.weekly_traffic_value === null ||
-          !finalPayload.weekly_traffic_unit
-        ) {
+        if (!finalPayload.email || !finalPayload.full_name || finalPayload.weekly_traffic_value === null || !finalPayload.weekly_traffic_unit) {
           throw new Error('Missing required quiz fields for submission.');
         }
-
-        console.log('[exit-quiz] Final Supabase payload', finalPayload);
-        console.log('[exit-quiz] Request payload', requestPayload);
-
-        const resp = await fetch("https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent", {
+        const response = await fetch('https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-exit-intent', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestPayload)
         });
-
-        const responseBodyText = await resp.text();
-        let parsedResponse = null;
-        try {
-          parsedResponse = responseBodyText ? JSON.parse(responseBodyText) : null;
-        } catch {
-          parsedResponse = responseBodyText || null;
-        }
-
-        if (!resp.ok) {
-          console.error('[exit-quiz] Supabase error result', {
-            status: resp.status,
-            body: parsedResponse
-          });
-          throw new Error(typeof parsedResponse === 'string' ? parsedResponse : `Supabase request failed with status ${resp.status}`);
-        }
-
-        console.log('[exit-quiz] Supabase success result', {
-          status: resp.status,
-          body: parsedResponse
-        });
-
+        const responseText = await response.text();
+        if (!response.ok) throw new Error(responseText || `Supabase request failed with status ${response.status}`);
         panelForm.reset();
         handleSubmitSuccess();
-      } catch (err) {
-        console.error('[exit-quiz] Submit failed', err);
-        if (errorEl) {
-          errorEl.textContent = 'Something went wrong. Please review your responses and try again.';
-          errorEl.classList.remove('is-hidden');
-        } else {
-          alert('Something went wrong.');
-        }
+      } catch (error) {
+        console.error('[exit-quiz] Submit failed', error);
+        showError('Something went wrong. Please review your responses and try again.');
       }
     });
 
@@ -761,23 +569,19 @@ document.addEventListener('DOMContentLoaded', function () {
         flow?.classList.add('is-hidden');
         cta?.classList.remove('is-hidden');
         backBtn?.classList.add('is-hidden');
-      } else if (currentStep > 1) {
-        showStep(currentStep - 1);
+        return;
       }
+      if (currentStep > 1) showStep(currentStep - 1);
     });
 
     skipFunnelBtn?.addEventListener('click', () => {
-      if (currentStep === 5) {
-        answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
-        persistAnswers();
-        showStep(6);
-      }
+      if (currentStep !== 5) return;
+      answers.funnel = document.getElementById('exit-quiz-funnel')?.value.trim() || '';
+      persistAnswers();
+      showStep(6);
     });
 
-    // hydrate saved values
-    if (answers.audience) {
-      q1Tiles.find((tile) => tile.dataset.value === answers.audience)?.classList.add('is-selected');
-    }
+    if (answers.audience) q1Tiles.find((tile) => tile.dataset.value === answers.audience)?.classList.add('is-selected');
     const trafficEl = document.getElementById('exit-quiz-traffic');
     const trafficTypeEl = document.getElementById('exit-quiz-traffic-type');
     const funnelEl = document.getElementById('exit-quiz-funnel');
@@ -792,12 +596,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (phoneEl) phoneEl.value = answers.phone;
 
     closeTriggers.forEach((trigger) => trigger.addEventListener('click', closeQuiz));
-
-    document.querySelectorAll('[data-open-exit-quiz="true"]').forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
-        if (trigger.tagName === 'A') e.preventDefault();
-        const opened = openQuiz(true);
-        if (!opened) return;
+    document.querySelectorAll('[data-open-exit-quiz]').forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        if (trigger.tagName === 'A') event.preventDefault();
+        if (!openQuiz(true)) return;
         cta?.classList.remove('is-hidden');
         flow?.classList.add('is-hidden');
         showStep(1);
@@ -806,98 +608,21 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-
-// Experience Page Hero
-document.addEventListener("DOMContentLoaded", () => {
-  const cards = document.querySelectorAll(".experienceHero_imgCard");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("fadeInUp");
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
-
-  cards.forEach((card) => observer.observe(card));
-});
-
-// Experience Page Dropdown
-// Experience Page Dropdown
-(function () {
-  document.addEventListener("DOMContentLoaded", function () {
-    const experienceDropdown = document.querySelector(".experienceDropdown");
-    const experienceDropdownButton = document.getElementById("experienceDropdownButton");
-
-    if (!experienceDropdown || !experienceDropdownButton) return;
-
-    function scrollWithOffset() {
-      const selectedValue = experienceDropdown.value;
-      if (!selectedValue) return;
-
-      const targetId = `${selectedValue}Experience`;
-      const targetEl = document.getElementById(targetId);
-
-      if (!targetEl) return;
-
-      targetEl.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      window.scrollBy({
-        top: -72,
-        behavior: "smooth",
-      });
-
-      // Optional: update URL without jumping
-      history.replaceState(null, "", `#${targetId}`);
-    }
-
-    experienceDropdownButton.addEventListener("click", scrollWithOffset);
-  });
-})();
-
-document.addEventListener("DOMContentLoaded", () => {
-  const contentHTML = `
-    <div class="caseStudyRow1">
-      <img class="strategicPlanningRowContainerImage"
-           src="assets/process-assets/KPIsByFunnelStage.png"
-           style="width:50%; float:left; padding-right:32px;">
-      <div class="rowContentCopy">
-        <p>In 2024, site analytics, survey data, industry trends, and competitive auditing produced 4 key strategic pillars for optimizing the UHOne site:</p>
-        <ol>
-          <li><strong>TriTerm promotion:</strong> Selling TriTerm, UHOne's highest margin product, prior to its sunset</li>
-          <li><strong>Conecting UHOne:</strong> Ensuring a seamless experience from beginning to end of funnel</li>
-          <li><strong>Design &amp; UX:</strong> General design optimization</li>
-          <li><strong>New vs Return Personalization:</strong> Tailoring content and functionality to user intent and previous interactions</li>
-        </ol>
-      </div>
-    </div>
-  `;
-
-
-});
-
 (function () {
   const BASE_PATH = '/CRO-Consulting/';
 
   const normalizePath = (path) => {
-    const withoutTrailingSlash = path.replace(/\/+$/g, '');
-    return withoutTrailingSlash.replace(/\.html$/i, '');
+    let normalized = path || '/';
+    while (normalized.length > 1 && normalized.endsWith('/')) normalized = normalized.slice(0, -1);
+    if (normalized.toLowerCase().endsWith('.html')) normalized = normalized.slice(0, -5);
+    return normalized || '/';
   };
 
   const shouldLoadChatbot = () => {
     const path = normalizePath(window.location.pathname);
     const servicesRoot = normalizePath(`${BASE_PATH}services`);
     const blogRoot = normalizePath(`${BASE_PATH}blog`);
-
-    return path === servicesRoot ||
-      path.startsWith(`${servicesRoot}/`) ||
-      path === blogRoot ||
-      path.startsWith(`${blogRoot}/`);
+    return path === servicesRoot || path.startsWith(`${servicesRoot}/`) || path === blogRoot || path.startsWith(`${blogRoot}/`);
   };
 
   const assetExists = (selector, assetPath) => {
@@ -909,7 +634,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loadStylesheet = () => {
     if (assetExists('link[rel="stylesheet"]', '/css/chatbot.css')) return;
-
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = `${BASE_PATH}css/chatbot.css`;
@@ -918,7 +642,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loadScript = () => {
     if (assetExists('script[src]', '/js/chatbot.js')) return;
-
     const script = document.createElement('script');
     script.src = `${BASE_PATH}js/chatbot.js`;
     document.body.appendChild(script);
