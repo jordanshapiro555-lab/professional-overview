@@ -1,0 +1,80 @@
+name: Codex Correct UHOne Specific Metrics
+
+on:
+  push:
+    branches:
+      - codex/update-cro-metrics
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  correct-uhone-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/update-cro-metrics
+      - name: Revert UHOne-specific revenue references only
+        shell: python
+        run: |
+          from pathlib import Path
+
+          replacements = {
+              "index.html": [
+                  ("The best result was 1061% ROI for UHOne's 2024 program ($30M+ in attributed revenue).", "The best result was 1061% ROI for UHOne's 2024 program ($8.7M in attributed revenue)."),
+                  ("Strategic product intent capture and checkout experience improvements that drove $30M+ in attributed revenue.", "Strategic product intent capture and checkout experience improvements that drove $8.7M in attributed revenue."),
+              ],
+              "work/case-studies/uhone-2024.html": [
+                  ("$30M+ Revenue Impact", "$8.7M Revenue Impact"),
+                  ("$30M+ Revenue", "$8.7M Revenue"),
+                  ("$30M+ in attributed revenue", "$8.7M in attributed revenue"),
+                  ("$30M+ Incremental Dollars", "$8.7MM Incremental Dollars"),
+                  ("$30M+ incremental dollars", "$8.7MM incremental dollars"),
+                  ("$30M+ incremental revenue", "$8.7M incremental revenue"),
+                  ("$30M+ impact on revenue", "$8.7M impact on revenue"),
+              ],
+              "work/case-studies/index.html": [
+                  ("UHOne 2024 ($30M+ revenue, 1061% ROI)", "UHOne 2024 ($8.7M revenue, 1061% ROI)"),
+              ],
+          }
+
+          changed = []
+          for file_path, file_replacements in replacements.items():
+              path = Path(file_path)
+              text = path.read_text(encoding="utf-8")
+              original = text
+              for old, new in file_replacements:
+                  text = text.replace(old, new)
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(file_path)
+
+          workflow = Path(".github/workflows/codex-revert-uhone-specific-metrics.yml")
+          if workflow.exists():
+              workflow.unlink()
+              changed.append(str(workflow))
+
+          print("Changed files:")
+          for file_path in changed:
+              print(f"- {file_path}")
+      - name: Verify correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Broad updated references:"
+          grep -RIn --include='*.html' --include='*.js' '1030%\|data-to="1030"\|\$30M+' index.html src/index.js contact.html about.html services/index.html
+          echo "UHOne-specific original references:"
+          grep -RIn --include='*.html' 'UHOne.*\$8\.7M\|\$8\.7M.*UHOne\|\$8\.7MM' index.html work/case-studies/uhone-2024.html work/case-studies/index.html
+          echo "Ensure UHOne page no longer has $30M+:"
+          ! grep -n '\$30M+' work/case-studies/uhone-2024.html
+      - name: Commit correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "codex"
+          git config user.email "codex@openai.com"
+          git add index.html work/case-studies/uhone-2024.html work/case-studies/index.html .github/workflows/codex-revert-uhone-specific-metrics.yml
+          git commit -m "Keep UHOne-specific revenue figures unchanged"
+          git push origin codex/update-cro-metrics
