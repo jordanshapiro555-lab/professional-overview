@@ -1,0 +1,104 @@
+name: Codex Update CRO Metrics
+
+on:
+  push:
+    branches:
+      - codex/update-cro-metrics
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/update-cro-metrics
+      - name: Update requested CRO metrics
+        shell: python
+        run: |
+          from pathlib import Path
+
+          replacements = {
+              "index.html": [
+                  ("450% Avg Program ROI", "1030% Avg Program ROI"),
+                  ("450% average program ROI", "1030% average program ROI"),
+                  ("450% program ROI", "1030% program ROI"),
+                  ("450% average program ROI", "1030% average program ROI"),
+                  ("450% ROI", "1030% ROI"),
+                  ("450% avg program ROI", "1030% avg program ROI"),
+                  ('data-to="450">450</span>%', 'data-to="1030">1030</span>%'),
+                  (">450%</div>", ">1030%</div>"),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+                  ('data-to="8.7" data-decimals="1">8.7</span>M+', 'data-to="30">30</span>M+'),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+              ],
+              "src/index.js": [
+                  ("450% average program ROI", "1030% average program ROI"),
+                  ("$8.7M+ in total revenue impact", "$30M+ in total revenue impact"),
+              ],
+              "contact.html": [
+                  ("450% average program ROI", "1030% average program ROI"),
+                  ('data-to="450">450</span>%', 'data-to="1030">1030</span>%'),
+              ],
+              "about.html": [
+                  ("450% average program ROI", "1030% average program ROI"),
+              ],
+              "services/index.html": [
+                  ("<strong>450%</strong><span>Average program ROI</span>", "<strong>1030%</strong><span>Average program ROI</span>"),
+                  ("<strong>$8.7M+</strong><span>Attributed revenue impact</span>", "<strong>$30M+</strong><span>Attributed revenue impact</span>"),
+              ],
+              "work/case-studies/uhone-2024.html": [
+                  ("$8.7M Revenue Impact", "$30M+ Revenue Impact"),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+                  ("$8.7M Revenue", "$30M+ Revenue"),
+                  ("$8.7M in attributed revenue", "$30M+ in attributed revenue"),
+                  ("$8.7MM Incremental Dollars", "$30M+ Incremental Dollars"),
+                  ("$8.7MM incremental dollars", "$30M+ incremental dollars"),
+                  ("$8.7M incremental revenue", "$30M+ incremental revenue"),
+                  ("$8.7M impact on revenue", "$30M+ impact on revenue"),
+              ],
+              "work/case-studies/index.html": [
+                  ("UHOne 2024 ($8.7M revenue, 1061% ROI)", "UHOne 2024 ($30M+ revenue, 1061% ROI)"),
+              ],
+          }
+
+          changed = []
+          for file_path, file_replacements in replacements.items():
+              path = Path(file_path)
+              text = path.read_text(encoding="utf-8")
+              original = text
+              for old, new in file_replacements:
+                  text = text.replace(old, new)
+              if text != original:
+                  path.write_text(text, encoding="utf-8")
+                  changed.append(file_path)
+
+          workflow = Path(".github/workflows/codex-update-cro-metrics.yml")
+          if workflow.exists():
+              workflow.unlink()
+              changed.append(str(workflow))
+
+          print("Changed files:")
+          for file_path in changed:
+              print(f"- {file_path}")
+      - name: Verify requested replacements
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Remaining old target matches outside unrelated CSS/DeVry contexts:"
+          ! grep -RIn --include='*.html' --include='*.js' '450% average program ROI\|450% Avg Program ROI\|data-to="450"\|\$8\.7M+\|\$8\.7MM\|\$8\.7M in attributed revenue\|\$8\.7M revenue\|\$8\.7M impact' .
+          grep -RIn --include='*.html' --include='*.js' '1030%\|data-to="1030"\|\$30M+' index.html src/index.js contact.html about.html services/index.html work/case-studies/uhone-2024.html work/case-studies/index.html
+      - name: Commit final metric updates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "codex"
+          git config user.email "codex@openai.com"
+          git add index.html src/index.js contact.html about.html services/index.html work/case-studies/uhone-2024.html work/case-studies/index.html .github/workflows/codex-update-cro-metrics.yml
+          git commit -m "Update CRO metric figures sitewide"
+          git push origin codex/update-cro-metrics
