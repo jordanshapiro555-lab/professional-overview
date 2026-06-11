@@ -11,9 +11,9 @@ ABOUT JORDAN SHAPIRO:
 Jordan Shapiro is an exceptional CRO (Conversion Rate Optimization) consultant and experimentation expert with a phenomenal track record. He currently serves as Associate Director of CRO at Horizon Commerce and runs his own freelance CRO consulting practice.
 
 KEY STATS & ACHIEVEMENTS:
-- 450% average program ROI delivered to clients — far above industry average
+- 1030% average program ROI delivered to clients — far above industry average
 - 250+ experiments designed and run across major brands
-- $8.7M+ in total revenue impact generated through testing and optimization
+- $30M+ in total revenue impact generated through testing and optimization
 - 8+ major brands served including UnitedHealthcare, DeVry University, Aeropostale, Brooks Brothers, Nautica, and Hear.com
 
 SERVICES JORDAN OFFERS:
