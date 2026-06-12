@@ -10,7 +10,8 @@ Required production secrets:
   subscription write scopes. The existing `KLAVIYO_PRIVATE_KEY` secret name is
   also supported.
 - `PII_HASH_PEPPER`: Long random secret used before hashing IP and email
-  rate-limit keys.
+  rate-limit keys. The existing `EXIT_INTENT_WEBHOOK_SECRET` is supported as a
+  compatibility fallback and is domain-separated inside each hash input.
 - `ALLOWED_ORIGINS`: Comma-separated additional exact preview origins. The
   production GitHub Pages origin and this branch's stable Vercel preview origin
   are built in.
