@@ -4,6 +4,7 @@ export const CONSENT_VERSION = "homepage-contact-2026-06-12";
 
 const DEFAULT_ALLOWED_ORIGINS = [
   "https://jordanshapiro555-lab.github.io",
+  "https://cro-consulting-git-codex-9cda74-jordanshapiro555-labs-projects.vercel.app",
 ];
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

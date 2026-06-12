@@ -7,11 +7,13 @@ list `Sn4fLM`.
 Required production secrets:
 
 - `KLAVIYO_PRIVATE_API_KEY`: Klaviyo private key with profile, list, and
-  subscription write scopes.
+  subscription write scopes. The existing `KLAVIYO_PRIVATE_KEY` secret name is
+  also supported.
 - `PII_HASH_PEPPER`: Long random secret used before hashing IP and email
   rate-limit keys.
-- `ALLOWED_ORIGINS`: Comma-separated exact preview origins. Production GitHub
-  Pages and canonical Vercel origins are built in.
+- `ALLOWED_ORIGINS`: Comma-separated additional exact preview origins. The
+  production GitHub Pages origin and this branch's stable Vercel preview origin
+  are built in.
 
 Never commit real values. Application logs intentionally contain only request
 IDs, status codes, durations, and sanitized error categories.

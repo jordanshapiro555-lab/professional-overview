@@ -164,7 +164,8 @@ Deno.serve(async (request) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const serviceKey = getServiceKey();
-    const klaviyoApiKey = Deno.env.get("KLAVIYO_PRIVATE_API_KEY");
+    const klaviyoApiKey = Deno.env.get("KLAVIYO_PRIVATE_API_KEY") ||
+      Deno.env.get("KLAVIYO_PRIVATE_KEY");
     const hashPepper = Deno.env.get("PII_HASH_PEPPER");
 
     if (!supabaseUrl || !serviceKey || !klaviyoApiKey || !hashPepper) {
