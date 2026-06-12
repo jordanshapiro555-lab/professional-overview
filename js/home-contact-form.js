@@ -79,7 +79,7 @@
     if (isSubmitting || !validate()) return;
 
     isSubmitting = true;
-    form.classList.add('is-submitting');
+    form.classList.add('croHomepageContact__form--submitting');
     submitButton.disabled = true;
     formError.hidden = true;
 
@@ -132,10 +132,9 @@
     } finally {
       window.clearTimeout(timeout);
       isSubmitting = false;
-      form.classList.remove('is-submitting');
+      form.classList.remove('croHomepageContact__form--submitting');
       submitButton.disabled = false;
     }
   });
 })();
-
 
