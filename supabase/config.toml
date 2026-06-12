@@ -1,0 +1,6 @@
+project_id = "cro-consulting"
+
+[functions.capture-homepage-contact]
+verify_jwt = false
+
+
