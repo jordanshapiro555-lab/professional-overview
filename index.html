@@ -28,6 +28,7 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home-contact-form.css">
   <link rel="stylesheet" href="css/chatbot.css">
 
   <!-- JSON-LD Structured Data -->
@@ -276,9 +277,76 @@
       </div>
     </section>
 
-    <!-- Klaviyo Form -->
-    <section class="homeContactFormSection">
-      <div class="klaviyo-form-YyjtDt homeContactFormDesktop"></div>
+    <!-- Standalone homepage contact form. Keep as a sibling of all other homepage sections. -->
+    <section id="cro-homepage-contact" class="croHomepageContact" aria-labelledby="home-contact-title">
+      <div class="croHomepageContact__card" id="home-contact-card">
+        <div class="croHomepageContact__intro">
+          <p class="croHomepageContact__eyebrow">Free consultation</p>
+          <h2 id="home-contact-title">Contact me for a 1 on 1 consultation</h2>
+          <p>Explore how to optimize your digital marketing with a full-funnel approach. The results may surprise you.</p>
+        </div>
+
+        <form class="croHomepageContact__form" id="home-contact-form" novalidate>
+          <div class="croHomepageContact__grid">
+            <div class="croHomepageContact__field">
+              <label class="croHomepageContact__label" for="home-contact-first-name">
+                First name <span>(optional)</span>
+              </label>
+              <input class="croHomepageContact__input" id="home-contact-first-name" name="first_name" type="text" autocomplete="given-name" maxlength="80">
+            </div>
+
+            <div class="croHomepageContact__field">
+              <label class="croHomepageContact__label" for="home-contact-last-name">
+                Last name <span>(optional)</span>
+              </label>
+              <input class="croHomepageContact__input" id="home-contact-last-name" name="last_name" type="text" autocomplete="family-name" maxlength="80">
+            </div>
+
+            <div class="croHomepageContact__field">
+              <label class="croHomepageContact__label" for="home-contact-email">Email</label>
+              <input class="croHomepageContact__input" id="home-contact-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="home-contact-email-error">
+              <span class="croHomepageContact__fieldError" id="home-contact-email-error"></span>
+            </div>
+
+            <div class="croHomepageContact__field">
+              <label class="croHomepageContact__label" for="home-contact-phone">
+                Phone number <span>(optional)</span>
+              </label>
+              <input class="croHomepageContact__input" id="home-contact-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="(555) 555-5555" aria-describedby="home-contact-phone-error">
+              <span class="croHomepageContact__fieldError" id="home-contact-phone-error"></span>
+            </div>
+
+            <div class="croHomepageContact__field croHomepageContact__field--wide">
+              <label class="croHomepageContact__label" for="home-contact-pain-points">
+                Pain points <span>(optional)</span>
+              </label>
+              <textarea class="croHomepageContact__input croHomepageContact__textarea" id="home-contact-pain-points" name="pain_points" rows="3" maxlength="1000" placeholder="I'm struggling with ..."></textarea>
+            </div>
+          </div>
+
+          <div class="croHomepageContact__honeypot" aria-hidden="true">
+            <label for="home-contact-company-website">Company website</label>
+            <input id="home-contact-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <p class="croHomepageContact__disclosure">
+            By submitting this form, you agree to receive emails from Jordan's CRO Studio. If you provide a phone number, you also consent to receive informational and marketing texts, including texts sent by autodialer. Consent is not a condition of purchase. Msg &amp; data rates may apply. Msg frequency varies. Reply STOP to unsubscribe.
+            <!-- TODO: Replace these placeholder destinations with approved legal URLs. -->
+            <a href="#">Privacy Policy</a> &amp; <a href="#">Terms</a>.
+          </p>
+
+          <p class="croHomepageContact__formError" id="home-contact-form-error" role="alert" hidden></p>
+          <button class="croHomepageContact__button" id="home-contact-submit" type="submit">
+            <span class="croHomepageContact__buttonText">Reach out!</span>
+            <span class="croHomepageContact__buttonLoading" aria-hidden="true">Sending...</span>
+          </button>
+        </form>
+
+        <div class="croHomepageContact__success" id="home-contact-success" role="status" aria-live="polite" tabindex="-1" hidden>
+          <h1>Thanks for reaching out!</h1>
+          <p>I will be in touch as soon as I can</p>
+        </div>
+      </div>
     </section>
 
     <!-- What I Do -->
@@ -619,10 +687,7 @@
   </div>
 
   <script src="script.js"></script>
-  <script async type="text/javascript" src="https://static.klaviyo.com/onsite/js/UYbsGQ/klaviyo.js?company_id=UYbsGQ&v=20260120"></script>
-  <script type="text/javascript">
-    !function(){if(!window.klaviyo){window._klOnsite=window._klOnsite||[];try{window.klaviyo=new Proxy({},{get:function(n,i){return"push"===i?function(){var n;(n=window._klOnsite).push.apply(n,arguments)}:function(){for(var n=arguments.length,o=new Array(n),w=0;w<n;w++)o[w]=arguments[w];var t="function"==typeof o[o.length-1]?o.pop():void 0,e=new Promise((function(n){window._klOnsite.push([i].concat(o,[function(i){t&&t(i),n(i)}]))}));return e}}})}catch(n){window.klaviyo=window.klaviyo||[],window.klaviyo.push=function(){var n;(n=window._klOnsite).push.apply(n,arguments)}}}}();
-  </script>
+  <script src="js/home-contact-form.js"></script>
 
 <script>
   window.addEventListener('DOMContentLoaded', async function () {
