@@ -114,40 +114,17 @@ async function handleChat(request, env) {
     }
 
     const messages = [
+      { role: 'system', content: SYSTEM_PROMPT },
       ...history.slice(-10),
       { role: 'user', content: message }
     ];
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 512,
-        system: SYSTEM_PROMPT,
-        messages
-      })
+    const result = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+      messages,
+      max_tokens: 512
     });
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error('Anthropic API error:', {
-        status: response.status,
-        body: errorBody
-      });
-      return jsonResponse({
-        error: 'Failed to get response',
-        detail: errorBody,
-        status: response.status
-      }, 502);
-    }
-
-    const data = await response.json();
-    const reply = data.content?.[0]?.text ?? 'Sorry, I could not generate a response.';
+    const reply = result.response ?? 'Sorry, I could not generate a response.';
 
     return jsonResponse({ reply });
   } catch (err) {
