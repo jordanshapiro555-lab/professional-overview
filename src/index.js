@@ -1,3 +1,6 @@
+const MAX_REPLY_CHARS = 400;
+const CONTACT_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/contact';
+
 const SYSTEM_PROMPT = `You are Jordan's AI assistant on his CRO consulting website. Your job is to answer questions about Jordan Shapiro and his work, and to help visitors understand the value Jordan can bring to their business.
 
 IMPORTANT RULES:
@@ -5,7 +8,12 @@ IMPORTANT RULES:
 - Highlight Jordan's achievements, skills, and expertise at every opportunity
 - Encourage visitors to book a call or reach out to Jordan
 - Keep responses concise and conversational (2-4 sentences typically)
-- If asked something you don't know, redirect to Jordan's contact page
+- Keep every response to 400 characters or fewer
+- Do not use Markdown bold, italics, or headings. Never output double asterisks.
+- Do not use emoji as section labels
+- If a response is a list, use short plain bullets or numbered items instead of styled labels
+- Do not use Markdown links. Write the destination plainly, such as ${CONTACT_URL}
+- If asked something you don't know, redirect to Jordan's contact page at ${CONTACT_URL}
 
 ABOUT JORDAN SHAPIRO:
 Jordan Shapiro is an exceptional CRO (Conversion Rate Optimization) consultant and experimentation expert with a phenomenal track record. He currently serves as Associate Director of CRO at Horizon Commerce and runs his own freelance CRO consulting practice.
@@ -48,7 +56,7 @@ INDUSTRIES SERVED:
 CONTACT & BOOKING:
 - Email: jordanshapiro555@gmail.com
 - LinkedIn: https://www.linkedin.com/in/jordan-shapiro-797315153/
-- Book a call: Visit the contact page at /contact or use the Calendly booking link on the site
+- Book a call: ${CONTACT_URL}
 
 Always end responses by encouraging the visitor to reach out or book a call with Jordan if it's natural to do so.`;
 
@@ -73,7 +81,7 @@ const REDIRECTS = {
   '/Winners/UHOne_Product_Intent_Capture_Via_Sticky_Nav_Fast-follow_Single_CTA.html': '/work/test-winners/uhone-product-intent-sticky-nav-fast-follow',
   '/Winners/NM_UHOne_HP_Forbes_Award_Social_Proof.html': '/work/test-winners/uhone-hp-forbes-award-social-proof',
   '/Winners/NM_HM_Global_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-global-sticky-cta-nav',
-  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-cta-nav',
+  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-nav',
   '/Winners/NM_UHOne_HP_American_Idealism_Hero.html': '/work/test-winners/uhone-hp-american-idealism-hero',
   '/Winners/NM_UHOne_HP_Mobile_Product_Grid_Reintro.html': '/work/test-winners/uhone-hp-mobile-product-grid-reintro',
 };
@@ -147,13 +155,56 @@ async function handleChat(request, env) {
     }
 
     const data = await response.json();
-    const reply = data.content?.[0]?.text ?? 'Sorry, I could not generate a response.';
+    const reply = formatReply(data.content?.[0]?.text ?? 'Sorry, I could not generate a response.');
 
     return jsonResponse({ reply });
   } catch (err) {
     console.error('Chat handler error:', err);
     return jsonResponse({ error: 'Internal server error' }, 500);
   }
+}
+
+function formatReply(value) {
+  const fallback = 'Sorry, I could not generate a response.';
+  const reply = String(value || fallback)
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => `${text}: ${normalizeLink(href)}`)
+    .replace(/\*\*/g, '')
+    .replace(/__([^_]+)__/g, '$1')
+    .replace(/\s+([.,!?;:])/g, '$1')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+  return limitReply(reply || fallback);
+}
+
+function normalizeLink(href) {
+  const link = String(href || '').trim();
+  if (link === '/contact' || link === 'contact' || link === '/CRO-Consulting/contact') {
+    return CONTACT_URL;
+  }
+  return link;
+}
+
+function limitReply(reply) {
+  if (reply.length <= MAX_REPLY_CHARS) {
+    return reply;
+  }
+
+  const suffix = '...';
+  const limit = MAX_REPLY_CHARS - suffix.length;
+  const draft = reply.slice(0, limit + 1);
+  const minBoundary = Math.floor(limit * 0.65);
+  const boundaries = [
+    draft.lastIndexOf('. '),
+    draft.lastIndexOf('! '),
+    draft.lastIndexOf('? '),
+    draft.lastIndexOf('\n'),
+    draft.lastIndexOf(' ')
+  ].filter((index) => index >= minBoundary);
+  const end = boundaries.length ? Math.max(...boundaries) : limit;
+
+  return `${reply.slice(0, end).replace(/[\s,;:.-]+$/, '')}${suffix}`;
 }
 
 function jsonResponse(body, status = 200) {
