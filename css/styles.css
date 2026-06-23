@@ -198,6 +198,7 @@ body{
 .btn-ghost{
   border:1px solid #0b4bd8;
   color:var(--accent-2);
+  background-color: #fff;
 }
 
 .desktop-quiz-cta {
