@@ -80,9 +80,14 @@
     nextButton.setAttribute('data-case-study-carousel-next', '');
     nextButton.innerHTML = '<span aria-hidden="true">›</span>';
 
+    const dots = document.createElement('div');
+    dots.className = 'home-case-study-carousel__dots';
+    dots.setAttribute('aria-label', 'Case study slides');
+    dots.setAttribute('data-case-study-carousel-dots', '');
+
     grid.parentNode.insertBefore(carousel, grid);
     viewport.appendChild(grid);
-    carousel.append(prevButton, viewport, nextButton);
+    carousel.append(prevButton, viewport, nextButton, dots);
 
     carousel.querySelectorAll('.card').forEach(bindCardClick);
     return carousel;
@@ -95,9 +100,10 @@
     const track = carousel.querySelector('[data-case-study-carousel-track]');
     const prevButton = carousel.querySelector('[data-case-study-carousel-prev]');
     const nextButton = carousel.querySelector('[data-case-study-carousel-next]');
+    const dotsWrap = carousel.querySelector('[data-case-study-carousel-dots]');
     const cards = Array.from(carousel.querySelectorAll('.card'));
 
-    if (!viewport || !track || !prevButton || !nextButton || cards.length < 2) return;
+    if (!viewport || !track || !prevButton || !nextButton || !dotsWrap || cards.length < 2) return;
 
     carousel.dataset.carouselReady = 'true';
 
@@ -109,6 +115,44 @@
       const trackStyles = window.getComputedStyle(track);
       const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || '0') || 0;
       return firstCard.getBoundingClientRect().width + gap;
+    };
+
+    const scrollToPosition = (left) => {
+      const maxScroll = getMaxScroll();
+      viewport.scrollTo({
+        left: Math.max(0, Math.min(left, maxScroll)),
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+      });
+    };
+
+    const dots = cards.map((card, index) => {
+      const dot = document.createElement('button');
+      dot.className = 'home-case-study-carousel__dot';
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Show case study ${index + 1}`);
+      dot.addEventListener('click', () => scrollToPosition(card.offsetLeft - track.offsetLeft));
+      dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    const updateDots = () => {
+      const viewportLeft = viewport.scrollLeft;
+      let activeIndex = 0;
+      let smallestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const distance = Math.abs((card.offsetLeft - track.offsetLeft) - viewportLeft);
+        if (distance < smallestDistance) {
+          smallestDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        const isActive = index === activeIndex;
+        dot.classList.toggle('is-active', isActive);
+        dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+      });
     };
 
     const moveCarousel = (direction) => {
@@ -125,14 +169,22 @@
       if (nextPosition > maxScroll + edgeBuffer) nextPosition = 0;
       if (nextPosition < -edgeBuffer) nextPosition = maxScroll;
 
-      viewport.scrollTo({
-        left: Math.max(0, Math.min(nextPosition, maxScroll)),
-        behavior: prefersReducedMotion() ? 'auto' : 'smooth'
-      });
+      scrollToPosition(nextPosition);
     };
 
+    let rafId = null;
+    viewport.addEventListener('scroll', () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        updateDots();
+      });
+    }, { passive: true });
+
+    window.addEventListener('resize', updateDots);
     prevButton.addEventListener('click', () => moveCarousel(-1));
     nextButton.addEventListener('click', () => moveCarousel(1));
+    updateDots();
   }
 
   function initHomeCaseStudyCarousel() {
