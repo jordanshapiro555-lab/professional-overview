@@ -8,11 +8,6 @@
   const carouselCss = `${assetBase}css/home-case-studies-carousel.css`;
   const carouselScript = `${assetBase}js/home-case-studies-carousel.js`;
 
-  if (currentScript && document.readyState === 'loading') {
-    document.write(`<link rel="stylesheet" href="${carouselCss}"><script src="${ORIGINAL_SCRIPT}"><\/script><script src="${carouselScript}"><\/script>`);
-    return;
-  }
-
   const loadStylesheet = (href) => {
     if (document.querySelector(`link[href="${href}"]`)) return;
     const link = document.createElement('link');
@@ -28,7 +23,26 @@
     document.body.appendChild(script);
   };
 
-  loadStylesheet(carouselCss);
+  const runWhenReady = (callback) => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback, { once: true });
+      return;
+    }
+    callback();
+  };
+
+  const loadCarouselAssets = () => {
+    if (!document.querySelector('#case-studies .container > .grid.cards, #case-studies [data-case-study-carousel]')) return;
+    loadStylesheet(carouselCss);
+    loadScript(carouselScript);
+  };
+
+  if (currentScript && document.readyState === 'loading') {
+    document.write(`<script src="${ORIGINAL_SCRIPT}"><\/script>`);
+    runWhenReady(loadCarouselAssets);
+    return;
+  }
+
   loadScript(ORIGINAL_SCRIPT);
-  loadScript(carouselScript);
+  runWhenReady(loadCarouselAssets);
 })();
