@@ -1,5 +1,6 @@
 import { createClient } from "npm:@supabase/supabase-js@2.102.0";
 import {
+  buildKlaviyoListRelationshipPayload,
   buildKlaviyoProfilePayload,
   buildKlaviyoSubscriptionPayload,
   classifyUpstreamStatus,
@@ -8,6 +9,7 @@ import {
   corsHeadersFor,
   hashValue,
   isAllowedOrigin,
+  KLAVIYO_LIST_ID,
   KLAVIYO_REVISION,
   validatePayload,
 } from "./lib.ts";
@@ -300,6 +302,24 @@ Deno.serve(async (request) => {
       }
 
       if (!failure && profileId) {
+        const listResponse = await fetch(
+          `https://a.klaviyo.com/api/lists/${KLAVIYO_LIST_ID}/relationships/profiles`,
+          {
+            method: "POST",
+            headers: klaviyoHeaders,
+            body: JSON.stringify(buildKlaviyoListRelationshipPayload(profileId)),
+          },
+        );
+
+        if (listResponse.status !== 204) {
+          failure = {
+            category: classifyUpstreamStatus(listResponse.status),
+            status: 502,
+          };
+        }
+      }
+
+      if (!failure && profileId) {
         const subscriptionResponse = await fetch(
           "https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs",
           {
@@ -370,4 +390,3 @@ Deno.serve(async (request) => {
     );
   }
 });
-
