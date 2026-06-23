@@ -6,6 +6,7 @@
   const submitButton = document.getElementById('home-contact-submit');
   const formError = document.getElementById('home-contact-form-error');
   const success = document.getElementById('home-contact-success');
+  const intro = document.querySelector('#cro-homepage-contact .croHomepageContact__intro');
   const emailInput = document.getElementById('home-contact-email');
   const phoneInput = document.getElementById('home-contact-phone');
   const emailError = document.getElementById('home-contact-email-error');
@@ -113,6 +114,7 @@
 
       form.reset();
       form.hidden = true;
+      if (intro) intro.hidden = true;
       success.hidden = false;
       success.focus();
 
@@ -137,4 +139,3 @@
     }
   });
 })();
-
