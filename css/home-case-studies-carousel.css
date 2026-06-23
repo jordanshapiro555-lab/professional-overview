@@ -41,6 +41,13 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-width: 0;
+}
+
+.home-case-study-carousel__track .card-body h3,
+.home-case-study-carousel__track .card-body p,
+.home-case-study-carousel__track .card-body a {
+  overflow-wrap: anywhere;
 }
 
 .home-case-study-carousel__track .card-link {
@@ -61,6 +68,15 @@
   font-size: 1.7rem;
   line-height: 1;
   transition: background var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.home-case-study-carousel__arrow span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
 }
 
 .home-case-study-carousel__arrow:hover {
@@ -92,8 +108,8 @@
 
 @media (max-width: 700px) {
   .home-case-study-carousel {
-    grid-template-columns: 36px minmax(0, 1fr) 36px;
-    gap: 8px;
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 6px;
   }
 
   .home-case-study-carousel__viewport {
@@ -101,15 +117,20 @@
   }
 
   .home-case-study-carousel__track {
-    padding: 4px 2px 20px;
+    gap: 12px;
+    padding: 4px 0 20px;
   }
 
   .home-case-study-carousel__track .card {
-    flex-basis: min(82vw, 340px);
+    flex-basis: 100%;
+  }
+
+  .home-case-study-carousel__track .card-body {
+    padding: 14px;
   }
 
   .home-case-study-carousel__arrow {
-    width: 36px;
+    width: 34px;
     height: 48px;
     font-size: 1.45rem;
   }
