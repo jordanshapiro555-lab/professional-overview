@@ -258,3 +258,44 @@
     init();
   }
 })();
+
+(function () {
+  'use strict';
+
+  function getAssetBase() {
+    const script = Array.from(document.querySelectorAll('script[src]')).find((item) => {
+      const src = item.getAttribute('src') || '';
+      return src === 'js/chatbot.js' || src.endsWith('/js/chatbot.js');
+    });
+    const src = script ? script.src : '';
+    return src ? src.replace(/js\/chatbot\.js(?:\?.*)?$/, '') : '';
+  }
+
+  function loadStylesheet(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
+  function loadScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return;
+    const script = document.createElement('script');
+    script.src = src;
+    document.body.appendChild(script);
+  }
+
+  function loadHomeCaseStudyCarouselAssets() {
+    if (!document.querySelector('#case-studies .container > .grid.cards, #case-studies [data-case-study-carousel]')) return;
+    const assetBase = getAssetBase();
+    loadStylesheet(`${assetBase}css/home-case-studies-carousel.css`);
+    loadScript(`${assetBase}js/home-case-studies-carousel.js`);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHomeCaseStudyCarouselAssets, { once: true });
+  } else {
+    loadHomeCaseStudyCarouselAssets();
+  }
+})();
