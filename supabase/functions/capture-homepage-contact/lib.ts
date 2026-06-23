@@ -224,6 +224,15 @@ export const buildKlaviyoProfilePayload = (lead: ContactLead) => {
   };
 };
 
+export const buildKlaviyoListRelationshipPayload = (profileId: string) => ({
+  data: [
+    {
+      type: "profile",
+      id: profileId,
+    },
+  ],
+});
+
 export const buildKlaviyoSubscriptionPayload = (
   profileId: string,
   lead: ContactLead,
@@ -273,4 +282,3 @@ export const classifyUpstreamStatus = (status: number): string => {
   if (status >= 500) return "upstream_server";
   return "upstream_request";
 };
-
