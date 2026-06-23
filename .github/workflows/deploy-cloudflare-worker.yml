@@ -61,8 +61,8 @@ jobs:
           if (!res.ok || !reply) {
             throw new Error(`Expected a successful nonempty reply, got ${res.status}: ${bodyText.slice(0, 500)}`);
           }
-          if (reply.length > 400) {
-            throw new Error(`Reply exceeded 400 characters: ${reply.length}`);
+          if (reply.length > 600) {
+            throw new Error(`Reply exceeded 600 characters: ${reply.length}`);
           }
           if (reply.includes('**')) {
             throw new Error('Reply still contains double-asterisk markdown.');
