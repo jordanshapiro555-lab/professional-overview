@@ -122,16 +122,12 @@ Deno.test("subscription payload always includes email consent and adds SMS only 
   assert(withPhone.ok);
   assertEquals(invalidPhone.ok, false);
 
-  const emailAttributes = buildKlaviyoSubscriptionPayload(
-    "profile-1",
-    emailOnly.lead,
-  )
-    .data.attributes.profiles.data[0].attributes as Record<string, unknown>;
-  const phoneAttributes = buildKlaviyoSubscriptionPayload(
-    "profile-2",
-    withPhone.lead,
-  )
-    .data.attributes.profiles.data[0].attributes as Record<string, unknown>;
+  const emailProfile = buildKlaviyoSubscriptionPayload(emailOnly.lead)
+    .data.attributes.profiles.data[0] as Record<string, unknown>;
+  const phoneProfile = buildKlaviyoSubscriptionPayload(withPhone.lead)
+    .data.attributes.profiles.data[0] as Record<string, unknown>;
+  const emailAttributes = emailProfile.attributes as Record<string, unknown>;
+  const phoneAttributes = phoneProfile.attributes as Record<string, unknown>;
   const emailSubscriptions = emailAttributes.subscriptions as Record<
     string,
     unknown
@@ -141,12 +137,16 @@ Deno.test("subscription payload always includes email consent and adds SMS only 
     unknown
   >;
 
+  assertEquals("id" in emailProfile, false);
+  assertEquals(emailAttributes.email, "lead@example.com");
   assertEquals(emailSubscriptions.email, {
     marketing: { consent: "SUBSCRIBED" },
   });
   assertEquals("phone_number" in emailAttributes, false);
   assertEquals("sms" in emailSubscriptions, false);
 
+  assertEquals("id" in phoneProfile, false);
+  assertEquals(phoneAttributes.email, "lead@example.com");
   assertEquals(phoneAttributes.phone_number, "+12125550100");
   assertEquals(phoneSubscriptions.email, {
     marketing: { consent: "SUBSCRIBED" },
