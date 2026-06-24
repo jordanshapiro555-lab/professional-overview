@@ -107,35 +107,53 @@ Deno.test("profile payload maps pain points to organization and custom property"
   assertEquals(properties.pain_points, "Improving checkout conversion");
 });
 
-Deno.test("subscription payload includes SMS consent only when phone is supplied", () => {
+Deno.test("subscription payload always includes email consent and adds SMS only with valid phone", () => {
   const emailOnly = validatePayload({ email: "lead@example.com", phone: "" });
   const withPhone = validatePayload({
     email: "lead@example.com",
     phone: "(212) 555-0100",
   });
+  const invalidPhone = validatePayload({
+    email: "lead@example.com",
+    phone: "1234",
+  });
 
   assert(emailOnly.ok);
   assert(withPhone.ok);
+  assertEquals(invalidPhone.ok, false);
 
-  const emailSubscriptions = buildKlaviyoSubscriptionPayload(
+  const emailAttributes = buildKlaviyoSubscriptionPayload(
     "profile-1",
     emailOnly.lead,
   )
-    .data.attributes.profiles.data[0].attributes.subscriptions as Record<
-      string,
-      unknown
-    >;
-  const phoneSubscriptions = buildKlaviyoSubscriptionPayload(
+    .data.attributes.profiles.data[0].attributes as Record<string, unknown>;
+  const phoneAttributes = buildKlaviyoSubscriptionPayload(
     "profile-2",
     withPhone.lead,
   )
-    .data.attributes.profiles.data[0].attributes.subscriptions as Record<
-      string,
-      unknown
-    >;
+    .data.attributes.profiles.data[0].attributes as Record<string, unknown>;
+  const emailSubscriptions = emailAttributes.subscriptions as Record<
+    string,
+    unknown
+  >;
+  const phoneSubscriptions = phoneAttributes.subscriptions as Record<
+    string,
+    unknown
+  >;
 
+  assertEquals(emailSubscriptions.email, {
+    marketing: { consent: "SUBSCRIBED" },
+  });
+  assertEquals("phone_number" in emailAttributes, false);
   assertEquals("sms" in emailSubscriptions, false);
-  assertEquals("sms" in phoneSubscriptions, true);
+
+  assertEquals(phoneAttributes.phone_number, "+12125550100");
+  assertEquals(phoneSubscriptions.email, {
+    marketing: { consent: "SUBSCRIBED" },
+  });
+  assertEquals(phoneSubscriptions.sms, {
+    marketing: { consent: "SUBSCRIBED" },
+  });
 });
 
 Deno.test("allows production, configured preview, and local development origins", () => {
