@@ -8,6 +8,7 @@ import {
   corsHeadersFor,
   hashValue,
   isAllowedOrigin,
+  KLAVIYO_LIST_ID,
   KLAVIYO_REVISION,
   validatePayload,
 } from "./lib.ts";
@@ -168,6 +169,7 @@ Deno.serve(async (request) => {
       Deno.env.get("KLAVIYO_PRIVATE_KEY");
     const hashPepper = Deno.env.get("PII_HASH_PEPPER") ||
       Deno.env.get("EXIT_INTENT_WEBHOOK_SECRET");
+    const klaviyoListId = Deno.env.get("KLAVIYO_LIST_ID") || KLAVIYO_LIST_ID;
 
     if (!supabaseUrl || !serviceKey || !klaviyoApiKey || !hashPepper) {
       audit("homepage_contact_failed", 503, "configuration");
@@ -305,7 +307,7 @@ Deno.serve(async (request) => {
           {
             method: "POST",
             headers: klaviyoHeaders,
-            body: JSON.stringify(buildKlaviyoSubscriptionPayload(lead)),
+            body: JSON.stringify(buildKlaviyoSubscriptionPayload(lead, klaviyoListId)),
           },
         );
 
