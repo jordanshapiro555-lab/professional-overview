@@ -270,7 +270,7 @@ Deno.serve(async (request) => {
       "Authorization": `Klaviyo-API-Key ${klaviyoApiKey}`,
       "Accept": "application/vnd.api+json",
       "Content-Type": "application/vnd.api+json",
-      "revision": KLAVIYO_REVISION,
+      "revision": Deno.env.get("KLAVIYO_REVISION") || KLAVIYO_REVISION,
     };
 
     let failure: Failure | null = null;
