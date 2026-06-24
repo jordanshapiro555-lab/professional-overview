@@ -11,7 +11,12 @@
   const WELCOME_MESSAGE =
     "Hi! I'm Jordan's AI assistant 👋 Ask me anything about Jordan's CRO expertise, case studies, or how he can help grow your business!";
 
-  const SITE_ROOT = 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
+  const config = window.CRO_CONSULTING_CONFIG || {};
+  const SITE_ROOT = config.siteRoot || 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
+  const CHAT_ENDPOINT = config.endpoints?.chat || 'https://cro-consulting.jordanshapiro555.workers.dev/api/chat';
+  const REQUEST_TIMEOUT_MS = Number(config.requestTimeoutMs) > 0 ? Number(config.requestTimeoutMs) : 12000;
+  const MAX_HISTORY_MESSAGES = 10;
+  const MAX_HISTORY_CHARS = 1000;
 
   const logoSvg = (id, size) => `
     <svg width="${size}" height="${size}" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -184,6 +189,16 @@
     sendMessage(text);
   }
 
+  function getSafeHistory() {
+    return history
+      .slice(-MAX_HISTORY_MESSAGES)
+      .filter((item) => item && (item.role === 'user' || item.role === 'assistant') && typeof item.content === 'string')
+      .map((item) => ({
+        role: item.role,
+        content: item.content.slice(0, MAX_HISTORY_CHARS)
+      }));
+  }
+
   async function sendMessage(text) {
     if (!hasChatted) {
       hasChatted = true;
@@ -193,27 +208,37 @@
     appendMessage('user', text);
     setSendDisabled(true);
     const typingEl = showTyping();
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
     try {
-      const res = await fetch('https://cro-consulting.jordanshapiro555.workers.dev/api/chat', {
+      const res = await fetch(CHAT_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history })
+        body: JSON.stringify({ message: text.slice(0, MAX_HISTORY_CHARS), history: getSafeHistory() }),
+        signal: controller.signal
       });
 
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
+      }
       removeTyping(typingEl);
 
       const reply = data.reply || "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!";
       appendMessage('bot', reply);
 
       // Update history for context
-      history.push({ role: 'user', content: text });
-      history.push({ role: 'assistant', content: reply });
+      history.push({ role: 'user', content: text.slice(0, MAX_HISTORY_CHARS) });
+      history.push({ role: 'assistant', content: String(reply).slice(0, MAX_HISTORY_CHARS) });
+      history = history.slice(-MAX_HISTORY_MESSAGES);
     } catch {
       removeTyping(typingEl);
       appendMessage('bot', "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!");
     } finally {
+      window.clearTimeout(timeout);
       setSendDisabled(false);
       document.getElementById('chat-input').focus();
     }
