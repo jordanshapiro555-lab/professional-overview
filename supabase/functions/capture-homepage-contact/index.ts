@@ -325,9 +325,7 @@ Deno.serve(async (request) => {
           {
             method: "POST",
             headers: klaviyoHeaders,
-            body: JSON.stringify(
-              buildKlaviyoSubscriptionPayload(profileId, lead),
-            ),
+            body: JSON.stringify(buildKlaviyoSubscriptionPayload(lead)),
           },
         );
 
