@@ -233,10 +233,7 @@ export const buildKlaviyoListRelationshipPayload = (profileId: string) => ({
   ],
 });
 
-export const buildKlaviyoSubscriptionPayload = (
-  profileId: string,
-  lead: ContactLead,
-) => {
+export const buildKlaviyoSubscriptionPayload = (lead: ContactLead) => {
   const subscriptions: Record<string, unknown> = {
     email: { marketing: { consent: "SUBSCRIBED" } },
   };
@@ -250,11 +247,11 @@ export const buildKlaviyoSubscriptionPayload = (
       type: "profile-subscription-bulk-create-job",
       attributes: {
         custom_source: "Homepage contact form",
+        historical_import: false,
         profiles: {
           data: [
             {
               type: "profile",
-              id: profileId,
               attributes: {
                 email: lead.email,
                 ...(lead.phoneE164 ? { phone_number: lead.phoneE164 } : {}),
