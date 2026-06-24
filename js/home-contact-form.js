@@ -2,9 +2,8 @@
   const form = document.getElementById('home-contact-form');
   if (!form) return;
 
-  const config = window.CRO_CONSULTING_CONFIG || {};
-  const endpoint = config.endpoints?.homepageContact || 'https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-homepage-contact';
-  const requestTimeoutMs = Number(config.requestTimeoutMs) > 0 ? Number(config.requestTimeoutMs) : 12000;
+  const FALLBACK_ENDPOINT = 'https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-homepage-contact';
+  const FALLBACK_TIMEOUT_MS = 12000;
   const submitButton = document.getElementById('home-contact-submit');
   const formError = document.getElementById('home-contact-form-error');
   const success = document.getElementById('home-contact-success');
@@ -14,6 +13,53 @@
   const emailError = document.getElementById('home-contact-email-error');
   const phoneError = document.getElementById('home-contact-phone-error');
   let isSubmitting = false;
+  let configLoadPromise = null;
+
+  const getConfig = () => window.CRO_CONSULTING_CONFIG || {};
+
+  const getAssetBase = () => {
+    const script = Array.from(document.querySelectorAll('script[src]')).find((item) => {
+      const src = item.getAttribute('src') || '';
+      return src === 'js/home-contact-form.js' || src.endsWith('/js/home-contact-form.js');
+    });
+    const src = script ? script.src : '';
+    return src ? src.replace(/js\/home-contact-form\.js(?:\?.*)?$/, '') : '';
+  };
+
+  const loadPublicConfig = () => {
+    if (window.CRO_CONSULTING_CONFIG) return Promise.resolve();
+    if (configLoadPromise) return configLoadPromise;
+
+    const existingConfigScript = Array.from(document.querySelectorAll('script[src]')).find((item) => {
+      const src = item.getAttribute('src') || '';
+      return src === 'js/config.js' || src.endsWith('/js/config.js');
+    });
+
+    if (existingConfigScript) {
+      configLoadPromise = new Promise((resolve) => {
+        existingConfigScript.addEventListener('load', () => resolve(), { once: true });
+        existingConfigScript.addEventListener('error', () => resolve(), { once: true });
+        window.setTimeout(resolve, 1500);
+      });
+      return configLoadPromise;
+    }
+
+    configLoadPromise = new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = `${getAssetBase()}js/config.js`;
+      script.onload = () => resolve();
+      script.onerror = () => resolve();
+      document.head.appendChild(script);
+    });
+
+    return configLoadPromise;
+  };
+
+  const getEndpoint = () => getConfig().endpoints?.homepageContact || FALLBACK_ENDPOINT;
+  const getRequestTimeoutMs = () => {
+    const timeout = Number(getConfig().requestTimeoutMs);
+    return timeout > 0 ? timeout : FALLBACK_TIMEOUT_MS;
+  };
 
   const setFieldError = (input, errorElement, message) => {
     input.setAttribute('aria-invalid', message ? 'true' : 'false');
@@ -99,30 +145,35 @@
       attribution: getAttribution()
     };
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), requestTimeoutMs);
-
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal
-      });
+      await loadPublicConfig();
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), getRequestTimeoutMs());
 
-      if (!response.ok) {
-        throw new Error(response.status === 429 ? 'rate_limited' : 'submission_failed');
+      try {
+        const response = await fetch(getEndpoint(), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error(response.status === 429 ? 'rate_limited' : 'submission_failed');
+        }
+
+        form.reset();
+        form.hidden = true;
+        if (intro) intro.hidden = true;
+        success.hidden = false;
+        success.focus();
+
+        window.statsigClient?.logEvent('homepage_contact_form_submitted', null, {
+          location: 'homepage_contact_form'
+        });
+      } finally {
+        window.clearTimeout(timeout);
       }
-
-      form.reset();
-      form.hidden = true;
-      if (intro) intro.hidden = true;
-      success.hidden = false;
-      success.focus();
-
-      window.statsigClient?.logEvent('homepage_contact_form_submitted', null, {
-        location: 'homepage_contact_form'
-      });
     } catch (error) {
       formError.textContent = error.message === 'rate_limited'
         ? 'Please wait a few minutes before trying again.'
@@ -134,7 +185,6 @@
         reason: error.name === 'AbortError' ? 'timeout' : 'request_failed'
       });
     } finally {
-      window.clearTimeout(timeout);
       isSubmitting = false;
       form.classList.remove('croHomepageContact__form--submitting');
       submitButton.disabled = false;
