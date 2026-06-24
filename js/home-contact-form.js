@@ -2,7 +2,9 @@
   const form = document.getElementById('home-contact-form');
   if (!form) return;
 
-  const endpoint = 'https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-homepage-contact';
+  const config = window.CRO_CONSULTING_CONFIG || {};
+  const endpoint = config.endpoints?.homepageContact || 'https://sgrijnhcdpioqzzrdbem.supabase.co/functions/v1/capture-homepage-contact';
+  const requestTimeoutMs = Number(config.requestTimeoutMs) > 0 ? Number(config.requestTimeoutMs) : 12000;
   const submitButton = document.getElementById('home-contact-submit');
   const formError = document.getElementById('home-contact-form-error');
   const success = document.getElementById('home-contact-success');
@@ -98,7 +100,7 @@
     };
 
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    const timeout = window.setTimeout(() => controller.abort(), requestTimeoutMs);
 
     try {
       const response = await fetch(endpoint, {
