@@ -11,12 +11,58 @@
   const WELCOME_MESSAGE =
     "Hi! I'm Jordan's AI assistant 👋 Ask me anything about Jordan's CRO expertise, case studies, or how he can help grow your business!";
 
-  const config = window.CRO_CONSULTING_CONFIG || {};
-  const SITE_ROOT = config.siteRoot || 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
-  const CHAT_ENDPOINT = config.endpoints?.chat || 'https://cro-consulting.jordanshapiro555.workers.dev/api/chat';
-  const REQUEST_TIMEOUT_MS = Number(config.requestTimeoutMs) > 0 ? Number(config.requestTimeoutMs) : 12000;
+  const FALLBACK_SITE_ROOT = 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
+  const FALLBACK_CHAT_ENDPOINT = 'https://cro-consulting.jordanshapiro555.workers.dev/api/chat';
+  const FALLBACK_TIMEOUT_MS = 12000;
   const MAX_HISTORY_MESSAGES = 10;
   const MAX_HISTORY_CHARS = 1000;
+  let configLoadPromise = null;
+
+  const getConfig = () => window.CRO_CONSULTING_CONFIG || {};
+  const getSiteRoot = () => getConfig().siteRoot || FALLBACK_SITE_ROOT;
+  const getChatEndpoint = () => getConfig().endpoints?.chat || FALLBACK_CHAT_ENDPOINT;
+  const getRequestTimeoutMs = () => {
+    const timeout = Number(getConfig().requestTimeoutMs);
+    return timeout > 0 ? timeout : FALLBACK_TIMEOUT_MS;
+  };
+
+  const getAssetBase = () => {
+    const script = Array.from(document.querySelectorAll('script[src]')).find((item) => {
+      const src = item.getAttribute('src') || '';
+      return src === 'js/chatbot.js' || src.endsWith('/js/chatbot.js');
+    });
+    const src = script ? script.src : '';
+    return src ? src.replace(/js\/chatbot\.js(?:\?.*)?$/, '') : '';
+  };
+
+  const loadPublicConfig = () => {
+    if (window.CRO_CONSULTING_CONFIG) return Promise.resolve();
+    if (configLoadPromise) return configLoadPromise;
+
+    const existingConfigScript = Array.from(document.querySelectorAll('script[src]')).find((item) => {
+      const src = item.getAttribute('src') || '';
+      return src === 'js/config.js' || src.endsWith('/js/config.js');
+    });
+
+    if (existingConfigScript) {
+      configLoadPromise = new Promise((resolve) => {
+        existingConfigScript.addEventListener('load', () => resolve(), { once: true });
+        existingConfigScript.addEventListener('error', () => resolve(), { once: true });
+        window.setTimeout(resolve, 1500);
+      });
+      return configLoadPromise;
+    }
+
+    configLoadPromise = new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = `${getAssetBase()}js/config.js`;
+      script.onload = () => resolve();
+      script.onerror = () => resolve();
+      document.head.appendChild(script);
+    });
+
+    return configLoadPromise;
+  };
 
   const logoSvg = (id, size) => `
     <svg width="${size}" height="${size}" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -36,9 +82,10 @@
     </svg>`;
 
   function normalizeSiteChrome() {
+    const siteRoot = getSiteRoot();
     const brand = document.querySelector('.site-header .brand');
     if (brand) {
-      brand.href = `${SITE_ROOT}/`;
+      brand.href = `${siteRoot}/`;
       brand.setAttribute('aria-label', "Jordan's CRO Studio - Home");
       if (!brand.querySelector('svg')) {
         brand.innerHTML = `${logoSvg('hdr-conv-glow', 36)}<span>Jordan's CRO Studio</span>`;
@@ -57,11 +104,11 @@
         </div>
         <div>
           <nav class="footer-nav" aria-label="Footer">
-            <a href="${SITE_ROOT}/work">Work</a>
-            <a href="${SITE_ROOT}/process">Process</a>
-            <a href="${SITE_ROOT}/about">About</a>
-            <a href="${SITE_ROOT}/blog">Blog</a>
-            <a href="${SITE_ROOT}/contact">Contact</a>
+            <a href="${siteRoot}/work">Work</a>
+            <a href="${siteRoot}/process">Process</a>
+            <a href="${siteRoot}/about">About</a>
+            <a href="${siteRoot}/blog">Blog</a>
+            <a href="${siteRoot}/contact">Contact</a>
             <a href="https://www.linkedin.com/in/jordan-shapiro-797315153/" target="_blank" rel="noopener">LinkedIn</a>
             <a href="mailto:jordanshapiro555@gmail.com">Email</a>
           </nav>
@@ -109,7 +156,7 @@
   }
 
   function init() {
-    normalizeSiteChrome();
+    loadPublicConfig().then(normalizeSiteChrome);
 
     const widget = ensureWidget();
     if (!widget || widget.dataset.chatbotInitialized === 'true') return;
@@ -208,37 +255,42 @@
     appendMessage('user', text);
     setSendDisabled(true);
     const typingEl = showTyping();
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
     try {
-      const res = await fetch(CHAT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text.slice(0, MAX_HISTORY_CHARS), history: getSafeHistory() }),
-        signal: controller.signal
-      });
+      await loadPublicConfig();
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), getRequestTimeoutMs());
 
-      let data = {};
       try {
-        data = await res.json();
-      } catch {
-        data = {};
+        const res = await fetch(getChatEndpoint(), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text.slice(0, MAX_HISTORY_CHARS), history: getSafeHistory() }),
+          signal: controller.signal
+        });
+
+        let data = {};
+        try {
+          data = await res.json();
+        } catch {
+          data = {};
+        }
+        removeTyping(typingEl);
+
+        const reply = data.reply || "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!";
+        appendMessage('bot', reply);
+
+        // Update history for context
+        history.push({ role: 'user', content: text.slice(0, MAX_HISTORY_CHARS) });
+        history.push({ role: 'assistant', content: String(reply).slice(0, MAX_HISTORY_CHARS) });
+        history = history.slice(-MAX_HISTORY_MESSAGES);
+      } finally {
+        window.clearTimeout(timeout);
       }
-      removeTyping(typingEl);
-
-      const reply = data.reply || "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!";
-      appendMessage('bot', reply);
-
-      // Update history for context
-      history.push({ role: 'user', content: text.slice(0, MAX_HISTORY_CHARS) });
-      history.push({ role: 'assistant', content: String(reply).slice(0, MAX_HISTORY_CHARS) });
-      history = history.slice(-MAX_HISTORY_MESSAGES);
     } catch {
       removeTyping(typingEl);
       appendMessage('bot', "I'm having trouble connecting right now. Please reach out to Jordan directly at jordanshapiro555@gmail.com!");
     } finally {
-      window.clearTimeout(timeout);
       setSendDisabled(false);
       document.getElementById('chat-input').focus();
     }
