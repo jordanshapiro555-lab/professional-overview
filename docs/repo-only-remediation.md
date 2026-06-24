@@ -15,8 +15,8 @@ Branch: `codex/repo-only-audit-remediation`
 ## Changes Included In This Branch
 
 - Added `js/config.js` as a public, source-controlled place for non-secret frontend endpoints and request timeout settings.
-- Updated `js/home-contact-form.js` to read the homepage contact endpoint and timeout from `window.CRO_CONSULTING_CONFIG` when available, with the existing endpoint preserved as a fallback.
-- Updated `js/chatbot.js` to read the chat endpoint and timeout from `window.CRO_CONSULTING_CONFIG` when available, cap client-side chat history, sanitize history roles/content before sending, and abort slow requests.
+- Updated `js/home-contact-form.js` to load `js/config.js` before submission when the page did not already include it, then read the homepage contact endpoint and timeout from `window.CRO_CONSULTING_CONFIG` with the existing endpoint preserved as a fallback.
+- Updated `js/chatbot.js` to load `js/config.js` before chat requests when the page did not already include it, read the chat endpoint and timeout from `window.CRO_CONSULTING_CONFIG`, cap client-side chat history, sanitize history roles/content before sending, and abort slow requests.
 
 ## Remaining Manual Work
 
@@ -30,4 +30,4 @@ These items are intentionally not performed by this branch because they affect C
 
 ## Notes For Review
 
-`js/config.js` is designed to be loaded before frontend scripts. Existing scripts include safe fallbacks, so pages will continue to work even before every HTML page has been updated to include the config file.
+`js/config.js` can be loaded by HTML before frontend scripts, but the current consumers also load it themselves before endpoint requests if the page omitted the config tag. This keeps existing pages working while making the shared endpoint and timeout values available in production.
