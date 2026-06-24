@@ -233,7 +233,10 @@ export const buildKlaviyoListRelationshipPayload = (profileId: string) => ({
   ],
 });
 
-export const buildKlaviyoSubscriptionPayload = (lead: ContactLead) => {
+export const buildKlaviyoSubscriptionPayload = (
+  lead: ContactLead,
+  listId = KLAVIYO_LIST_ID,
+) => {
   const subscriptions: Record<string, unknown> = {
     email: { marketing: { consent: "SUBSCRIBED" } },
   };
@@ -265,7 +268,7 @@ export const buildKlaviyoSubscriptionPayload = (lead: ContactLead) => {
         list: {
           data: {
             type: "list",
-            id: KLAVIYO_LIST_ID,
+            id: listId,
           },
         },
       },
