@@ -80,7 +80,7 @@ const REDIRECTS = {
   '/Winners/UHOne_Product_Intent_Capture_Via_Sticky_Nav_Fast-follow_Single_CTA.html': '/work/test-winners/uhone-product-intent-sticky-nav-fast-follow',
   '/Winners/NM_UHOne_HP_Forbes_Award_Social_Proof.html': '/work/test-winners/uhone-hp-forbes-award-social-proof',
   '/Winners/NM_HM_Global_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-global-sticky-cta-nav',
-  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-nav',
+  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-cta-nav',
   '/Winners/NM_UHOne_HP_American_Idealism_Hero.html': '/work/test-winners/uhone-hp-american-idealism-hero',
   '/Winners/NM_UHOne_HP_Mobile_Product_Grid_Reintro.html': '/work/test-winners/uhone-hp-mobile-product-grid-reintro',
 };
