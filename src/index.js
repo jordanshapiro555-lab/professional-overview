@@ -1,4 +1,3 @@
-const MAX_REPLY_CHARS = 800;
 const CONTACT_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/contact';
 
 const SYSTEM_PROMPT = `You are Jordan's AI assistant on his CRO consulting website. Your job is to answer questions about Jordan Shapiro and his work, and to help visitors understand the value Jordan can bring to their business.
@@ -8,7 +7,7 @@ IMPORTANT RULES:
 - Highlight Jordan's achievements, skills, and expertise at every opportunity
 - Encourage visitors to book a call or reach out to Jordan
 - Keep responses concise and conversational (2-4 sentences typically)
-- Keep every response to 800 characters or fewer
+- Keep every response to 500 characters or fewer
 - Do not use Markdown bold, italics, or headings. Never output double asterisks.
 - Do not use emoji as section labels
 - If a response is a list, use short plain bullets or numbered items instead of styled labels
@@ -81,7 +80,7 @@ const REDIRECTS = {
   '/Winners/UHOne_Product_Intent_Capture_Via_Sticky_Nav_Fast-follow_Single_CTA.html': '/work/test-winners/uhone-product-intent-sticky-nav-fast-follow',
   '/Winners/NM_UHOne_HP_Forbes_Award_Social_Proof.html': '/work/test-winners/uhone-hp-forbes-award-social-proof',
   '/Winners/NM_HM_Global_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-global-sticky-cta-nav',
-  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-cta-nav',
+  '/Winners/NM_HM_Resources_Sticky_CTA_Nav.html': '/work/test-winners/healthmarkets-resources-sticky-nav',
   '/Winners/NM_UHOne_HP_American_Idealism_Hero.html': '/work/test-winners/uhone-hp-american-idealism-hero',
   '/Winners/NM_UHOne_HP_Mobile_Product_Grid_Reintro.html': '/work/test-winners/uhone-hp-mobile-product-grid-reintro',
 };
@@ -175,7 +174,7 @@ function formatReply(value) {
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 
-  return limitReply(reply || fallback);
+  return reply || fallback;
 }
 
 function normalizeLink(href) {
@@ -184,27 +183,6 @@ function normalizeLink(href) {
     return CONTACT_URL;
   }
   return link;
-}
-
-function limitReply(reply) {
-  if (reply.length <= MAX_REPLY_CHARS) {
-    return reply;
-  }
-
-  const suffix = '...';
-  const limit = MAX_REPLY_CHARS - suffix.length;
-  const draft = reply.slice(0, limit + 1);
-  const minBoundary = Math.floor(limit * 0.65);
-  const boundaries = [
-    draft.lastIndexOf('. '),
-    draft.lastIndexOf('! '),
-    draft.lastIndexOf('? '),
-    draft.lastIndexOf('\n'),
-    draft.lastIndexOf(' ')
-  ].filter((index) => index >= minBoundary);
-  const end = boundaries.length ? Math.max(...boundaries) : limit;
-
-  return `${reply.slice(0, end).replace(/[\s,;:.-]+$/, '')}${suffix}`;
 }
 
 function jsonResponse(body, status = 200) {
