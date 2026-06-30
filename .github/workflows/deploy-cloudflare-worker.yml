@@ -3,7 +3,7 @@ name: Deploy Cloudflare Worker
 on:
   push:
     branches:
-      - codex/fix-anthropic-chatbot
+      - codex/chatbot-800-character-limit
     paths:
       - src/**
       - wrangler.jsonc
@@ -43,7 +43,7 @@ jobs:
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              message: 'Give me a short list of what Jordan can do for my business, and include how to contact him.',
+              message: 'Give me a detailed but concise explanation of Jordan\'s process and how to contact him.',
               history: []
             })
           });
@@ -57,12 +57,15 @@ jobs:
           const reply = String(body.reply || '');
           console.log(`Chat status: ${res.status}`);
           console.log(`Reply characters: ${reply.length}`);
-          console.log(`Reply preview: ${reply.slice(0, 220)}`);
+          console.log(`Reply preview: ${reply.slice(0, 300)}`);
           if (!res.ok || !reply) {
             throw new Error(`Expected a successful nonempty reply, got ${res.status}: ${bodyText.slice(0, 500)}`);
           }
-          if (reply.length > 600) {
-            throw new Error(`Reply exceeded 600 characters: ${reply.length}`);
+          if (reply.length > 500) {
+            throw new Error(`Reply exceeded 500-character prompt guidance: ${reply.length}`);
+          }
+          if (reply.endsWith('...')) {
+            throw new Error('Reply appears to be hard-truncated with an ellipsis.');
           }
           if (reply.includes('**')) {
             throw new Error('Reply still contains double-asterisk markdown.');
