@@ -61,8 +61,11 @@ jobs:
           if (!res.ok || !reply) {
             throw new Error(`Expected a successful nonempty reply, got ${res.status}: ${bodyText.slice(0, 500)}`);
           }
-          if (reply.length > 800) {
-            throw new Error(`Reply exceeded 800 characters: ${reply.length}`);
+          if (reply.length > 500) {
+            throw new Error(`Reply exceeded 500-character prompt guidance: ${reply.length}`);
+          }
+          if (reply.endsWith('...')) {
+            throw new Error('Reply appears to be hard-truncated with an ellipsis.');
           }
           if (reply.includes('**')) {
             throw new Error('Reply still contains double-asterisk markdown.');
