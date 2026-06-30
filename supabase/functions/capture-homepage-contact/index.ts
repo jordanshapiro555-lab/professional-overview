@@ -1,6 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2.102.0";
 import {
-  buildKlaviyoListRelationshipPayload,
   buildKlaviyoProfilePayload,
   buildKlaviyoSubscriptionPayload,
   classifyUpstreamStatus,
@@ -170,6 +169,7 @@ Deno.serve(async (request) => {
       Deno.env.get("KLAVIYO_PRIVATE_KEY");
     const hashPepper = Deno.env.get("PII_HASH_PEPPER") ||
       Deno.env.get("EXIT_INTENT_WEBHOOK_SECRET");
+    const klaviyoListId = Deno.env.get("KLAVIYO_LIST_ID") || KLAVIYO_LIST_ID;
 
     if (!supabaseUrl || !serviceKey || !klaviyoApiKey || !hashPepper) {
       audit("homepage_contact_failed", 503, "configuration");
@@ -272,7 +272,7 @@ Deno.serve(async (request) => {
       "Authorization": `Klaviyo-API-Key ${klaviyoApiKey}`,
       "Accept": "application/vnd.api+json",
       "Content-Type": "application/vnd.api+json",
-      "revision": KLAVIYO_REVISION,
+      "revision": Deno.env.get("KLAVIYO_REVISION") || KLAVIYO_REVISION,
     };
 
     let failure: Failure | null = null;
@@ -302,32 +302,12 @@ Deno.serve(async (request) => {
       }
 
       if (!failure && profileId) {
-        const listResponse = await fetch(
-          `https://a.klaviyo.com/api/lists/${KLAVIYO_LIST_ID}/relationships/profiles`,
-          {
-            method: "POST",
-            headers: klaviyoHeaders,
-            body: JSON.stringify(buildKlaviyoListRelationshipPayload(profileId)),
-          },
-        );
-
-        if (listResponse.status !== 204) {
-          failure = {
-            category: classifyUpstreamStatus(listResponse.status),
-            status: 502,
-          };
-        }
-      }
-
-      if (!failure && profileId) {
         const subscriptionResponse = await fetch(
           "https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs",
           {
             method: "POST",
             headers: klaviyoHeaders,
-            body: JSON.stringify(
-              buildKlaviyoSubscriptionPayload(profileId, lead),
-            ),
+            body: JSON.stringify(buildKlaviyoSubscriptionPayload(lead, klaviyoListId)),
           },
         );
 

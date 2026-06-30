@@ -25,6 +25,21 @@ async function klaviyoPost(path: string, body: unknown) {
   return data;
 }
 
+function normalizePhone(value: unknown): string | null {
+  if (typeof value !== "string" || !value.trim()) return null;
+
+  const trimmed = value.trim();
+  const digits = trimmed.replace(/\D/g, "");
+
+  if (trimmed.startsWith("+")) {
+    return digits.length >= 8 && digits.length <= 15 ? `+${digits}` : null;
+  }
+
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
 Deno.serve(async (req) => {
   if (req.method !== "POST") {
     return json(405, { error: "Method not allowed" });
@@ -73,9 +88,7 @@ Deno.serve(async (req) => {
     const normalizedLastName = record.last_name ?? (nameParts.length > 1
       ? nameParts.slice(1).join(" ")
       : null);
-    const normalizedPhone = typeof record.phone === "string"
-      ? record.phone.trim() || null
-      : record.phone ?? null;
+    const normalizedPhone = normalizePhone(record.phone);
 
     const profilePropertyExclusions = new Set([
       "id",
@@ -119,7 +132,7 @@ Deno.serve(async (req) => {
       },
     });
 
-    // Create opt-in job when consent is present; include SMS subscription when phone exists.
+    // Create opt-in job when consent is present; include SMS only when phone is valid E.164.
     let subscribeResp = null;
     if (record.consent_email) {
       const subscriptionChannels: Record<string, unknown> = {
