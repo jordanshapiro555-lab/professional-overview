@@ -1,0 +1,90 @@
+name: Apply winner tile fix
+
+on:
+  push:
+    branches:
+      - feature/add-two-winner-pages
+
+permissions:
+  contents: write
+
+jobs:
+  apply-fix:
+    if: ${{ !contains(github.event.head_commit.message, 'Apply static winner tile fix') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/add-two-winner-pages
+      - name: Apply static winner tile fix
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const q = String.fromCharCode(34);
+          const indexPath = 'work/test-winners/index.html';
+          let index = fs.readFileSync(indexPath, 'utf8');
+          const hasBrooks = index.includes('hc-brooks-add-to-cart-above-the-fold');
+          const hasAero = index.includes('aero-sticky-sort-filter-redesign');
+          if (!hasBrooks && !hasAero) {
+            const order16 = 'data-order=' + q + '16' + q;
+            const start = index.indexOf(order16);
+            if (start === -1) throw new Error('Could not find data-order 16 card');
+            const endTag = '\n      </article>';
+            const end = index.indexOf(endTag, start);
+            if (end === -1) throw new Error('Could not find end of data-order 16 card');
+            const cards = `
+
+      <article class='blog-grid-card' data-label-brand='Brooks Brothers' data-label-page='PDP' data-label-lift=3.42 data-industry='retail' data-section='product-detail' data-device='mobile' data-kpi='cart-adds' data-start-date='2026-05-14' data-metric-text='+3.42% Cart Adds' data-order='17'>
+        <a href='https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/hc-brooks-add-to-cart-above-the-fold' class='blog-grid-link'>
+          <div class='blog-grid-media'>
+            <img src='../../assets/winners/HC_BB_Add_to_cart_Above_the_Fold_Hero.png' alt='Brooks Brothers mobile PDP add to cart above the fold test'>
+            <span class='metric-badge'>+3.42% Cart Adds</span>
+          </div>
+          <div class='blog-grid-body'>
+            <h3 class='blog-grid-heading'>3.42% Cart Adds Lift Via Above-the-Fold Add to Cart CTA</h3>
+            <p class='blog-grid-excerpt'>Anchoring the Add to Cart CTA above the fold helped mobile shoppers act on purchase intent sooner.</p>
+          </div>
+        </a>
+      </article>
+
+      <article class='blog-grid-card' data-label-brand='Aeropostale' data-label-page='PLP' data-label-lift=0.23 data-industry='retail' data-section='product-listing' data-device='mobile' data-kpi='ctr' data-start-date='2026-02-17' data-metric-text='+0.23% CTR' data-order='18'>
+        <a href='https://jordanshapiro555-lab.github.io/CRO-Consulting/work/test-winners/aero-sticky-sort-filter-redesign' class='blog-grid-link'>
+          <div class='blog-grid-media'>
+            <img src='../../assets/winners/Aero_sticky_Sort_and_Filter_Redesign_Herp.png' alt='Aeropostale sticky sort and filter redesign on mobile PLP'>
+            <span class='metric-badge'>+0.23% CTR</span>
+          </div>
+          <div class='blog-grid-body'>
+            <h3 class='blog-grid-heading'>CTR Lift Via Sticky Sort and Filter Redesign</h3>
+            <p class='blog-grid-excerpt'>Mirroring the app sort and filter experience improved shopper engagement on mobile product listing pages.</p>
+          </div>
+        </a>
+      </article>`;
+            index = index.slice(0, end + endTag.length) + cards + index.slice(end + endTag.length);
+            fs.writeFileSync(indexPath, index);
+          }
+
+          const chatPath = 'js/chatbot.js';
+          let chat = fs.readFileSync(chatPath, 'utf8');
+          const marker = `
+
+(function () {
+  'use strict';
+
+  const normalizePath = (path) => {`;
+          const markerIndex = chat.indexOf(marker);
+          if (markerIndex !== -1 && chat.includes('const addWinnerTiles')) {
+            chat = chat.slice(0, markerIndex) + '\n';
+            fs.writeFileSync(chatPath, chat);
+          }
+
+          fs.rmSync('.github/workflows/apply-winner-tile-fix.yml', { force: true });
+          NODE
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add work/test-winners/index.html js/chatbot.js .github/workflows/apply-winner-tile-fix.yml
+          if git diff --cached --quiet; then
+            echo No changes to commit
+          else
+            git commit -m 'Apply static winner tile fix'
+            git push origin HEAD:feature/add-two-winner-pages
+          fi
