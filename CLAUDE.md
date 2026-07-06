@@ -171,16 +171,64 @@ If you're unsure whether a change warrants an update, err on the side of updatin
 
 The following are existing inconsistencies in the codebase. Do not copy these patterns when creating new pages. Fix them when you're already touching the affected file.
 
-### Homepage links to legacy paths
-`index.html` lines 476–508 link to `/case-studies/UHOne-2024`, `/case-studies/UHOne-Home-Patriotic`, `/case-studies/devry-search-redirects.html`, and `/winners`. These work via 301 redirects but should point directly to the canonical `/work/` paths.
+### styles.css is ~55% page-specific CSS (HIGH priority)
+Approximately 1,500 of 2,705 lines in `css/styles.css` are page-specific styles that should be in their own files:
+- Lines 208–214, 335–337, 427–437, 750–908: Homepage-specific classes (`.homeHeroBullet`, `.homeCaseStudyLink`, `.headshot`, `.homeContactFormSection`, brand carousel, etc.)
+- Lines 439–476: Contact page form styles (`.contact-page .contact-form`, etc.)
+- Lines 487–637, 909–948: Case study layout styles (`.caseStudyHeroContainer`, `.caseStudyRow*`, `.appendixImage`, `.caseStudyTallRow`) — should be in `case-studies.css`
+- Lines 639–748: About/experience page carousel and hero styles
+- Lines 956–1133: Process page grid styles (`.processGrid*`, `.processApproachDetails`)
+- Lines 1511–1713: Additional contact page styles (`.contact-page-shell`, `.contact-hero`, etc.)
+- Lines 2436–2704: Exit-intent quiz styles — homepage-specific
+
+**Rule for new code:** never add page-specific styles to `styles.css`. Create a new CSS file or use an existing page-type file.
+
+### script.js contains page-specific JS
+Despite the rule that page-specific JS goes inline, `script.js` contains:
+- Lines 208–234: About page experience dropdown logic (targets `.experience-page-carousel-wrapper`)
+- Lines 236–260: Test winner detail page appendix logic (targets `.caseStudyTallRow`)
+- Lines 611–661: Chatbot auto-loader that dynamically injects chatbot CSS/JS for `/services/` and `/blog/` paths
+
+**Rule for new code:** never add page-specific logic to `script.js`. Put it in an inline `<script>` at the bottom of that page's HTML.
+
+### Legacy URL links still in use
+`index.html` and `process.html` link to legacy paths instead of canonical `/work/` paths:
+- `index.html`: links to `/case-studies/UHOne-2024`, `/case-studies/UHOne-Home-Patriotic`, `/case-studies/devry-search-redirects.html`, `/winners`, `/my-process`
+- `process.html` line 127: links to `/case-studies` instead of `/work/case-studies`
+- 3 case study pages have legacy paths in their JSON-LD `url` fields (uhone-2024, uhone-home-patriotic, devry-search-redirects)
+- Homepage brand link uses `href="#"` instead of the absolute homepage URL
 
 ### Chatbot widget inclusion is inconsistent
-- All blog posts load `chatbot.css` but have no widget HTML or `chatbot.js` — the CSS is dead weight.
-- Some service pages (personalization, program-management, program-up-skilling) load `chatbot.css` + `chatbot.js` but have no widget HTML markup.
-- Correct pattern: either include all three (CSS + widget HTML + JS) or none.
+Three different delivery mechanisms exist:
+1. **Explicit inclusion** (12 pages): chatbot.css `<link>` + widget HTML + chatbot.js `<script>` — this is the correct pattern
+2. **Auto-loader** (blog + some service pages): `script.js` dynamically injects chatbot for `/services/` and `/blog/` paths at runtime
+3. **Partial inclusion** (several pages): load chatbot.css but have no widget HTML or JS — dead CSS weight
 
-### Service page nav missing SVG logo
-All 7 service pages have a compressed nav that shows text-only "Jordan's CRO Studio" but omits the conversion funnel SVG logo that every other page includes. New service pages should include the full SVG nav from a non-service page.
+Individual case study and test winner detail pages have NO chatbot at all.
 
-### Test winner pages missing SEO meta
-Many test winner pages (`work/test-winners/*.html`) are missing Open Graph tags, Twitter Card tags, and/or `<meta name="description">`. New test winner pages should include the full SEO meta set.
+**Rule for new code:** use explicit inclusion (pattern #1) — do not rely on the auto-loader.
+
+### Service pages: nav missing SVG, footer has reduced links
+All 7 service pages have:
+- Nav brand with text-only "Jordan's CRO Studio" — no conversion funnel SVG logo
+- Reduced footer with only 4 links (Services, Work, Blog, Contact) — missing Process, About, LinkedIn, Email, and the SVG logo
+
+New service pages should copy the full nav and footer from a non-service page (e.g., `about.html`).
+
+### Service pages load each other's CSS
+Personalization, program-management, program-up-skilling, and keyword-analysis pages all load `cro-audit.css` and `cro-audit-mobile-feedback.css` — CSS files specific to the CRO Audit page. These likely share some component styles but the pattern is confusing.
+
+### Case study pages don't load case-studies.css
+Individual case study pages (uhone-2024, uhone-2025, devry-search-redirects, devry-intent-lp-alignment) load only `styles.css` and rely on the page-specific styles embedded in `styles.css`. They should load `case-studies.css` instead.
+
+### SEO meta gaps
+- `about.html`, `contact.html`, `process.html`: missing Twitter Card tags
+- `contact.html`, `work/index.html`, `work/test-winners/index.html`: missing JSON-LD structured data
+- 16 of 18 test winner detail pages: missing Twitter Card tags
+- All 5 case study pages: missing Twitter Card tags
+- All 18 test winner pages: missing JSON-LD
+- `blog/ecommerce-cro-ai-shopping-agents.html`: canonical URL ends with `.html` (inconsistent with other blog posts)
+- `services/seo-technical-page-speed-audit/`: canonical URL has trailing slash (inconsistent with other service pages)
+
+### Orphan page
+`custom-contact-form.html` has no `<head>`, no nav, no footer, no stylesheets — completely outside all site conventions.

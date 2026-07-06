@@ -143,14 +143,28 @@ When you make structural changes, update the corresponding knowledge files in th
 
 ## Known Issues — Do NOT Replicate
 
-### Homepage links to legacy paths
-`index.html` links to `/case-studies/UHOne-2024`, `/case-studies/devry-search-redirects.html`, and `/winners` instead of canonical `/work/` paths. Fix when touching the file.
+See CLAUDE.md "Known Issues" section for full details. Summary:
+
+### styles.css is ~55% page-specific CSS
+~1,500 of 2,705 lines are page-specific (homepage, contact, case study, about, process, exit-intent quiz styles). Never add page-specific styles to `styles.css` — create a dedicated CSS file.
+
+### script.js contains page-specific JS
+About page dropdown logic, test winner appendix logic, and chatbot auto-loader are in the global file. Never add page-specific logic to `script.js` — use inline `<script>` at page bottom.
+
+### Legacy URL links still in use
+`index.html` and `process.html` link to old `/case-studies/` and `/winners` paths. 3 case studies have legacy paths in JSON-LD. All should use canonical `/work/` paths.
 
 ### Chatbot widget inclusion is inconsistent
-Blog posts load `chatbot.css` but have no widget HTML or JS. Some service pages load CSS+JS but no widget markup. Correct pattern: include all three (CSS + HTML + JS) or none.
+3 delivery mechanisms (explicit, auto-loader, partial). Use explicit inclusion only: CSS link + widget HTML + JS script.
 
-### Service page nav missing SVG logo
-All service pages use text-only nav without the conversion funnel SVG. New pages should copy the full nav from a non-service page.
+### Service pages: nav missing SVG, footer has reduced links
+All 7 service pages lack the SVG logo in nav and have a 4-link footer instead of the standard 7-link footer. Copy nav/footer from a non-service page for new service pages.
 
-### Test winner pages missing SEO meta
-Many `work/test-winners/*.html` pages are missing OG tags, Twitter cards, or meta description. New pages should include the full SEO set.
+### Service pages load each other's CSS
+Multiple service pages load `cro-audit.css` — confusing cross-dependency.
+
+### Case study pages don't load case-studies.css
+They rely on page-specific styles embedded in `styles.css` instead.
+
+### SEO meta gaps across many pages
+Twitter Cards missing from about, contact, process, all case studies, 16/18 test winners. JSON-LD missing from contact, work/index, all test winners. Canonical URL inconsistencies on 2 pages.
