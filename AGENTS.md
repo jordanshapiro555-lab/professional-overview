@@ -124,3 +124,33 @@ Domain knowledge and reference data live in `.knowledge/`.
 Consult `.knowledge/test-history.md` for real test data when writing content.
 Consult `.knowledge/site-map.md` for site structure.
 Consult `.knowledge/design-patterns.md` for HTML/CSS conventions.
+
+## Maintenance Rules
+
+When you make structural changes, update the corresponding knowledge files in the same commit:
+
+| Change type | Update |
+|---|---|
+| Add/remove/rename a page | `.knowledge/site-map.md` |
+| Add a test winner or case study | `.knowledge/test-history.md` |
+| Add/change HTML components or CSS patterns | `.knowledge/design-patterns.md` |
+| Add a blog post | "Existing blog posts" list in `blog/CLAUDE.md` |
+| Add a service page | "Existing services" list in `services/CLAUDE.md` |
+| Add a test winner or case study page | Lists in `work/CLAUDE.md` |
+| Change URL routing or redirects | `src/index.js` redirect map AND `.knowledge/site-map.md` |
+| Change CSS variables or add CSS files | CSS tables in this file |
+| Add/move JS files | JS table in this file |
+
+## Known Issues — Do NOT Replicate
+
+### Homepage links to legacy paths
+`index.html` links to `/case-studies/UHOne-2024`, `/case-studies/devry-search-redirects.html`, and `/winners` instead of canonical `/work/` paths. Fix when touching the file.
+
+### Chatbot widget inclusion is inconsistent
+Blog posts load `chatbot.css` but have no widget HTML or JS. Some service pages load CSS+JS but no widget markup. Correct pattern: include all three (CSS + HTML + JS) or none.
+
+### Service page nav missing SVG logo
+All service pages use text-only nav without the conversion funnel SVG. New pages should copy the full nav from a non-service page.
+
+### Test winner pages missing SEO meta
+Many `work/test-winners/*.html` pages are missing OG tags, Twitter cards, or meta description. New pages should include the full SEO set.

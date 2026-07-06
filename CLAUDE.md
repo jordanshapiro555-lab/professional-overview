@@ -148,3 +148,39 @@ Domain knowledge and reference data live in `.knowledge/`.
 When writing blog posts or case study content, consult `.knowledge/test-history.md` for real test data.
 When you need site structure info, consult `.knowledge/site-map.md`.
 When building new pages, consult `.knowledge/design-patterns.md` for HTML/CSS conventions.
+
+## Maintenance Rules
+
+When you make structural changes to this repo, update the corresponding knowledge files in the same commit:
+
+| Change type | Update |
+|---|---|
+| Add/remove/rename a page | Update `.knowledge/site-map.md` |
+| Add a new A/B test winner or case study | Update `.knowledge/test-history.md` |
+| Add/change HTML components or CSS patterns | Update `.knowledge/design-patterns.md` |
+| Add a new blog post | Add to the "Existing blog posts" list in `blog/CLAUDE.md` |
+| Add a new service page | Add to the "Existing services" list in `services/CLAUDE.md` |
+| Add a new test winner or case study | Add to the "Existing" lists in `work/CLAUDE.md` |
+| Change URL routing or add redirects | Update `src/index.js` redirect map AND `.knowledge/site-map.md` |
+| Change CSS variables or add new CSS files | Update the CSS tables in this file |
+| Add/move JS files | Update the JS table in this file |
+
+If you're unsure whether a change warrants an update, err on the side of updating.
+
+## Known Issues — Do NOT Replicate These Patterns
+
+The following are existing inconsistencies in the codebase. Do not copy these patterns when creating new pages. Fix them when you're already touching the affected file.
+
+### Homepage links to legacy paths
+`index.html` lines 476–508 link to `/case-studies/UHOne-2024`, `/case-studies/UHOne-Home-Patriotic`, `/case-studies/devry-search-redirects.html`, and `/winners`. These work via 301 redirects but should point directly to the canonical `/work/` paths.
+
+### Chatbot widget inclusion is inconsistent
+- All blog posts load `chatbot.css` but have no widget HTML or `chatbot.js` — the CSS is dead weight.
+- Some service pages (personalization, program-management, program-up-skilling) load `chatbot.css` + `chatbot.js` but have no widget HTML markup.
+- Correct pattern: either include all three (CSS + widget HTML + JS) or none.
+
+### Service page nav missing SVG logo
+All 7 service pages have a compressed nav that shows text-only "Jordan's CRO Studio" but omits the conversion funnel SVG logo that every other page includes. New service pages should include the full SVG nav from a non-service page.
+
+### Test winner pages missing SEO meta
+Many test winner pages (`work/test-winners/*.html`) are missing Open Graph tags, Twitter Card tags, and/or `<meta name="description">`. New test winner pages should include the full SEO meta set.
