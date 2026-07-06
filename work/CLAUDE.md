@@ -14,7 +14,7 @@ This directory contains case studies and test winners under two subdirectories.
   <!-- Open Graph: type "article" -->
   <!-- JSON-LD: @type Article, headline, description, author (Jordan Shapiro) -->
   <!-- Google Font: Inter -->
-  <!-- Stylesheet: ../../css/styles.css (note: two levels up) -->
+  <!-- Stylesheets: ../../css/styles.css + ../../css/case-studies.css (note: two levels up) -->
 </head>
 <body>
   <!-- Nav: copy from existing case study (absolute URLs, no adjustment needed) -->
@@ -34,7 +34,7 @@ This directory contains case studies and test winners under two subdirectories.
 6. Takeaway or pattern identified
 
 ### Existing case studies
-- `uhone-2024.html` — UHOne 1061% ROI, $8.7M revenue (includes case-studies.css... some don't)
+- `uhone-2024.html` — UHOne 1061% ROI, $8.7M revenue
 - `uhone-2025.html` — UHOne 2025 program
 - `uhone-home-patriotic.html` — UHOne +7% CVR via patriotic hero messaging
 - `devry-search-redirects.html` — DeVry $131K in 30 days from keyword redirects
