@@ -2,6 +2,10 @@ require("dotenv").config();
 
 const contentful = require("contentful");
 
+function getPlainText(value) {
+  return typeof value === "string" ? value : "";
+}
+
 function getAuthorImage(fields) {
   if (fields.authorImage) return fields.authorImage;
   if (fields.author && fields.author.fields && fields.author.fields.image) {
@@ -20,19 +24,23 @@ function getAuthorName(fields) {
 
 function mapBlogPost(item) {
   const fields = item.fields || {};
+  const metaDescription = getPlainText(fields.metaDescription);
+  const excerpt = getPlainText(fields.excerpt);
 
   return {
     id: item.sys && item.sys.id ? item.sys.id : "",
     title: fields.title || "",
     slug: fields.slug || "",
     seoTitle: fields.seoTitle || "",
-    metaDescription: fields.metaDescription || "",
-    excerpt: fields.excerpt || "",
+    metaDescription,
+    excerpt,
+    summary: excerpt || metaDescription || "",
     eyebrow: fields.eyebrow || "",
     publishDate: fields.publishDate || "",
     readTime: fields.readTime || "",
     featuredImage: fields.featuredImage || null,
     body: fields.body || null,
+    hasBody: Boolean(fields.body),
     authorName: getAuthorName(fields),
     authorImage: getAuthorImage(fields)
   };
