@@ -1,0 +1,46 @@
+---
+layout: base.njk
+pagination:
+  data: blogPosts
+  size: 1
+  alias: post
+permalink: "/blog/{{ post.slug }}/index.html"
+eleventyComputed:
+  title: "{{ post.seoTitle or post.title }} — Jordan Shapiro"
+  description: "{{ post.metaDescription or post.excerpt }}"
+---
+
+<nav class="breadcrumb-nav" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li><a href="/CRO-Consulting/">Home</a></li>
+    <li><a href="/CRO-Consulting/blog/">Blog</a></li>
+    <li aria-current="page">{{ post.title }}</li>
+  </ol>
+</nav>
+
+<main>
+  <header class="post-header">
+    {% if post.eyebrow %}<p class="post-eyebrow">{{ post.eyebrow }}</p>{% endif %}
+    <h1>{{ post.title }}</h1>
+    <div class="post-author">
+      {% if post.authorImage and post.authorImage.fields and post.authorImage.fields.file and post.authorImage.fields.file.url %}
+        {% set authorImageSrc = "https:" + post.authorImage.fields.file.url %}
+      {% else %}
+        {% set authorImageSrc = "/CRO-Consulting/assets/img/JordanShapiroHeadshot.jpeg" %}
+      {% endif %}
+      <img class="post-author-img" src="{{ authorImageSrc }}" alt="{{ post.authorName }}" />
+      <div class="post-author-info">
+        <span class="post-author-name">{{ post.authorName }}</span>
+        <span class="post-author-meta">
+          {% if post.publishDate %}{{ post.publishDate | fullDate }}{% endif %}
+          {% if post.publishDate and post.readTime %}&nbsp;&middot;&nbsp;{% endif %}
+          {% if post.readTime %}{{ post.readTime }}{% endif %}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <article class="post-body">
+    {{ post.body | richTextToHtml | safe }}
+  </article>
+</main>
