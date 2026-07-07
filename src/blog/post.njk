@@ -1,0 +1,25 @@
+---
+layout: base.njk
+pagination:
+  data: blogPosts
+  size: 1
+  alias: post
+permalink: false
+eleventyComputed:
+  title: "{{ post.seoTitle or post.title }} — Jordan Shapiro"
+  description: "{{ post.metaDescription or post.summary }}"
+---
+
+{# Phase 1 keeps existing static article pages as the detail pages. This template is intentionally disabled with permalink: false. #}
+{% if post.body %}
+<main>
+  <header class="post-header">
+    {% if post.eyebrow %}<p class="post-eyebrow">{{ post.eyebrow }}</p>{% endif %}
+    <h1>{{ post.title }}</h1>
+  </header>
+
+  <article class="post-body">
+    {{ post.body | richTextToHtml | safe }}
+  </article>
+</main>
+{% endif %}
