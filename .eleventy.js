@@ -5,13 +5,23 @@ const { documentToHtmlString } = require("@contentful/rich-text-html-renderer");
 const outputDir = "_site";
 const staticCopyTargets = [
   "index.html",
+  "about.html",
   "contact.html",
   "case-studies.html",
   "winners.html",
+  "process.html",
+  "my-process.html",
+  "experience.html",
+  "custom-contact-form.html",
+  "script.js",
   "blog",
   "work",
   "services",
-  "Winners"
+  "Winners",
+  "css",
+  "js",
+  "assets",
+  "employer-logos"
 ];
 const staticSkipPaths = new Set([
   normalizePath("blog/index.html")
