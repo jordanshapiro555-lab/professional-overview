@@ -24,7 +24,7 @@ permalink: /blog/index.html
     <div class="container">
       <div class="blog-grid">
         {% for post in blogPosts %}
-          <a class="blog-card" href="/CRO-Consulting/blog/{{ post.slug }}">
+          <a class="blog-card" href="{{ post.url }}">
             {% if post.imageUrl %}
               <img class="blog-card-img" src="{{ post.imageUrl }}" alt="{{ post.imageAlt or post.title }}" loading="lazy">
             {% endif %}
