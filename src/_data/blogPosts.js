@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const contentful = require("contentful");
+const fallbackBlogPosts = require("./fallbackBlogPosts");
 
 function getPlainText(value) {
   return typeof value === "string" ? value : "";
@@ -22,14 +23,42 @@ function getAuthorName(fields) {
   return "Jordan Shapiro";
 }
 
+function getContentfulImageUrl(asset) {
+  const file = asset && asset.fields && asset.fields.file;
+  if (!file || !file.url) return "";
+  return file.url.startsWith("//") ? `https:${file.url}` : file.url;
+}
+
+function getContentfulImageAlt(asset, fallbackTitle) {
+  if (asset && asset.fields) {
+    return asset.fields.description || asset.fields.title || fallbackTitle || "";
+  }
+  return "";
+}
+
+function normalizeFallbackPost(post) {
+  return {
+    title: post.title || "",
+    slug: post.slug || "",
+    eyebrow: post.eyebrow || "",
+    publishDate: post.publishDate || "",
+    readTime: post.readTime || "",
+    summary: post.summary || "",
+    imageUrl: post.imageUrl || "",
+    imageAlt: post.imageAlt || post.title || ""
+  };
+}
+
 function mapBlogPost(item) {
   const fields = item.fields || {};
   const metaDescription = getPlainText(fields.metaDescription);
   const excerpt = getPlainText(fields.excerpt);
+  const title = fields.title || "";
+  const featuredImage = fields.featuredImage || null;
 
   return {
     id: item.sys && item.sys.id ? item.sys.id : "",
-    title: fields.title || "",
+    title,
     slug: fields.slug || "",
     seoTitle: fields.seoTitle || "",
     metaDescription,
@@ -38,12 +67,54 @@ function mapBlogPost(item) {
     eyebrow: fields.eyebrow || "",
     publishDate: fields.publishDate || "",
     readTime: fields.readTime || "",
-    featuredImage: fields.featuredImage || null,
+    featuredImage,
+    imageUrl: getContentfulImageUrl(featuredImage),
+    imageAlt: getContentfulImageAlt(featuredImage, title),
     body: fields.body || null,
     hasBody: Boolean(fields.body),
     authorName: getAuthorName(fields),
     authorImage: getAuthorImage(fields)
   };
+}
+
+function sortByPublishDateDescending(posts) {
+  return posts.sort((first, second) => {
+    const firstDate = first.publishDate ? new Date(first.publishDate).getTime() : 0;
+    const secondDate = second.publishDate ? new Date(second.publishDate).getTime() : 0;
+    return secondDate - firstDate;
+  });
+}
+
+function mergePost(contentfulPost, fallbackPost) {
+  if (!fallbackPost) return contentfulPost;
+
+  return {
+    ...fallbackPost,
+    ...contentfulPost,
+    title: contentfulPost.title || fallbackPost.title || "",
+    slug: contentfulPost.slug || fallbackPost.slug || "",
+    eyebrow: contentfulPost.eyebrow || fallbackPost.eyebrow || "",
+    publishDate: contentfulPost.publishDate || fallbackPost.publishDate || "",
+    readTime: contentfulPost.readTime || fallbackPost.readTime || "",
+    summary: contentfulPost.summary || fallbackPost.summary || "",
+    imageUrl: contentfulPost.imageUrl || fallbackPost.imageUrl || "",
+    imageAlt: contentfulPost.imageAlt || fallbackPost.imageAlt || contentfulPost.title || fallbackPost.title || ""
+  };
+}
+
+function mergeWithFallbackPosts(contentfulPosts) {
+  const postsBySlug = new Map(
+    fallbackBlogPosts.map(normalizeFallbackPost).map((post) => [post.slug, post])
+  );
+
+  for (const post of contentfulPosts) {
+    if (!post.slug) continue;
+    postsBySlug.set(post.slug, mergePost(post, postsBySlug.get(post.slug)));
+  }
+
+  return sortByPublishDateDescending(
+    Array.from(postsBySlug.values()).filter((post) => post.slug)
+  );
 }
 
 module.exports = async function() {
@@ -55,9 +126,9 @@ module.exports = async function() {
 
   if (!CONTENTFUL_SPACE_ID || !CONTENTFUL_DELIVERY_TOKEN) {
     console.warn(
-      "Contentful credentials are missing. Returning an empty blog post list for this build."
+      "Contentful credentials are missing. Using fallback blog post list for this build."
     );
-    return [];
+    return mergeWithFallbackPosts([]);
   }
 
   const client = contentful.createClient({
@@ -73,12 +144,14 @@ module.exports = async function() {
       include: 2
     });
 
-    return entries.items.map(mapBlogPost).filter((post) => post.slug);
+    return mergeWithFallbackPosts(
+      entries.items.map(mapBlogPost).filter((post) => post.slug)
+    );
   } catch (error) {
     console.warn(
-      "Unable to fetch Contentful blog posts. Returning an empty blog post list for this build.",
+      "Unable to fetch Contentful blog posts. Using fallback blog post list for this build.",
       error && error.message ? error.message : error
     );
-    return [];
+    return mergeWithFallbackPosts([]);
   }
 };
