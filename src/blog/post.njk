@@ -4,7 +4,7 @@ pagination:
   data: blogPostPages
   size: 1
   alias: post
-permalink: "/blog/{{ post.slug }}.html"
+permalink: "/blog/{{ post.slug }}/index.html"
 eleventyComputed:
   title: "{{ post.seoTitle or post.title }} — Jordan Shapiro"
   description: "{{ post.metaDescription or post.summary }}"
