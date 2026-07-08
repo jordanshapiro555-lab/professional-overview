@@ -43,6 +43,17 @@ function getContentfulImageAlt(asset, fallbackTitle) {
   return "";
 }
 
+function logContentfulBlogPosts(label, value) {
+  console.log(`[Contentful blogPosts] ${label}:`, value);
+}
+
+function logFinalMergedPosts(posts) {
+  logContentfulBlogPosts(
+    "Final merged post slugs and URLs",
+    posts.map((post) => ({ slug: post.slug, url: post.url }))
+  );
+}
+
 function normalizeFallbackPost(post) {
   const slug = post.slug || "";
 
@@ -141,40 +152,73 @@ module.exports = async function() {
   const {
     CONTENTFUL_SPACE_ID,
     CONTENTFUL_DELIVERY_TOKEN,
-    CONTENTFUL_ENVIRONMENT
+    CONTENTFUL_ENVIRONMENT,
+    CONTENTFUL_BLOG_POST_CONTENT_TYPE
   } = process.env;
+  const contentfulEnvironment = CONTENTFUL_ENVIRONMENT || "master";
+  const contentfulBlogPostContentType = CONTENTFUL_BLOG_POST_CONTENT_TYPE || "blogPost";
+
+  logContentfulBlogPosts("CONTENTFUL_SPACE_ID present", Boolean(CONTENTFUL_SPACE_ID));
+  logContentfulBlogPosts(
+    "CONTENTFUL_DELIVERY_TOKEN present",
+    Boolean(CONTENTFUL_DELIVERY_TOKEN)
+  );
+  logContentfulBlogPosts("CONTENTFUL_ENVIRONMENT used", contentfulEnvironment);
+  logContentfulBlogPosts("Content type ID queried", contentfulBlogPostContentType);
 
   if (!CONTENTFUL_SPACE_ID || !CONTENTFUL_DELIVERY_TOKEN) {
     console.warn(
       "Contentful credentials are missing. Using fallback blog post list for this build."
     );
     blogPostsCache = mergeWithFallbackPosts([]);
+    logFinalMergedPosts(blogPostsCache);
     return blogPostsCache;
   }
 
   const client = contentful.createClient({
     space: CONTENTFUL_SPACE_ID,
     accessToken: CONTENTFUL_DELIVERY_TOKEN,
-    environment: CONTENTFUL_ENVIRONMENT || "master"
+    environment: contentfulEnvironment
   });
 
   try {
     const entries = await client.getEntries({
-      content_type: "blogPost",
-      order: ["-fields.publishDate"],
+      content_type: contentfulBlogPostContentType,
       include: 2
     });
+    const rawSlugs = entries.items.map((item) => {
+      const fields = item.fields || {};
+      return fields.slug || "";
+    });
+    const mappedPosts = entries.items.map(mapBlogPost);
+
+    logContentfulBlogPosts("Number of entries returned", entries.items.length);
+    logContentfulBlogPosts("Raw slugs returned from Contentful", rawSlugs);
+    logContentfulBlogPosts(
+      "Mapped slugs returned from Contentful",
+      mappedPosts.map((post) => post.slug)
+    );
+    logContentfulBlogPosts(
+      "Mapped posts with hasBody=true",
+      mappedPosts.filter((post) => post.hasBody).map((post) => post.slug)
+    );
 
     blogPostsCache = mergeWithFallbackPosts(
-      entries.items.map(mapBlogPost).filter((post) => post.slug)
+      mappedPosts.filter((post) => post.slug)
     );
+    logFinalMergedPosts(blogPostsCache);
     return blogPostsCache;
   } catch (error) {
     console.warn(
       "Unable to fetch Contentful blog posts. Using fallback blog post list for this build.",
       error && error.message ? error.message : error
     );
+    logContentfulBlogPosts("Number of entries returned", "fetch failed");
+    logContentfulBlogPosts("Raw slugs returned from Contentful", []);
+    logContentfulBlogPosts("Mapped slugs returned from Contentful", []);
+    logContentfulBlogPosts("Mapped posts with hasBody=true", []);
     blogPostsCache = mergeWithFallbackPosts([]);
+    logFinalMergedPosts(blogPostsCache);
     return blogPostsCache;
   }
 };
