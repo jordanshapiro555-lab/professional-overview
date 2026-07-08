@@ -3,6 +3,8 @@ require("dotenv").config();
 const contentful = require("contentful");
 const fallbackBlogPosts = require("./fallbackBlogPosts");
 
+let blogPostsCache;
+
 function getPlainText(value) {
   return typeof value === "string" ? value : "";
 }
@@ -118,6 +120,8 @@ function mergeWithFallbackPosts(contentfulPosts) {
 }
 
 module.exports = async function() {
+  if (blogPostsCache) return blogPostsCache;
+
   const {
     CONTENTFUL_SPACE_ID,
     CONTENTFUL_DELIVERY_TOKEN,
@@ -128,7 +132,8 @@ module.exports = async function() {
     console.warn(
       "Contentful credentials are missing. Using fallback blog post list for this build."
     );
-    return mergeWithFallbackPosts([]);
+    blogPostsCache = mergeWithFallbackPosts([]);
+    return blogPostsCache;
   }
 
   const client = contentful.createClient({
@@ -144,14 +149,16 @@ module.exports = async function() {
       include: 2
     });
 
-    return mergeWithFallbackPosts(
+    blogPostsCache = mergeWithFallbackPosts(
       entries.items.map(mapBlogPost).filter((post) => post.slug)
     );
+    return blogPostsCache;
   } catch (error) {
     console.warn(
       "Unable to fetch Contentful blog posts. Using fallback blog post list for this build.",
       error && error.message ? error.message : error
     );
-    return mergeWithFallbackPosts([]);
+    blogPostsCache = mergeWithFallbackPosts([]);
+    return blogPostsCache;
   }
 };
