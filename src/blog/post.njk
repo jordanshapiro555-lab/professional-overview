@@ -1,25 +1,39 @@
 ---
 layout: base.njk
 pagination:
-  data: blogPosts
+  data: blogPostPages
   size: 1
   alias: post
-permalink: false
+permalink: "/blog/{{ post.slug }}.html"
 eleventyComputed:
   title: "{{ post.seoTitle or post.title }} — Jordan Shapiro"
   description: "{{ post.metaDescription or post.summary }}"
 ---
 
-{# Phase 1 keeps existing static article pages as the detail pages. This template is intentionally disabled with permalink: false. #}
-{% if post.body %}
 <main>
-  <header class="post-header">
-    {% if post.eyebrow %}<p class="post-eyebrow">{{ post.eyebrow }}</p>{% endif %}
-    <h1>{{ post.title }}</h1>
-  </header>
+  <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+    <ol class="breadcrumb-list">
+      <li><a href="/CRO-Consulting/">Home</a></li>
+      <li><a href="/CRO-Consulting/blog/">Blog</a></li>
+      <li aria-current="page">{{ post.title }}</li>
+    </ol>
+  </nav>
 
-  <article class="post-body">
-    {{ post.body | richTextToHtml | safe }}
+  <article class="blog-post">
+    <header class="post-header">
+      {% if post.eyebrow %}<p class="post-eyebrow">{{ post.eyebrow }}</p>{% endif %}
+      <h1>{{ post.title }}</h1>
+      <div class="blog-meta">
+        {% if post.authorName %}<span>{{ post.authorName }}</span>{% endif %}
+        {% if post.authorName and (post.publishDate or post.readTime) %}<span class="blog-meta-divider" aria-hidden="true"></span>{% endif %}
+        {% if post.publishDate %}<time datetime="{{ post.publishDate }}">{{ post.publishDate | fullDate }}</time>{% endif %}
+        {% if post.publishDate and post.readTime %}<span class="blog-meta-divider" aria-hidden="true"></span>{% endif %}
+        {% if post.readTime %}<span>{{ post.readTime }}</span>{% endif %}
+      </div>
+    </header>
+
+    <div class="post-body">
+      {{ post.body | richTextToHtml | safe }}
+    </div>
   </article>
 </main>
-{% endif %}
