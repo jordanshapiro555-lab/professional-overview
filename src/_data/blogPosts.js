@@ -25,6 +25,11 @@ function getAuthorName(fields) {
   return "Jordan Shapiro";
 }
 
+function getBlogPostUrl(slug, hasBody) {
+  if (!slug) return "";
+  return `/CRO-Consulting/blog/${slug}${hasBody ? "/" : ""}`;
+}
+
 function getContentfulImageUrl(asset) {
   const file = asset && asset.fields && asset.fields.file;
   if (!file || !file.url) return "";
@@ -39,15 +44,18 @@ function getContentfulImageAlt(asset, fallbackTitle) {
 }
 
 function normalizeFallbackPost(post) {
+  const slug = post.slug || "";
+
   return {
     title: post.title || "",
-    slug: post.slug || "",
+    slug,
     eyebrow: post.eyebrow || "",
     publishDate: post.publishDate || "",
     readTime: post.readTime || "",
     summary: post.summary || "",
     imageUrl: post.imageUrl || "",
-    imageAlt: post.imageAlt || post.title || ""
+    imageAlt: post.imageAlt || post.title || "",
+    url: getBlogPostUrl(slug, false)
   };
 }
 
@@ -57,11 +65,13 @@ function mapBlogPost(item) {
   const excerpt = getPlainText(fields.excerpt);
   const title = fields.title || "";
   const featuredImage = fields.featuredImage || null;
+  const slug = fields.slug || "";
+  const hasBody = Boolean(fields.body);
 
   return {
     id: item.sys && item.sys.id ? item.sys.id : "",
     title,
-    slug: fields.slug || "",
+    slug,
     seoTitle: fields.seoTitle || "",
     metaDescription,
     excerpt,
@@ -73,7 +83,8 @@ function mapBlogPost(item) {
     imageUrl: getContentfulImageUrl(featuredImage),
     imageAlt: getContentfulImageAlt(featuredImage, title),
     body: fields.body || null,
-    hasBody: Boolean(fields.body),
+    hasBody,
+    url: getBlogPostUrl(slug, hasBody),
     authorName: getAuthorName(fields),
     authorImage: getAuthorImage(fields)
   };
@@ -90,17 +101,22 @@ function sortByPublishDateDescending(posts) {
 function mergePost(contentfulPost, fallbackPost) {
   if (!fallbackPost) return contentfulPost;
 
+  const slug = contentfulPost.slug || fallbackPost.slug || "";
+  const hasBody = Boolean(contentfulPost.hasBody);
+
   return {
     ...fallbackPost,
     ...contentfulPost,
     title: contentfulPost.title || fallbackPost.title || "",
-    slug: contentfulPost.slug || fallbackPost.slug || "",
+    slug,
     eyebrow: contentfulPost.eyebrow || fallbackPost.eyebrow || "",
     publishDate: contentfulPost.publishDate || fallbackPost.publishDate || "",
     readTime: contentfulPost.readTime || fallbackPost.readTime || "",
     summary: contentfulPost.summary || fallbackPost.summary || "",
     imageUrl: contentfulPost.imageUrl || fallbackPost.imageUrl || "",
-    imageAlt: contentfulPost.imageAlt || fallbackPost.imageAlt || contentfulPost.title || fallbackPost.title || ""
+    imageAlt: contentfulPost.imageAlt || fallbackPost.imageAlt || contentfulPost.title || fallbackPost.title || "",
+    hasBody,
+    url: getBlogPostUrl(slug, hasBody)
   };
 }
 
