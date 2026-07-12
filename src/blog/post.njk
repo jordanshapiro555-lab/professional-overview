@@ -35,5 +35,8 @@ eleventyComputed:
     <div class="post-body">
       {{ post.body | richTextToHtml | safe }}
     </div>
+    {% if post.customBodyCode %}
+      {{ post.customBodyCode | safe }}
+    {% endif %}
   </article>
 </main>
