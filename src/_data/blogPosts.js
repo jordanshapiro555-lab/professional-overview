@@ -94,6 +94,7 @@ function mapBlogPost(item) {
     imageUrl: getContentfulImageUrl(featuredImage),
     imageAlt: getContentfulImageAlt(featuredImage, title),
     body: fields.body || null,
+    customBodyCode: getPlainText(fields.customBodyCode),
     hasBody,
     url: getBlogPostUrl(slug, hasBody),
     authorName: getAuthorName(fields),
