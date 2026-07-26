@@ -8,6 +8,7 @@ const staticCopyTargets = [
   "about.html",
   "contact.html",
   "case-studies.html",
+  "case-studies",
   "winners.html",
   "process.html",
   "my-process.html",
