@@ -103,7 +103,10 @@
       valid = false;
     }
 
-    if (phone) {
+    if (!phone) {
+      setFieldError(phoneInput, phoneError, 'Please enter your phone number.');
+      valid = false;
+    } else {
       const digits = phone.replace(/\D/g, '');
       const validLength = phone.startsWith('+')
         ? digits.length >= 8 && digits.length <= 15

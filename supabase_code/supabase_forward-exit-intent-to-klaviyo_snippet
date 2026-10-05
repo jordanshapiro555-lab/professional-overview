@@ -135,10 +135,12 @@ Deno.serve(async (req) => {
     // Create opt-in job when consent is present; include all SMS consent when phone is valid E.164.
     let subscribeResp = null;
     if (record.consent_email || record.consent_sms) {
+      const consentedAt = new Date().toISOString();
       const subscriptionChannels: Record<string, unknown> = {
         email: {
           marketing: {
             consent: "SUBSCRIBED",
+            consented_at: consentedAt,
           },
         },
       };
@@ -147,9 +149,11 @@ Deno.serve(async (req) => {
         subscriptionChannels.sms = {
           marketing: {
             consent: "SUBSCRIBED",
+            consented_at: consentedAt,
           },
           transactional: {
             consent: "SUBSCRIBED",
+            consented_at: consentedAt,
           },
         };
       }

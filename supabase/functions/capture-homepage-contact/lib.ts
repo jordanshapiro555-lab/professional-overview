@@ -106,7 +106,7 @@ export const validatePayload = (value: unknown): ValidationResult => {
   }
 
   const phoneE164 = normalizePhone(input.phone);
-  if (phoneE164 === undefined) {
+  if (!phoneE164) {
     return {
       ok: false,
       field: "phone",
@@ -235,15 +235,27 @@ export const buildKlaviyoListRelationshipPayload = (profileId: string) => ({
 export const buildKlaviyoSubscriptionPayload = (
   lead: ContactLead,
   listId = KLAVIYO_LIST_ID,
+  consentedAt = new Date().toISOString(),
 ) => {
   const subscriptions: Record<string, unknown> = {
-    email: { marketing: { consent: "SUBSCRIBED" } },
+    email: {
+      marketing: {
+        consent: "SUBSCRIBED",
+        consented_at: consentedAt,
+      },
+    },
   };
 
   if (lead.phoneE164) {
     subscriptions.sms = {
-      marketing: { consent: "SUBSCRIBED" },
-      transactional: { consent: "SUBSCRIBED" },
+      marketing: {
+        consent: "SUBSCRIBED",
+        consented_at: consentedAt,
+      },
+      transactional: {
+        consent: "SUBSCRIBED",
+        consented_at: consentedAt,
+      },
     };
   }
 

@@ -39,6 +39,21 @@ function toNullableInt(value: unknown): number | null {
   return Math.max(0, Math.round(n));
 }
 
+function normalizePhone(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const raw = value.trim();
+  if (!raw) return null;
+
+  const digits = raw.replace(/\D/g, "");
+  if (raw.startsWith("+") && digits.length >= 8 && digits.length <= 15) {
+    return `+${digits}`;
+  }
+
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return null;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -61,6 +76,7 @@ Deno.serve(async (req) => {
     first_name = null,
     last_name = null,
     consent_email = false,
+    consent_sms = false,
     consented_at = null,
     page_url = null,
     referrer = null,
@@ -116,6 +132,10 @@ Deno.serve(async (req) => {
   const resolvedPhone =
     (typeof phone === "string" ? phone : null) ??
     (typeof mf.phone === "string" ? mf.phone : null);
+  const normalizedPhone = normalizePhone(resolvedPhone);
+  if (!normalizedPhone) {
+    return json(400, { error: "Valid phone required" });
+  }
 
   const resolvedTrafficDisplay =
     (typeof weekly_traffic_display === "string" ? weekly_traffic_display : null) ??
@@ -143,6 +163,7 @@ Deno.serve(async (req) => {
     first_name: typeof first_name === "string" ? first_name : null,
     last_name: typeof last_name === "string" ? last_name : null,
     consent_email: Boolean(consent_email),
+    consent_sms: Boolean(consent_sms),
     consented_at: typeof consented_at === "string" ? consented_at : null,
     page_url: resolvedPageUrl,
     referrer: typeof referrer === "string" ? referrer : null,
@@ -157,7 +178,7 @@ Deno.serve(async (req) => {
     challenges: resolvedChallenges,
     full_name: resolvedFullName,
     funnel_description: resolvedFunnelDescription,
-    phone: resolvedPhone,
+    phone: normalizedPhone,
     weekly_traffic_display: resolvedTrafficDisplay,
     weekly_traffic_unit: resolvedTrafficUnit,
     weekly_traffic_value: resolvedTrafficValue,

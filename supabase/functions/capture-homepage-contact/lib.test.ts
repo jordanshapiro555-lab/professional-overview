@@ -43,18 +43,24 @@ Deno.test("requires a valid email address", () => {
   assertEquals(invalid.ok, false);
 });
 
-Deno.test("accepts email-only submissions with optional pain points blank", () => {
+Deno.test("requires a valid phone number for SMS consent", () => {
+  const missingPhone = validatePayload({
+    email: "Lead@Example.com",
+    phone: "",
+  });
+  assertEquals(missingPhone.ok, false);
+
   const result = validatePayload({
     email: "Lead@Example.com",
     first_name: "",
     last_name: "",
-    phone: "",
+    phone: "(212) 555-0100",
     pain_points: "",
   });
 
   assert(result.ok);
   assertEquals(result.lead.email, "lead@example.com");
-  assertEquals(result.lead.phoneE164, null);
+  assertEquals(result.lead.phoneE164, "+12125550100");
   assertEquals(result.lead.painPoints, null);
 });
 
@@ -107,8 +113,8 @@ Deno.test("profile payload maps pain points to organization and custom property"
   assertEquals(properties.pain_points, "Improving checkout conversion");
 });
 
-Deno.test("subscription payload always includes email consent and adds SMS only with valid phone", () => {
-  const emailOnly = validatePayload({ email: "lead@example.com", phone: "" });
+Deno.test("subscription payload includes email and SMS consent timestamps", () => {
+  const consentedAt = "2026-10-04T12:00:00.000Z";
   const withPhone = validatePayload({
     email: "lead@example.com",
     phone: "(212) 555-0100",
@@ -118,42 +124,30 @@ Deno.test("subscription payload always includes email consent and adds SMS only 
     phone: "1234",
   });
 
-  assert(emailOnly.ok);
   assert(withPhone.ok);
   assertEquals(invalidPhone.ok, false);
 
-  const emailProfile = buildKlaviyoSubscriptionPayload(emailOnly.lead)
+  const phoneProfile = buildKlaviyoSubscriptionPayload(
+    withPhone.lead,
+    undefined,
+    consentedAt,
+  )
     .data.attributes.profiles.data[0] as Record<string, unknown>;
-  const phoneProfile = buildKlaviyoSubscriptionPayload(withPhone.lead)
-    .data.attributes.profiles.data[0] as Record<string, unknown>;
-  const emailAttributes = emailProfile.attributes as Record<string, unknown>;
   const phoneAttributes = phoneProfile.attributes as Record<string, unknown>;
-  const emailSubscriptions = emailAttributes.subscriptions as Record<
-    string,
-    unknown
-  >;
   const phoneSubscriptions = phoneAttributes.subscriptions as Record<
     string,
     unknown
   >;
 
-  assertEquals("id" in emailProfile, false);
-  assertEquals(emailAttributes.email, "lead@example.com");
-  assertEquals(emailSubscriptions.email, {
-    marketing: { consent: "SUBSCRIBED" },
-  });
-  assertEquals("phone_number" in emailAttributes, false);
-  assertEquals("sms" in emailSubscriptions, false);
-
   assertEquals("id" in phoneProfile, false);
   assertEquals(phoneAttributes.email, "lead@example.com");
   assertEquals(phoneAttributes.phone_number, "+12125550100");
   assertEquals(phoneSubscriptions.email, {
-    marketing: { consent: "SUBSCRIBED" },
+    marketing: { consent: "SUBSCRIBED", consented_at: consentedAt },
   });
   assertEquals(phoneSubscriptions.sms, {
-    marketing: { consent: "SUBSCRIBED" },
-    transactional: { consent: "SUBSCRIBED" },
+    marketing: { consent: "SUBSCRIBED", consented_at: consentedAt },
+    transactional: { consent: "SUBSCRIBED", consented_at: consentedAt },
   });
 });
 

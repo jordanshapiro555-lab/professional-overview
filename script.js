@@ -446,6 +446,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentStep === 4 && !answers.traffic) return 'Please enter your weekly traffic estimate.';
       if (currentStep === 4 && !answers.trafficType) return 'Please select traffic unit.';
       if (currentStep === 6 && !(answers.name && answers.email && answers.phone)) return 'Please enter your name, email, and phone to continue.';
+      if (currentStep === 6 && answers.phone) {
+        const digits = answers.phone.replace(/\D/g, '');
+        const validPhone = answers.phone.startsWith('+')
+          ? digits.length >= 8 && digits.length <= 15
+          : digits.length === 10 || (digits.length === 11 && digits.startsWith('1'));
+        if (!validPhone) return 'Please enter a valid phone number so we can subscribe you to text updates.';
+      }
       return '';
     };
 
