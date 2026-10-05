@@ -6,7 +6,7 @@
       tag: 'Healthcare Insurance · UHOne',
       title: '$16.77M From A Connected Shopping Journey',
       description: "How capturing product intent at the top of the page reshaped UHOne's funnel and shipped 3 winners.",
-      href: 'https://jordanshapiro555-lab.github.io/CRO-Consulting/work/case-studies/uhone-2025',
+      href: 'https://jordanshapiro555-lab.github.io/professional-overview/work/case-studies/uhone-2025',
       image: 'assets/case-studies/UHOne2025/img/uhone_2025-01.png',
       alt: 'UHOne 2025 case study — $16.77M from a connected shopping journey'
     },
@@ -14,7 +14,7 @@
       tag: 'Education · DeVry University',
       title: '$8.75MM From Intent-to-LP Alignment',
       description: 'A 5-step query-to-LP mapping process and parallel UX testing delivered 47x ROI for DeVry.',
-      href: 'https://jordanshapiro555-lab.github.io/CRO-Consulting/work/case-studies/devry-intent-lp-alignment',
+      href: 'https://jordanshapiro555-lab.github.io/professional-overview/work/case-studies/devry-intent-lp-alignment',
       image: 'assets/case-studies/devrypilot/img/devry_intent_lp-4.png',
       alt: 'DeVry case study — $8.75MM from intent-to-LP alignment'
     }

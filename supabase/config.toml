@@ -1,4 +1,4 @@
-project_id = "cro-consulting"
+project_id = "professional-overview"
 
 [functions.capture-homepage-contact]
 verify_jwt = false

@@ -5,7 +5,7 @@ For the canonical version with identical content, see CLAUDE.md.
 
 ## Architecture
 
-Static site hosted on GitHub Pages at `https://jordanshapiro555-lab.github.io/CRO-Consulting/`.
+Static site hosted on GitHub Pages at `https://jordanshapiro555-lab.github.io/professional-overview/`.
 No build system, no framework, no package.json. Plain HTML + CSS + vanilla JS.
 Backend: Cloudflare Worker (`src/index.js`) for the chat API and 301 redirects.
 Supabase edge function for contact form capture. Statsig for A/B testing (homepage only).
@@ -83,7 +83,7 @@ Also copy-pasted. Includes SVG logo, footer-nav links, copyright year span.
 Included on most pages. Requires: `css/chatbot.css` in head, `js/config.js` and `js/chatbot.js` scripts at bottom, plus the widget HTML markup between them.
 
 ### All internal links use absolute URLs
-Pattern: `https://jordanshapiro555-lab.github.io/CRO-Consulting/path`
+Pattern: `https://jordanshapiro555-lab.github.io/professional-overview/path`
 
 ## URL Structure
 

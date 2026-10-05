@@ -1,7 +1,7 @@
 // script.js - nav, shared service dropdown, sticky CTAs, quiz, and page helpers
 
 document.addEventListener('DOMContentLoaded', function () {
-  const SITE_BASE_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/';
+  const SITE_BASE_URL = 'https://jordanshapiro555-lab.github.io/professional-overview/';
   const SERVICE_NAV_ITEMS = [
     { slug: 'cro-audit', label: 'CRO Audit' },
     { slug: 'keyword-analysis-and-mapping', label: 'Keyword Analysis & Mapping' },
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      if (normalizePath(topLevelUrl.pathname) !== '/CRO-Consulting/services') return;
+      if (normalizePath(topLevelUrl.pathname) !== '/professional-overview/services') return;
       dropdownList.innerHTML = SERVICE_NAV_ITEMS
         .map((item) => `<li><a href='${buildSiteUrl(`services/${item.slug}/`)}'>${item.label}</a></li>`)
         .join('');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!isContactPage && !document.getElementById('mobile-sticky-banner')) {
     document.body.insertAdjacentHTML('beforeend', `
       <div class='mobile-sticky-banner' id='mobile-sticky-banner' aria-label='Primary actions'>
-        <a class='btn btn-primary mobile-sticky-banner__cta' href='https://jordanshapiro555-lab.github.io/CRO-Consulting/contact'>Work with me</a>
+        <a class='btn btn-primary mobile-sticky-banner__cta' href='https://jordanshapiro555-lab.github.io/professional-overview/contact'>Work with me</a>
         <button type='button' class='btn btn-ghost mobile-sticky-banner__cta' data-open-exit-quiz='true'>Take the CRO quiz</button>
       </div>
     `);
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  const isWinnerDetailPage = currentPath.includes('/work/test-winners/') && currentPath !== '/CRO-Consulting/work/test-winners';
+  const isWinnerDetailPage = currentPath.includes('/work/test-winners/') && currentPath !== '/professional-overview/work/test-winners';
   const winnersBottomCta = document.querySelector('.wn-bottom-cta');
   const tallRows = Array.from(document.querySelectorAll('.caseStudyTallRow'));
   if (isWinnerDetailPage && winnersBottomCta && tallRows.length) {
@@ -541,6 +541,7 @@ document.addEventListener('DOMContentLoaded', function () {
         first_name: firstName,
         last_name: nameParts.join(' ') || null,
         consent_email: true,
+        consent_sms: true,
         module_fields: { ...finalPayload },
         meta: { ...finalPayload }
       };
@@ -609,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 (function () {
-  const BASE_PATH = '/CRO-Consulting/';
+  const BASE_PATH = '/professional-overview/';
 
   const normalizePath = (path) => {
     let normalized = path || '/';

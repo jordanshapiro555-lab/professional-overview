@@ -9,6 +9,8 @@ Required production secrets:
 - `KLAVIYO_PRIVATE_API_KEY`: Klaviyo private key with profile, list, and
   subscription write scopes. The existing `KLAVIYO_PRIVATE_KEY` secret name is
   also supported.
+- `HOMEPAGE_CONTACT_KLAVIYO_LIST_ID`: Optional homepage contact list override.
+  If omitted, homepage submissions always use `Sn4fLM`.
 - `PII_HASH_PEPPER`: Long random secret used before hashing IP and email
   rate-limit keys. The existing `EXIT_INTENT_WEBHOOK_SECRET` is supported as a
   compatibility fallback and is domain-separated inside each hash input.

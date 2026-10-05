@@ -6,7 +6,7 @@ import Replicate from "replicate";
 
 const TIMESTAMP = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 const BRANCH = `blog/auto-${TIMESTAMP}`;
-const TEMPLATE_URL = "https://jordanshapiro555-lab.github.io/CRO-Consulting/blog/";
+const TEMPLATE_URL = "https://jordanshapiro555-lab.github.io/professional-overview/blog/";
 
 // Ensure research archive exists
 if (!existsSync("research-archive")) mkdirSync("research-archive", { recursive: true });

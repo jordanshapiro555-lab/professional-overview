@@ -169,7 +169,8 @@ Deno.serve(async (request) => {
       Deno.env.get("KLAVIYO_PRIVATE_KEY");
     const hashPepper = Deno.env.get("PII_HASH_PEPPER") ||
       Deno.env.get("EXIT_INTENT_WEBHOOK_SECRET");
-    const klaviyoListId = Deno.env.get("KLAVIYO_LIST_ID") || KLAVIYO_LIST_ID;
+    const klaviyoListId = Deno.env.get("HOMEPAGE_CONTACT_KLAVIYO_LIST_ID") ||
+      KLAVIYO_LIST_ID;
 
     if (!supabaseUrl || !serviceKey || !klaviyoApiKey || !hashPepper) {
       audit("homepage_contact_failed", 503, "configuration");

@@ -1,6 +1,6 @@
 # Site Map
 
-Base URL: `https://jordanshapiro555-lab.github.io/CRO-Consulting/`
+Base URL: `https://jordanshapiro555-lab.github.io/professional-overview/`
 
 ## Core Pages
 

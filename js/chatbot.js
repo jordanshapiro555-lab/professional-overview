@@ -11,8 +11,8 @@
   const WELCOME_MESSAGE =
     "Hi! I'm Jordan's AI assistant 👋 Ask me anything about Jordan's CRO expertise, case studies, or how he can help grow your business!";
 
-  const FALLBACK_SITE_ROOT = 'https://jordanshapiro555-lab.github.io/CRO-Consulting';
-  const FALLBACK_CHAT_ENDPOINT = 'https://cro-consulting.jordanshapiro555.workers.dev/api/chat';
+  const FALLBACK_SITE_ROOT = 'https://jordanshapiro555-lab.github.io/professional-overview';
+  const FALLBACK_CHAT_ENDPOINT = 'https://professional-overview.jordanshapiro555.workers.dev/api/chat';
   const FALLBACK_TIMEOUT_MS = 12000;
   const MAX_HISTORY_MESSAGES = 10;
   const MAX_HISTORY_CHARS = 1000;

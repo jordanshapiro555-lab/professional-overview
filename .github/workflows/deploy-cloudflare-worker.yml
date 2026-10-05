@@ -38,7 +38,7 @@ jobs:
       - name: Verify live chatbot formatting
         run: |
           node <<'NODE'
-          const endpoint = 'https://cro-consulting.jordanshapiro555.workers.dev/api/chat';
+          const endpoint = 'https://professional-overview.jordanshapiro555.workers.dev/api/chat';
           const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

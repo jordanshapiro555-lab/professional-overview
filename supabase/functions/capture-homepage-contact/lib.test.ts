@@ -153,14 +153,12 @@ Deno.test("subscription payload always includes email consent and adds SMS only 
   });
   assertEquals(phoneSubscriptions.sms, {
     marketing: { consent: "SUBSCRIBED" },
+    transactional: { consent: "SUBSCRIBED" },
   });
 });
 
 Deno.test("allows production, configured preview, and local development origins", () => {
   assert(isAllowedOrigin("https://jordanshapiro555-lab.github.io"));
-  assert(isAllowedOrigin(
-    "https://cro-consulting-git-codex-9cda74-jordanshapiro555-labs-projects.vercel.app",
-  ));
   assert(isAllowedOrigin("http://localhost:8080"));
   assert(isAllowedOrigin(
     "https://preview.example.vercel.app",

@@ -1,4 +1,4 @@
-const CONTACT_URL = 'https://jordanshapiro555-lab.github.io/CRO-Consulting/contact';
+const CONTACT_URL = 'https://jordanshapiro555-lab.github.io/professional-overview/contact';
 
 const SYSTEM_PROMPT = `You are Jordan's AI assistant on his CRO consulting website. Your job is to answer questions about Jordan Shapiro and his work, and to help visitors understand the value Jordan can bring to their business.
 
@@ -179,7 +179,7 @@ function formatReply(value) {
 
 function normalizeLink(href) {
   const link = String(href || '').trim();
-  if (link === '/contact' || link === 'contact' || link === '/CRO-Consulting/contact') {
+  if (link === '/contact' || link === 'contact' || link === '/professional-overview/contact') {
     return CONTACT_URL;
   }
   return link;

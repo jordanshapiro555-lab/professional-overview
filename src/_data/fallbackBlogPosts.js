@@ -6,7 +6,7 @@ module.exports = [
     publishDate: "2026-03-01",
     readTime: "8 min read",
     summary: "A step-by-step look at the exact methodology I use to calculate true program ROI — including correlation analysis, linear regression, and a depreciation curve.",
-    imageUrl: "/CRO-Consulting/assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png",
+    imageUrl: "/professional-overview/assets/case-studies/UHOne2024/UHOne2024RevenueSummary.png",
     imageAlt: "UHOne 2024 CRO program revenue summary chart"
   },
   {
@@ -16,7 +16,7 @@ module.exports = [
     publishDate: "2026-02-01",
     readTime: "5 min read",
     summary: "From broken trust signals to impenetrable form flows, here are the patterns that consistently kill conversions on health and insurance sites.",
-    imageUrl: "/CRO-Consulting/assets/process-assets/QuantiativeCompetitiveAuditing.png",
+    imageUrl: "/professional-overview/assets/process-assets/QuantiativeCompetitiveAuditing.png",
     imageAlt: "Quantitative competitive auditing framework"
   },
   {
@@ -26,7 +26,7 @@ module.exports = [
     publishDate: "2026-01-01",
     readTime: "6 min read",
     summary: "Win rate is the vanity metric of experimentation. Here's what to measure instead — and how to think about program-level impact.",
-    imageUrl: "/CRO-Consulting/assets/process-assets/CROProcessDetails.png",
+    imageUrl: "/professional-overview/assets/process-assets/CROProcessDetails.png",
     imageAlt: "CRO process and program impact framework"
   },
   {
@@ -36,7 +36,7 @@ module.exports = [
     publishDate: "2025-12-01",
     readTime: "5 min read",
     summary: "Personalization only works when it addresses specific, known user needs. Here's how I identify the right moments and audiences to target.",
-    imageUrl: "/CRO-Consulting/assets/miniCases/UHOne-TTM-Promotion-Case-Study.png",
+    imageUrl: "/professional-overview/assets/miniCases/UHOne-TTM-Promotion-Case-Study.png",
     imageAlt: "UHOne TTM personalization case study"
   },
   {
@@ -46,7 +46,7 @@ module.exports = [
     publishDate: "2025-11-01",
     readTime: "6 min read",
     summary: "The psychology of buying a product online is fundamentally different from filling out a lead form. Here's how I adjust strategy for each.",
-    imageUrl: "/CRO-Consulting/assets/img/CaseStudiesHeroImage.png",
+    imageUrl: "/professional-overview/assets/img/CaseStudiesHeroImage.png",
     imageAlt: "CRO case studies across e-commerce and lead gen"
   }
 ];

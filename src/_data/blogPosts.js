@@ -27,7 +27,7 @@ function getAuthorName(fields) {
 
 function getBlogPostUrl(slug, hasBody) {
   if (!slug) return "";
-  return `/CRO-Consulting/blog/${slug}${hasBody ? "/" : ""}`;
+  return `/professional-overview/blog/${slug}${hasBody ? "/" : ""}`;
 }
 
 function getContentfulImageUrl(asset) {

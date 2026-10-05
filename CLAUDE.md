@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Static site hosted on GitHub Pages at `https://jordanshapiro555-lab.github.io/CRO-Consulting/`.
+Static site hosted on GitHub Pages at `https://jordanshapiro555-lab.github.io/professional-overview/`.
 No build system, no framework, no package.json. Plain HTML + CSS + vanilla JS.
 Backend: Cloudflare Worker (`src/index.js`) for the chat API and 301 redirects.
 Supabase edge function for contact form capture. Statsig for A/B testing (homepage only).
@@ -92,7 +92,7 @@ Included on most pages. Requires: `css/chatbot.css` in head, then at bottom of b
 ```
 
 ### All internal links use absolute URLs
-Pattern: `https://jordanshapiro555-lab.github.io/CRO-Consulting/path`
+Pattern: `https://jordanshapiro555-lab.github.io/professional-overview/path`
 
 ## URL Structure
 
@@ -133,7 +133,7 @@ See `STYLE.md` for the full writing style guide. Key rules:
 - Requires `env.ANTHROPIC_API_KEY`
 
 ### Supabase
-- Project: `cro-consulting`
+- Project: `professional-overview`
 - Edge function: `capture-homepage-contact` (contact form submissions)
 - Endpoint configured in `js/config.js`
 
